@@ -1,6 +1,12 @@
-const countries = window.countriesData || [];
 const RECIPES_STORAGE_KEY = "my-international-kitchen-recipes";
-const baseRecipes = window.recipeData || [];
+
+// Get data from window, fallback to empty arrays if not loaded
+let countries = window.countriesData || [];
+let baseRecipes = window.recipeData || [];
+
+// Debug: log what we got
+console.log("Countries loaded:", countries.length, countries);
+console.log("Base recipes loaded:", baseRecipes.length);
 
 const uiText = {
   en: {
@@ -471,6 +477,34 @@ if (recipeForm) {
   });
 }
 
-applyTranslations();
-populateCountryDropdown();
-renderRecipes();
+// Initialize with retry logic if data isn't loaded yet
+function initializeApp() {
+  console.log("Initializing app...");
+  console.log("Countries:", countries.length, countries);
+  console.log("Base recipes:", baseRecipes.length);
+  
+  if (countries.length === 0) {
+    console.warn("Countries not loaded yet, retrying...");
+    countries = window.countriesData || [];
+  }
+  if (baseRecipes.length === 0) {
+    console.warn("Recipes not loaded yet, retrying...");
+    baseRecipes = window.recipeData || [];
+    recipes = loadRecipes();
+  }
+  
+  console.log("After retry - Countries:", countries.length);
+  console.log("After retry - Recipes:", recipes.length);
+  
+  applyTranslations();
+  populateCountryDropdown();
+  renderRecipes();
+}
+
+// Call initialization immediately
+initializeApp();
+
+// Also initialize when DOM is fully ready (backup)
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeApp);
+}

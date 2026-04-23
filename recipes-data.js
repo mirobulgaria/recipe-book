@@ -626,5 +626,23 @@ function removeDuplicateRecipesByContent(recipesList) {
   return uniqueRecipes;
 }
 
-window.countriesData = countryCatalog;
-window.recipeData = removeDuplicateRecipesByContent(buildUniqueRecipeDataset());
+console.log("recipes-data.js: Setting up window data");
+console.log("countryCatalog:", countryCatalog.length, "countries");
+console.log("baseRecipes:", baseRecipes.length, "recipes");
+
+try {
+  const uniqueRecipes = buildUniqueRecipeDataset();
+  console.log("buildUniqueRecipeDataset returned:", uniqueRecipes.length, "recipes");
+  
+  const dedupedRecipes = removeDuplicateRecipesByContent(uniqueRecipes);
+  console.log("After deduplication:", dedupedRecipes.length, "recipes");
+  
+  window.countriesData = countryCatalog;
+  window.recipeData = dedupedRecipes;
+  
+  console.log("Successfully set window.countriesData and window.recipeData");
+  console.log("window.countriesData:", window.countriesData.length);
+  console.log("window.recipeData:", window.recipeData.length);
+} catch (error) {
+  console.error("Error in recipes-data.js:", error);
+}
