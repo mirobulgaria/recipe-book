@@ -140,7 +140,7 @@ const baseRecipes = [
   },
   {
     countryCode: "FR",
-    name: { en: "Crepes", bg: "Палачинки (Креп)" },
+    name: { en: "Crepes", bg: "Креп" },
     description: { en: "Thin French pancakes served sweet or savory.", bg: "Тънки френски палачинки - сладки или солени." },
     prepTime: "10 min",
     cookTime: "15 min",
@@ -320,7 +320,7 @@ const baseRecipes = [
   },
   {
     countryCode: "CN",
-    name: { en: "Dumplings", bg: "Кнедли (Дъмплинги)" },
+    name: { en: "Dumplings", bg: "Дъмплинги" },
     description: { en: "Stuffed dumplings steamed or pan-fried.", bg: "Пълнени кнедли, на пара или запържени." },
     prepTime: "30 min",
     cookTime: "12 min",
@@ -374,69 +374,77 @@ const baseRecipes = [
   }
 ];
 
-function enrichRecipe(baseRecipe, variantNumber, id, countryMeta) {
-  const variantSuffixEn = variantNumber === 1 ? "" : ` - Regional Style ${variantNumber}`;
-  const variantSuffixBg = variantNumber === 1 ? "" : ` - Регионален стил ${variantNumber}`;
-  const prepTimeNumber = Number.parseInt(baseRecipe.prepTime, 10) + ((variantNumber - 1) % 7);
-  const cookTimeNumber = Number.parseInt(baseRecipe.cookTime, 10) + ((variantNumber - 1) % 9);
-
-  return {
-    id,
-    country: countryMeta.country,
-    countryCode: countryMeta.countryCode,
-    flag: countryMeta.flag,
-    name: {
-      en: `${baseRecipe.name.en}${variantSuffixEn}`,
-      bg: `${baseRecipe.name.bg}${variantSuffixBg}`
-    },
-    description: {
-      en: `${baseRecipe.description.en} Family variation ${variantNumber}.`,
-      bg: `${baseRecipe.description.bg} Домашен вариант ${variantNumber}.`
-    },
-    prepTime: `${prepTimeNumber} min`,
-    cookTime: `${cookTimeNumber} min`,
-    servings: baseRecipe.servings,
-    ingredients: baseRecipe.ingredients.map((ingredient) => ({
-      name: { ...ingredient.name },
-      amount: ingredient.amount,
-      unit: { ...ingredient.unit }
-    })),
-    steps: baseRecipe.steps.map((stepItem, index) => ({
-      step: index + 1,
-      instruction: { ...stepItem.instruction }
-    })),
-    image: `https://picsum.photos/seed/${countryMeta.countryCode.toLowerCase()}-${id}/640/420`
-  };
-}
-
-function generateRecipesForCountry(countryMeta, countryBaseRecipes, recipesPerCountry) {
-  const generated = [];
-  let variant = 1;
-  let localId = 0;
-  while (generated.length < recipesPerCountry) {
-    for (const baseRecipe of countryBaseRecipes) {
-      if (generated.length >= recipesPerCountry) {
-        break;
-      }
-      localId += 1;
-      generated.push(enrichRecipe(baseRecipe, variant, `${countryMeta.countryCode}-${localId}`, countryMeta));
-    }
-    variant += 1;
-  }
-  return generated;
-}
-
-function buildRecipeDataset() {
-  const RECIPES_PER_COUNTRY = 50;
+function buildUniqueRecipeDataset() {
   const allRecipes = [];
 
   for (const countryMeta of countryCatalog) {
     const recipesForCountry = baseRecipes.filter((recipe) => recipe.countryCode === countryMeta.countryCode);
-    allRecipes.push(...generateRecipesForCountry(countryMeta, recipesForCountry, RECIPES_PER_COUNTRY));
+
+    recipesForCountry.forEach((recipe, index) => {
+      allRecipes.push({
+        id: `${countryMeta.countryCode}-${index + 1}`,
+        country: countryMeta.country,
+        countryCode: countryMeta.countryCode,
+        flag: countryMeta.flag,
+        name: { ...recipe.name },
+        description: { ...recipe.description },
+        prepTime: recipe.prepTime,
+        cookTime: recipe.cookTime,
+        servings: recipe.servings,
+        ingredients: recipe.ingredients.map((ingredient) => ({
+          name: { ...ingredient.name },
+          amount: ingredient.amount,
+          unit: { ...ingredient.unit }
+        })),
+        steps: recipe.steps.map((stepItem, stepIndex) => ({
+          step: stepIndex + 1,
+          instruction: { ...stepItem.instruction }
+        })),
+        image: `https://picsum.photos/seed/${countryMeta.countryCode.toLowerCase()}-${index + 1}/640/420`
+      });
+    });
   }
 
   return allRecipes;
 }
 
+function normalizeText(value) {
+  return String(value).trim().toLowerCase();
+}
+
+function recipeContentSignature(recipe) {
+  const ingredientsSignature = recipe.ingredients
+    .map((ingredient) => [
+      normalizeText(ingredient.name.en),
+      normalizeText(ingredient.name.bg),
+      normalizeText(ingredient.amount),
+      normalizeText(ingredient.unit.en),
+      normalizeText(ingredient.unit.bg)
+    ].join("|"))
+    .join(";");
+
+  const stepsSignature = recipe.steps
+    .map((step) => `${normalizeText(step.instruction.en)}|${normalizeText(step.instruction.bg)}`)
+    .join(";");
+
+  return `${ingredientsSignature}::${stepsSignature}`;
+}
+
+function removeDuplicateRecipesByContent(recipesList) {
+  const seen = new Set();
+  const uniqueRecipes = [];
+
+  recipesList.forEach((recipe) => {
+    const signature = recipeContentSignature(recipe);
+    if (seen.has(signature)) {
+      return;
+    }
+    seen.add(signature);
+    uniqueRecipes.push(recipe);
+  });
+
+  return uniqueRecipes;
+}
+
 window.countriesData = countryCatalog;
-window.recipeData = buildRecipeDataset();
+window.recipeData = removeDuplicateRecipesByContent(buildUniqueRecipeDataset());
