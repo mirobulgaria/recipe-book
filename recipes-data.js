@@ -371,6 +371,186 @@ const baseRecipes = [
       { step: 2, instruction: { en: "Season with oil, vinegar, and salt.", bg: "Овкусете със зехтин, оцет и сол." } },
       { step: 3, instruction: { en: "Chill before serving.", bg: "Охладете преди сервиране." } }
     ]
+  },
+  {
+    countryCode: "BG",
+    name: { en: "Tarator", bg: "Таратор" },
+    description: { en: "Cold yogurt soup with cucumber, garlic, and dill.", bg: "Студена супа с кисело мляко, краставица, чесън и копър." },
+    prepTime: "10 min",
+    cookTime: "0 min",
+    servings: 4,
+    ingredients: [
+      { name: { en: "Yogurt", bg: "Кисело мляко" }, amount: "500", unit: { en: "g", bg: "г" } },
+      { name: { en: "Cucumber", bg: "Краставица" }, amount: "1", unit: { en: "pc", bg: "бр" } },
+      { name: { en: "Garlic", bg: "Чесън" }, amount: "2", unit: { en: "cloves", bg: "скилидки" } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Dice cucumber and crush garlic.", bg: "Нарежете краставицата и счукайте чесъна." } },
+      { step: 2, instruction: { en: "Mix with yogurt and cold water.", bg: "Смесете с киселото мляко и студена вода." } },
+      { step: 3, instruction: { en: "Season and chill before serving.", bg: "Овкусете и охладете преди сервиране." } }
+    ]
+  },
+  {
+    countryCode: "IT",
+    name: { en: "Minestrone", bg: "Минестроне" },
+    description: { en: "Hearty vegetable soup with beans and pasta.", bg: "Питателна зеленчукова супа с боб и паста." },
+    prepTime: "15 min",
+    cookTime: "35 min",
+    servings: 5,
+    ingredients: [
+      { name: { en: "Mixed vegetables", bg: "Смесени зеленчуци" }, amount: "400", unit: { en: "g", bg: "г" } },
+      { name: { en: "Cannellini beans", bg: "Бял боб" }, amount: "250", unit: { en: "g", bg: "г" } },
+      { name: { en: "Small pasta", bg: "Дребна паста" }, amount: "120", unit: { en: "g", bg: "г" } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Saute vegetables in olive oil.", bg: "Запържете зеленчуците в зехтин." } },
+      { step: 2, instruction: { en: "Add beans, broth, and simmer.", bg: "Добавете боба, бульон и оставете да къкри." } },
+      { step: 3, instruction: { en: "Cook pasta in the soup and serve.", bg: "Сварете пастата в супата и сервирайте." } }
+    ]
+  },
+  {
+    countryCode: "JP",
+    name: { en: "Chicken Teriyaki", bg: "Пиле Терияки" },
+    description: { en: "Glazed chicken with sweet-salty teriyaki sauce.", bg: "Пиле с глазура от сладко-солен сос терияки." },
+    prepTime: "12 min",
+    cookTime: "18 min",
+    servings: 4,
+    ingredients: [
+      { name: { en: "Chicken thighs", bg: "Пилешко бутче без кост" }, amount: "600", unit: { en: "g", bg: "г" } },
+      { name: { en: "Soy sauce", bg: "Соев сос" }, amount: "80", unit: { en: "ml", bg: "мл" } },
+      { name: { en: "Mirin", bg: "Мирин" }, amount: "60", unit: { en: "ml", bg: "мл" } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Sear chicken skin-side down.", bg: "Запечатайте пилето откъм кожата." } },
+      { step: 2, instruction: { en: "Add sauce ingredients and simmer.", bg: "Добавете соса и оставете да къкри." } },
+      { step: 3, instruction: { en: "Reduce to glaze and serve with rice.", bg: "Редуцирайте до глазура и сервирайте с ориз." } }
+    ]
+  },
+  {
+    countryCode: "FR",
+    name: { en: "Nicoise Salad", bg: "Салата Нисоаз" },
+    description: { en: "French salad with tuna, eggs, and green beans.", bg: "Френска салата с риба тон, яйца и зелен фасул." },
+    prepTime: "20 min",
+    cookTime: "10 min",
+    servings: 4,
+    ingredients: [
+      { name: { en: "Tuna", bg: "Риба тон" }, amount: "200", unit: { en: "g", bg: "г" } },
+      { name: { en: "Eggs", bg: "Яйца" }, amount: "4", unit: { en: "pcs", bg: "бр" } },
+      { name: { en: "Green beans", bg: "Зелен фасул" }, amount: "200", unit: { en: "g", bg: "г" } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Boil eggs and blanch beans.", bg: "Сварете яйцата и бланширайте фасула." } },
+      { step: 2, instruction: { en: "Arrange vegetables and tuna on plate.", bg: "Подредете зеленчуците и рибата тон." } },
+      { step: 3, instruction: { en: "Dress with olive oil and lemon.", bg: "Овкусете със зехтин и лимон." } }
+    ]
+  },
+  {
+    countryCode: "MX",
+    name: { en: "Quesadilla", bg: "Кесадиля" },
+    description: { en: "Grilled tortilla filled with melted cheese.", bg: "Запечена тортила с разтопено сирене." },
+    prepTime: "8 min",
+    cookTime: "10 min",
+    servings: 2,
+    ingredients: [
+      { name: { en: "Tortillas", bg: "Тортили" }, amount: "4", unit: { en: "pcs", bg: "бр" } },
+      { name: { en: "Cheese", bg: "Кашкавал" }, amount: "180", unit: { en: "g", bg: "г" } },
+      { name: { en: "Butter", bg: "Масло" }, amount: "15", unit: { en: "g", bg: "г" } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Fill tortillas with grated cheese.", bg: "Напълнете тортилите с настъргано сирене." } },
+      { step: 2, instruction: { en: "Cook in pan with little butter.", bg: "Изпечете в тиган с малко масло." } },
+      { step: 3, instruction: { en: "Slice and serve hot.", bg: "Нарежете и сервирайте горещо." } }
+    ]
+  },
+  {
+    countryCode: "IN",
+    name: { en: "Palak Paneer", bg: "Палак Панир" },
+    description: { en: "Spinach curry with paneer cubes.", bg: "Къри със спанак и кубчета панир." },
+    prepTime: "15 min",
+    cookTime: "25 min",
+    servings: 4,
+    ingredients: [
+      { name: { en: "Spinach", bg: "Спанак" }, amount: "500", unit: { en: "g", bg: "г" } },
+      { name: { en: "Paneer", bg: "Панир" }, amount: "250", unit: { en: "g", bg: "г" } },
+      { name: { en: "Onion", bg: "Лук" }, amount: "1", unit: { en: "pc", bg: "бр" } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Blanch spinach and blend smooth.", bg: "Бланширайте спанака и пасирайте." } },
+      { step: 2, instruction: { en: "Cook onion with spices.", bg: "Сгответе лука с подправки." } },
+      { step: 3, instruction: { en: "Add spinach and paneer, simmer briefly.", bg: "Добавете спанака и панира, оставете да покъкри." } }
+    ]
+  },
+  {
+    countryCode: "GR",
+    name: { en: "Souvlaki", bg: "Сувлаки" },
+    description: { en: "Greek skewers with marinated grilled meat.", bg: "Гръцки шишчета с мариновано месо на скара." },
+    prepTime: "20 min",
+    cookTime: "15 min",
+    servings: 4,
+    ingredients: [
+      { name: { en: "Pork", bg: "Свинско месо" }, amount: "600", unit: { en: "g", bg: "г" } },
+      { name: { en: "Olive oil", bg: "Зехтин" }, amount: "30", unit: { en: "ml", bg: "мл" } },
+      { name: { en: "Lemon juice", bg: "Лимонов сок" }, amount: "25", unit: { en: "ml", bg: "мл" } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Marinate pork cubes.", bg: "Мариновайте кубчетата свинско." } },
+      { step: 2, instruction: { en: "Thread onto skewers.", bg: "Нанижете на шишчета." } },
+      { step: 3, instruction: { en: "Grill and serve with pita.", bg: "Изпечете и сервирайте с пита." } }
+    ]
+  },
+  {
+    countryCode: "TR",
+    name: { en: "Menemen", bg: "Менемен" },
+    description: { en: "Scrambled eggs with tomato and peppers.", bg: "Яйца с домати и чушки по турски." },
+    prepTime: "10 min",
+    cookTime: "12 min",
+    servings: 3,
+    ingredients: [
+      { name: { en: "Eggs", bg: "Яйца" }, amount: "4", unit: { en: "pcs", bg: "бр" } },
+      { name: { en: "Tomatoes", bg: "Домати" }, amount: "2", unit: { en: "pcs", bg: "бр" } },
+      { name: { en: "Green peppers", bg: "Зелени чушки" }, amount: "2", unit: { en: "pcs", bg: "бр" } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Cook chopped peppers and tomatoes.", bg: "Сгответе нарязаните чушки и домати." } },
+      { step: 2, instruction: { en: "Add beaten eggs.", bg: "Добавете разбитите яйца." } },
+      { step: 3, instruction: { en: "Stir gently until set.", bg: "Разбърквайте внимателно до готовност." } }
+    ]
+  },
+  {
+    countryCode: "CN",
+    name: { en: "Mapo Tofu", bg: "Мапо Тофу" },
+    description: { en: "Spicy tofu with minced meat in savory sauce.", bg: "Пикантно тофу с кайма в ароматен сос." },
+    prepTime: "12 min",
+    cookTime: "15 min",
+    servings: 4,
+    ingredients: [
+      { name: { en: "Tofu", bg: "Тофу" }, amount: "400", unit: { en: "g", bg: "г" } },
+      { name: { en: "Minced pork", bg: "Свинска кайма" }, amount: "180", unit: { en: "g", bg: "г" } },
+      { name: { en: "Chili bean paste", bg: "Пикантна бобена паста" }, amount: "2", unit: { en: "tbsp", bg: "с.л." } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Brown minced pork in wok.", bg: "Запържете каймата в уок." } },
+      { step: 2, instruction: { en: "Add sauce and tofu cubes.", bg: "Добавете соса и кубчетата тофу." } },
+      { step: 3, instruction: { en: "Simmer briefly and serve.", bg: "Оставете да покъкри и сервирайте." } }
+    ]
+  },
+  {
+    countryCode: "ES",
+    name: { en: "Tortilla Espanola", bg: "Тортиля Еспаньола" },
+    description: { en: "Spanish omelette with potatoes and onions.", bg: "Испански омлет с картофи и лук." },
+    prepTime: "15 min",
+    cookTime: "20 min",
+    servings: 4,
+    ingredients: [
+      { name: { en: "Potatoes", bg: "Картофи" }, amount: "500", unit: { en: "g", bg: "г" } },
+      { name: { en: "Onion", bg: "Лук" }, amount: "1", unit: { en: "pc", bg: "бр" } },
+      { name: { en: "Eggs", bg: "Яйца" }, amount: "6", unit: { en: "pcs", bg: "бр" } }
+    ],
+    steps: [
+      { step: 1, instruction: { en: "Cook sliced potatoes and onion.", bg: "Сгответе нарязаните картофи и лук." } },
+      { step: 2, instruction: { en: "Mix with beaten eggs.", bg: "Смесете с разбитите яйца." } },
+      { step: 3, instruction: { en: "Cook both sides until golden.", bg: "Изпечете от двете страни до златисто." } }
+    ]
   }
 ];
 
