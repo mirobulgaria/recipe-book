@@ -430,6 +430,20 @@ ingredientsTableBody.addEventListener("change", (event) => {
 });
 
 backToGridBtn.addEventListener("click", showGridView);
+
+// Initialize the app
+function initializeApp() {
+  populateCountryDropdown();
+  applyTranslations();
+  renderRecipes();
+}
+
+// Call initialization when DOM is ready or immediately if already loaded
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeApp);
+} else {
+  initializeApp();
+}
 randomRecipeBtn.addEventListener("click", openRandomRecipe);
 if (addRecipeBtn) {
   addRecipeBtn.addEventListener("click", () => openEditor());
