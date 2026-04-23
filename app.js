@@ -77,7 +77,6 @@ const uiText = {
 
 let lang = "en";
 let selectedRecipeId = null;
-let recipes = loadRecipes();
 
 const countrySelect = document.getElementById("countrySelect");
 const searchInput = document.getElementById("searchInput");
@@ -105,7 +104,6 @@ const editServings = document.getElementById("editServings");
 const editImage = document.getElementById("editImage");
 const editIngredients = document.getElementById("editIngredients");
 const editSteps = document.getElementById("editSteps");
-
 const detailImage = document.getElementById("detailImage");
 const detailTitle = document.getElementById("detailTitle");
 const detailCountry = document.getElementById("detailCountry");
@@ -121,22 +119,7 @@ function getCountryByCode(code) {
 }
 
 function isValidRecipeShape(recipe) {
-  if (!recipe || typeof recipe !== "object") {
-    return false;
-  }
-  if (!recipe.countryCode || !getCountryByCode(recipe.countryCode)) {
-    return false;
-  }
-  if (!recipe.name || !recipe.name.en || !recipe.name.bg) {
-    return false;
-  }
-  if (!Array.isArray(recipe.ingredients) || recipe.ingredients.length === 0) {
-    return false;
-  }
-  if (!Array.isArray(recipe.steps) || recipe.steps.length === 0) {
-    return false;
-  }
-  return true;
+  return !!(recipe && recipe.countryCode && recipe.name?.en && recipe.name?.bg && Array.isArray(recipe.ingredients) && recipe.ingredients.length && Array.isArray(recipe.steps) && recipe.steps.length && getCountryByCode(recipe.countryCode));
 }
 
 function sanitizeRecipe(recipe) {
@@ -146,14 +129,8 @@ function sanitizeRecipe(recipe) {
     country: recipe.country || country.country,
     countryCode: country.countryCode,
     flag: recipe.flag || country.flag,
-    name: {
-      en: String(recipe.name?.en || "").trim(),
-      bg: String(recipe.name?.bg || "").trim()
-    },
-    description: {
-      en: String(recipe.description?.en || "").trim(),
-      bg: String(recipe.description?.bg || "").trim()
-    },
+    name: { en: String(recipe.name?.en || "").trim(), bg: String(recipe.name?.bg || "").trim() },
+    description: { en: String(recipe.description?.en || "").trim(), bg: String(recipe.description?.bg || "").trim() },
     prepTime: String(recipe.prepTime || "").trim(),
     cookTime: String(recipe.cookTime || "").trim(),
     servings: Number(recipe.servings || 1),
@@ -164,23 +141,16 @@ function sanitizeRecipe(recipe) {
     })),
     steps: recipe.steps.map((item, index) => ({
       step: index + 1,
-      instruction: {
-        en: String(item.instruction?.en || "").trim(),
-        bg: String(item.instruction?.bg || "").trim()
-      }
+      instruction: { en: String(item.instruction?.en || "").trim(), bg: String(item.instruction?.bg || "").trim() }
     })),
     image: String(recipe.image || "").trim() || "https://picsum.photos/seed/fallback/640/420"
   };
 }
 
 function mergeBaseWithSavedRecipes(savedRecipes) {
-  const mergedById = new Map(baseRecipes.map((recipe) => [String(recipe.id), recipe]));
-
-  savedRecipes.forEach((recipe) => {
-    mergedById.set(String(recipe.id), recipe);
-  });
-
-  return Array.from(mergedById.values());
+  const merged = new Map(baseRecipes.map((recipe) => [String(recipe.id), recipe]));
+  savedRecipes.forEach((recipe) => merged.set(String(recipe.id), recipe));
+  return Array.from(merged.values());
 }
 
 function loadRecipes() {
@@ -194,14 +164,13 @@ function loadRecipes() {
       return [...baseRecipes];
     }
     const valid = parsed.filter(isValidRecipeShape).map(sanitizeRecipe);
-    if (valid.length > 0) {
-      return mergeBaseWithSavedRecipes(valid);
-    }
-    return [...baseRecipes];
+    return valid.length ? mergeBaseWithSavedRecipes(valid) : [...baseRecipes];
   } catch {
     return [...baseRecipes];
   }
 }
+
+let recipes = loadRecipes();
 
 function persistRecipes() {
   localStorage.setItem(RECIPES_STORAGE_KEY, JSON.stringify(recipes));
@@ -217,10 +186,10 @@ function applyTranslations() {
     }
   });
   searchInput.placeholder = text.searchPlaceholder;
+  editorTitle.textContent = editRecipeId.value ? text.editRecipe : text.addRecipe;
   if (selectedRecipeId) {
     renderRecipeDetail(selectedRecipeId);
   }
-  editorTitle.textContent = editRecipeId.value ? text.editRecipe : text.addRecipe;
 }
 
 function populateCountryDropdown() {
@@ -254,10 +223,7 @@ function matchesQuery(recipe, query) {
   }
   const q = query.toLowerCase();
   const name = `${recipe.name.en} ${recipe.name.bg}`.toLowerCase();
-  const ingredients = recipe.ingredients
-    .map((ingredient) => `${ingredient.name.en} ${ingredient.name.bg}`)
-    .join(" ")
-    .toLowerCase();
+  const ingredients = recipe.ingredients.map((i) => `${i.name.en} ${i.name.bg}`).join(" ").toLowerCase();
   return name.includes(q) || ingredients.includes(q);
 }
 
@@ -275,32 +241,27 @@ function renderRecipes() {
   const text = uiText[lang];
   resultsInfo.textContent = text.results(filtered.length);
   recipesGrid.innerHTML = "";
-
-  if (filtered.length === 0) {
+  if (!filtered.length) {
     const noResults = document.createElement("div");
     noResults.className = "no-results";
     noResults.textContent = text.noResults;
     recipesGrid.appendChild(noResults);
     return;
   }
-
   filtered.forEach((recipe) => {
     const country = getCountryByCode(recipe.countryCode);
     if (!country) {
       return;
     }
-    const dishName = recipe.name[lang];
-    const description = recipe.description[lang];
-    const countryName = lang === "en" ? country.country : country.countryBg;
     const card = document.createElement("article");
     card.className = "recipe-card";
     card.innerHTML = `
-      <img class="recipe-image" src="${recipe.image}" alt="${dishName}" loading="lazy" />
+      <img class="recipe-image" src="${recipe.image}" alt="${recipe.name[lang]}" loading="lazy" />
       <div class="recipe-meta">
-        <h3>${dishName}</h3>
-        <span class="country-pill">${recipe.flag} ${countryName}</span>
+        <h3>${recipe.name[lang]}</h3>
+        <span class="country-pill">${recipe.flag} ${lang === "en" ? country.country : country.countryBg}</span>
       </div>
-      <p class="recipe-description">${description}</p>
+      <p class="recipe-description">${recipe.description[lang]}</p>
       <div class="editor-actions">
         <button class="details-btn" type="button" data-id="${recipe.id}">${text.details}</button>
         <button class="back-btn edit-btn" type="button" data-edit-id="${recipe.id}">${text.editRecipe}</button>
@@ -316,39 +277,27 @@ function renderRecipeDetail(recipeId) {
     return;
   }
   selectedRecipeId = recipe.id;
-
   const country = getCountryByCode(recipe.countryCode);
-  const recipeName = recipe.name[lang];
-  const countryName = lang === "en" ? country.country : country.countryBg;
-
   detailImage.src = recipe.image;
-  detailImage.alt = recipeName;
-  detailTitle.textContent = recipeName;
-  detailCountry.textContent = `${recipe.flag} ${countryName}`;
+  detailImage.alt = recipe.name[lang];
+  detailTitle.textContent = recipe.name[lang];
+  detailCountry.textContent = `${recipe.flag} ${lang === "en" ? country.country : country.countryBg}`;
   detailDescription.textContent = recipe.description[lang];
   detailPrepTime.textContent = recipe.prepTime;
   detailCookTime.textContent = recipe.cookTime;
   detailServings.textContent = String(recipe.servings);
-
   ingredientsTableBody.innerHTML = "";
   recipe.ingredients.forEach((ingredient) => {
     const row = document.createElement("tr");
-    row.innerHTML = `
-      <td><input type="checkbox" class="ingredients-check" aria-label="${uiText[lang].check}" /></td>
-      <td>${ingredient.amount}</td>
-      <td>${ingredient.unit[lang]}</td>
-      <td>${ingredient.name[lang]}</td>
-    `;
+    row.innerHTML = `<td><input type="checkbox" class="ingredients-check" aria-label="${uiText[lang].check}" /></td><td>${ingredient.amount}</td><td>${ingredient.unit[lang]}</td><td>${ingredient.name[lang]}</td>`;
     ingredientsTableBody.appendChild(row);
   });
-
   detailSteps.innerHTML = "";
   recipe.steps.forEach((stepObj) => {
     const li = document.createElement("li");
     li.textContent = stepObj.instruction[lang];
     detailSteps.appendChild(li);
   });
-
   gridView.classList.add("hidden");
   detailView.classList.remove("hidden");
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -372,9 +321,7 @@ function openEditor(recipe = null) {
     editCookTime.value = recipe.cookTime;
     editServings.value = String(recipe.servings);
     editImage.value = recipe.image;
-    editIngredients.value = recipe.ingredients
-      .map((item) => `${item.amount}|${item.unit.en}|${item.unit.bg}|${item.name.en}|${item.name.bg}`)
-      .join("\n");
+    editIngredients.value = recipe.ingredients.map((item) => `${item.amount}|${item.unit.en}|${item.unit.bg}|${item.name.en}|${item.name.bg}`).join("\n");
     editSteps.value = recipe.steps.map((step) => `${step.instruction.en}|${step.instruction.bg}`).join("\n");
   } else {
     editRecipeId.value = "";
@@ -391,41 +338,26 @@ function closeEditor() {
 }
 
 function parseIngredients(inputText) {
-  return inputText
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const [amount, unitEn, unitBg, nameEn, nameBg] = line.split("|").map((x) => (x || "").trim());
-      return {
-        amount,
-        unit: { en: unitEn, bg: unitBg },
-        name: { en: nameEn, bg: nameBg }
-      };
-    });
+  return inputText.split("\n").map((line) => line.trim()).filter(Boolean).map((line) => {
+    const [amount, unitEn, unitBg, nameEn, nameBg] = line.split("|").map((x) => (x || "").trim());
+    return { amount, unit: { en: unitEn, bg: unitBg }, name: { en: nameEn, bg: nameBg } };
+  });
 }
 
 function parseSteps(inputText) {
-  return inputText
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line, index) => {
-      const [en, bg] = line.split("|").map((x) => (x || "").trim());
-      return { step: index + 1, instruction: { en, bg } };
-    });
+  return inputText.split("\n").map((line) => line.trim()).filter(Boolean).map((line, index) => {
+    const [en, bg] = line.split("|").map((x) => (x || "").trim());
+    return { step: index + 1, instruction: { en, bg } };
+  });
 }
 
 function buildRecipeFromForm() {
-  const countryCode = editCountryCode.value;
-  const country = getCountryByCode(countryCode);
+  const country = getCountryByCode(editCountryCode.value);
   const ingredients = parseIngredients(editIngredients.value);
   const steps = parseSteps(editSteps.value);
-
-  if (ingredients.length === 0 || steps.length === 0) {
+  if (!ingredients.length || !steps.length) {
     throw new Error("Please provide at least one ingredient and one step.");
   }
-
   return {
     id: editRecipeId.value || `custom-${Date.now()}`,
     country: country.country,
@@ -444,7 +376,7 @@ function buildRecipeFromForm() {
 
 function openRandomRecipe() {
   const pool = getFilteredRecipes();
-  if (pool.length === 0) {
+  if (!pool.length) {
     return;
   }
   const randomIndex = Math.floor(Math.random() * pool.length);
@@ -490,7 +422,6 @@ backToGridBtn.addEventListener("click", showGridView);
 randomRecipeBtn.addEventListener("click", openRandomRecipe);
 addRecipeBtn.addEventListener("click", () => openEditor());
 cancelEditBtn.addEventListener("click", closeEditor);
-
 recipeForm.addEventListener("submit", (event) => {
   event.preventDefault();
   try {
