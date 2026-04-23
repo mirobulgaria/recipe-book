@@ -186,7 +186,9 @@ function applyTranslations() {
     }
   });
   searchInput.placeholder = text.searchPlaceholder;
-  editorTitle.textContent = editRecipeId.value ? text.editRecipe : text.addRecipe;
+  if (editorTitle && editRecipeId) {
+    editorTitle.textContent = editRecipeId.value ? text.editRecipe : text.addRecipe;
+  }
   if (selectedRecipeId) {
     renderRecipeDetail(selectedRecipeId);
   }
@@ -206,6 +208,9 @@ function populateCountryDropdown() {
 }
 
 function populateEditorCountryDropdown() {
+  if (!editCountryCode) {
+    return;
+  }
   const selected = editCountryCode.value || countries[0]?.countryCode || "";
   editCountryCode.innerHTML = "";
   countries.forEach((country) => {
@@ -310,6 +315,9 @@ function showGridView() {
 }
 
 function openEditor(recipe = null) {
+  if (!recipeEditor || !recipeForm || !editRecipeId) {
+    return;
+  }
   if (recipe) {
     editRecipeId.value = recipe.id;
     editCountryCode.value = recipe.countryCode;
@@ -334,6 +342,9 @@ function openEditor(recipe = null) {
 }
 
 function closeEditor() {
+  if (!recipeEditor) {
+    return;
+  }
   recipeEditor.classList.add("hidden");
 }
 
@@ -420,25 +431,31 @@ ingredientsTableBody.addEventListener("change", (event) => {
 
 backToGridBtn.addEventListener("click", showGridView);
 randomRecipeBtn.addEventListener("click", openRandomRecipe);
-addRecipeBtn.addEventListener("click", () => openEditor());
-cancelEditBtn.addEventListener("click", closeEditor);
-recipeForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  try {
-    const recipe = buildRecipeFromForm();
-    const index = recipes.findIndex((item) => String(item.id) === String(recipe.id));
-    if (index >= 0) {
-      recipes[index] = recipe;
-    } else {
-      recipes.unshift(recipe);
+if (addRecipeBtn) {
+  addRecipeBtn.addEventListener("click", () => openEditor());
+}
+if (cancelEditBtn) {
+  cancelEditBtn.addEventListener("click", closeEditor);
+}
+if (recipeForm) {
+  recipeForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    try {
+      const recipe = buildRecipeFromForm();
+      const index = recipes.findIndex((item) => String(item.id) === String(recipe.id));
+      if (index >= 0) {
+        recipes[index] = recipe;
+      } else {
+        recipes.unshift(recipe);
+      }
+      persistRecipes();
+      closeEditor();
+      renderRecipes();
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Invalid recipe data.");
     }
-    persistRecipes();
-    closeEditor();
-    renderRecipes();
-  } catch (error) {
-    alert(error instanceof Error ? error.message : "Invalid recipe data.");
-  }
-});
+  });
+}
 
 applyTranslations();
 populateCountryDropdown();
