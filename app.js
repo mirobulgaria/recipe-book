@@ -5,8 +5,9 @@ let countries = window.countriesData || [];
 let baseRecipes = window.recipeData || [];
 
 // Debug: log what we got
-console.log("Countries loaded:", countries.length, countries);
-console.log("Base recipes loaded:", baseRecipes.length);
+console.log("🔍 app.js loading...");
+console.log("Countries loaded at startup:", countries.length);
+console.log("Base recipes loaded at startup:", baseRecipes.length);
 
 const uiText = {
   en: {
@@ -83,6 +84,7 @@ const uiText = {
 
 let lang = "en";
 let selectedRecipeId = null;
+let recipes = []; // Initialize as empty, will be populated in initializeApp()
 
 const countrySelect = document.getElementById("countrySelect");
 const searchInput = document.getElementById("searchInput");
@@ -175,8 +177,6 @@ function loadRecipes() {
     return [...baseRecipes];
   }
 }
-
-let recipes = loadRecipes();
 
 function persistRecipes() {
   localStorage.setItem(RECIPES_STORAGE_KEY, JSON.stringify(recipes));
@@ -400,6 +400,109 @@ function openRandomRecipe() {
   renderRecipeDetail(pool[randomIndex].id);
 }
 
+// ===== Event Listeners =====
+languageToggle.addEventListener("click", () => {
+  lang = lang === "en" ? "bg" : "en";
+  applyTranslations();
+  populateCountryDropdown();
+  renderRecipes();
+});
+
+countrySelect.addEventListener("change", renderRecipes);
+searchInput.addEventListener("input", renderRecipes);
+
+recipesGrid.addEventListener("click", (event) => {
+  const target = event.target;
+  if (target instanceof HTMLElement && target.matches("[data-id]")) {
+    renderRecipeDetail(target.dataset.id);
+    return;
+  }
+  if (target instanceof HTMLElement && target.matches("[data-edit-id]")) {
+    const recipe = recipes.find((item) => String(item.id) === String(target.dataset.editId));
+    if (recipe) {
+      openEditor(recipe);
+    }
+  }
+});
+
+ingredientsTableBody.addEventListener("change", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement) || !target.classList.contains("ingredients-check")) {
+    return;
+  }
+  const row = target.closest("tr");
+  if (row) {
+    row.classList.toggle("ingredient-checked", target.checked);
+  }
+});
+
+backToGridBtn.addEventListener("click", showGridView);
+randomRecipeBtn.addEventListener("click", openRandomRecipe);
+
+if (addRecipeBtn) {
+  addRecipeBtn.addEventListener("click", () => openEditor());
+}
+
+if (cancelEditBtn) {
+  cancelEditBtn.addEventListener("click", closeEditor);
+}
+
+if (recipeForm) {
+  recipeForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    try {
+      const recipe = buildRecipeFromForm();
+      const index = recipes.findIndex((item) => String(item.id) === String(recipe.id));
+      if (index >= 0) {
+        recipes[index] = recipe;
+      } else {
+        recipes.unshift(recipe);
+      }
+      persistRecipes();
+      closeEditor();
+      renderRecipes();
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Invalid recipe data.");
+    }
+  });
+}
+
+// ===== APP INITIALIZATION =====
+function initializeApp() {
+  console.log("🚀 Initializing app...");
+  
+  // Reload data from window object
+  countries = window.countriesData || [];
+  baseRecipes = window.recipeData || [];
+  recipes = loadRecipes();
+  
+  console.log("✅ Data loaded:", {
+    countries: countries.length,
+    baseRecipes: baseRecipes.length,
+    recipes: recipes.length
+  });
+  
+  if (countries.length === 0 || recipes.length === 0) {
+    console.error("❌ ERROR: Data not properly loaded!");
+    console.error("  window.countriesData:", window.countriesData);
+    console.error("  window.recipeData:", window.recipeData);
+    return;
+  }
+  
+  applyTranslations();
+  populateCountryDropdown();
+  renderRecipes();
+  
+  console.log("✅ App initialized successfully!");
+}
+
+// Initialize when DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeApp);
+} else {
+  initializeApp();
+}
+
 languageToggle.addEventListener("click", () => {
   lang = lang === "en" ? "bg" : "en";
   applyTranslations();
@@ -437,19 +540,6 @@ ingredientsTableBody.addEventListener("change", (event) => {
 
 backToGridBtn.addEventListener("click", showGridView);
 
-// Initialize the app
-function initializeApp() {
-  populateCountryDropdown();
-  applyTranslations();
-  renderRecipes();
-}
-
-// Call initialization when DOM is ready or immediately if already loaded
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeApp);
-} else {
-  initializeApp();
-}
 randomRecipeBtn.addEventListener("click", openRandomRecipe);
 if (addRecipeBtn) {
   addRecipeBtn.addEventListener("click", () => openEditor());
@@ -477,34 +567,37 @@ if (recipeForm) {
   });
 }
 
-// Initialize with retry logic if data isn't loaded yet
+// Initialize the app
 function initializeApp() {
-  console.log("Initializing app...");
-  console.log("Countries:", countries.length, countries);
-  console.log("Base recipes:", baseRecipes.length);
+  console.log("🚀 Initializing app...");
   
-  if (countries.length === 0) {
-    console.warn("Countries not loaded yet, retrying...");
-    countries = window.countriesData || [];
-  }
-  if (baseRecipes.length === 0) {
-    console.warn("Recipes not loaded yet, retrying...");
-    baseRecipes = window.recipeData || [];
-    recipes = loadRecipes();
-  }
+  // Ensure data is loaded from window
+  countries = window.countriesData || [];
+  baseRecipes = window.recipeData || [];
+  recipes = loadRecipes();
   
-  console.log("After retry - Countries:", countries.length);
-  console.log("After retry - Recipes:", recipes.length);
+  console.log("✅ Data loaded:", {
+    countries: countries.length,
+    baseRecipes: baseRecipes.length,
+    recipes: recipes.length
+  });
+  
+  if (countries.length === 0 || recipes.length === 0) {
+    console.error("❌ ERROR: Data not properly loaded!");
+    return;
+  }
   
   applyTranslations();
   populateCountryDropdown();
   renderRecipes();
+  
+  console.log("✅ App initialized successfully!");
 }
 
-// Call initialization immediately
-initializeApp();
-
-// Also initialize when DOM is fully ready (backup)
+// Wait for DOM to be ready, then initialize
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initializeApp);
+} else {
+  // DOM is already ready
+  initializeApp();
 }
