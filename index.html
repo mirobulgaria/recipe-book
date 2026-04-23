@@ -47,7 +47,38 @@
         <button id="randomRecipeBtn" class="random-btn" type="button" data-i18n="randomRecipe">
           Random recipe
         </button>
+        <button id="addRecipeBtn" class="random-btn secondary-btn" type="button" data-i18n="addRecipe">
+          Add recipe
+        </button>
       </div>
+      </section>
+
+      <section id="recipeEditor" class="editor-card hidden">
+        <h3 id="editorTitle" data-i18n="addRecipe">Add recipe</h3>
+        <form id="recipeForm" class="editor-form">
+          <input id="editRecipeId" type="hidden" />
+          <label><span data-i18n="countryLabel">Country</span><select id="editCountryCode"></select></label>
+          <label><span data-i18n="nameEn">Name (EN)</span><input id="editNameEn" type="text" required /></label>
+          <label><span data-i18n="nameBg">Name (BG)</span><input id="editNameBg" type="text" required /></label>
+          <label><span data-i18n="descEn">Description (EN)</span><textarea id="editDescEn" rows="2" required></textarea></label>
+          <label><span data-i18n="descBg">Description (BG)</span><textarea id="editDescBg" rows="2" required></textarea></label>
+          <label><span data-i18n="prepTime">Prep</span><input id="editPrepTime" type="text" placeholder="20 min" required /></label>
+          <label><span data-i18n="cookTime">Cook</span><input id="editCookTime" type="text" placeholder="30 min" required /></label>
+          <label><span data-i18n="servings">Servings</span><input id="editServings" type="number" min="1" required /></label>
+          <label><span data-i18n="image">Image URL</span><input id="editImage" type="url" required /></label>
+          <label class="full-row">
+            <span data-i18n="ingredientsFormat">Ingredients (one per line: amount|unitEn|unitBg|nameEn|nameBg)</span>
+            <textarea id="editIngredients" rows="5" required></textarea>
+          </label>
+          <label class="full-row">
+            <span data-i18n="stepsFormat">Steps (one per line: instructionEn|instructionBg)</span>
+            <textarea id="editSteps" rows="5" required></textarea>
+          </label>
+          <div class="editor-actions full-row">
+            <button type="submit" class="details-btn" data-i18n="saveRecipe">Save recipe</button>
+            <button id="cancelEditBtn" type="button" class="back-btn" data-i18n="cancel">Cancel</button>
+          </div>
+        </form>
       </section>
 
       <section class="recipes-section">

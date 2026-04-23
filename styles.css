@@ -98,6 +98,52 @@ main {
   font-weight: 600;
 }
 
+.secondary-btn {
+  background: #a0693f;
+}
+
+.secondary-btn:hover {
+  background: #8c5630;
+}
+
+.editor-card {
+  margin-top: 1rem;
+  background: #fff;
+  border: 1px solid rgba(138, 90, 53, 0.2);
+  border-radius: 12px;
+  padding: 0.9rem;
+}
+
+.editor-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 0.7rem;
+}
+
+.editor-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.editor-form textarea,
+.editor-form input,
+.editor-form select {
+  border: 1px solid rgba(138, 90, 53, 0.4);
+  border-radius: 9px;
+  padding: 0.55rem 0.6rem;
+  font: inherit;
+}
+
+.full-row {
+  grid-column: 1 / -1;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
 .random-btn:hover {
   background: #643a1d;
 }
@@ -359,6 +405,10 @@ input:focus {
   }
 
   .controls {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-form {
     grid-template-columns: 1fr;
   }
 
