@@ -28,7 +28,7 @@
       <div class="controls">
         <label class="control">
           <span data-i18n="countryLabel">Country</span>
-          <select id="countrySelect" onchange="filterByCountry(this.value)">
+          <select id="countrySelect" onchange="filterAndSearch()">
             <option value="all">All countries</option>
             <option value="BG">🇧🇬 Bulgaria</option>
             <option value="IT">🇮🇹 Italy</option>
@@ -50,6 +50,7 @@
             type="text"
             placeholder="Dish name or ingredient"
             autocomplete="off"
+            oninput="searchRecipes(this.value)"
           />
         </label>
       </div>
@@ -403,6 +404,53 @@
       });
       
       resultsInfo.textContent = 'Showing ' + visibleCount + ' recipes';
+    }
+    
+    // Combined filter and search function
+    function filterAndSearch() {
+      const countrySelect = document.getElementById('countrySelect');
+      const searchInput = document.getElementById('searchInput');
+      const recipesGrid = document.getElementById('recipesGrid');
+      const resultsInfo = document.getElementById('resultsInfo');
+      
+      if (!recipesGrid || !resultsInfo) return;
+      
+      const selectedCountry = countrySelect.value;
+      const searchQuery = searchInput.value.toLowerCase().trim();
+      
+      // Get all recipe cards
+      const recipeCards = recipesGrid.querySelectorAll('.recipe-card');
+      let visibleCount = 0;
+      
+      recipeCards.forEach(function(card) {
+        const cardCountry = card.getAttribute('data-country');
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const description = card.querySelector('.recipe-description').textContent.toLowerCase();
+        
+        // Check if recipe matches filters
+        const countryMatch = selectedCountry === 'all' || cardCountry === selectedCountry;
+        const searchMatch = !searchQuery || title.includes(searchQuery) || description.includes(searchQuery);
+        
+        if (countryMatch && searchMatch) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Update results count
+      resultsInfo.textContent = 'Showing ' + visibleCount + ' recipes';
+    }
+    
+    // Search recipes function (calls combined function)
+    function searchRecipes(searchTerm) {
+      filterAndSearch();
+    }
+    
+    // Filter by country function (calls combined function)
+    function filterByCountry(countryCode) {
+      filterAndSearch();
     }
     
     // Language toggle function
