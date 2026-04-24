@@ -864,11 +864,8 @@
         // Add to grid
         recipesGrid.appendChild(recipeCard);
         
-        // Add recipe to detail function
-        if (!window.customRecipes) {
-          window.customRecipes = {};
-        }
-        window.customRecipes[recipe.id] = recipe;
+        // Save recipe to localStorage
+        saveRecipeToStorage(recipe);
         
         // Show success message
         const currentLangText = currentLang === 'en' ? 'Recipe added successfully!' : 'Рецептата е добавена успешно!';
@@ -942,6 +939,72 @@
       };
       
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // localStorage functions for recipe persistence
+    function saveRecipeToStorage(recipe) {
+      try {
+        // Get existing recipes from localStorage
+        let savedRecipes = localStorage.getItem('customRecipes');
+        savedRecipes = savedRecipes ? JSON.parse(savedRecipes) : {};
+        
+        // Add new recipe
+        savedRecipes[recipe.id] = recipe;
+        
+        // Save back to localStorage
+        localStorage.setItem('customRecipes', JSON.stringify(savedRecipes));
+        
+        // Also update memory for current session
+        if (!window.customRecipes) {
+          window.customRecipes = {};
+        }
+        window.customRecipes[recipe.id] = recipe;
+        
+        console.log('Recipe saved to localStorage:', recipe.id);
+      } catch (error) {
+        console.error('Error saving recipe to localStorage:', error);
+      }
+    }
+    
+    function loadRecipesFromStorage() {
+      try {
+        // Get saved recipes from localStorage
+        const savedRecipes = localStorage.getItem('customRecipes');
+        if (savedRecipes) {
+          const recipes = JSON.parse(savedRecipes);
+          
+          // Update memory
+          window.customRecipes = recipes;
+          
+          // Add recipe cards to grid
+          const recipesGrid = document.getElementById('recipesGrid');
+          const currentLang = document.documentElement.lang || 'en';
+          
+          Object.values(recipes).forEach(recipe => {
+            const recipeCard = document.createElement('article');
+            recipeCard.className = 'recipe-card';
+            recipeCard.setAttribute('data-country', recipe.countryCode);
+            
+            recipeCard.innerHTML = `
+              <img class="recipe-image" src="${recipe.image}" alt="${recipe.name[currentLang]}" loading="lazy" />
+              <div class="recipe-meta">
+                <h3 data-en="${recipe.name.en}" data-bg="${recipe.name.bg}">${recipe.name[currentLang]}</h3>
+                <span class="country-pill">${recipe.flag} ${currentLang === 'en' ? recipe.country : recipe.countryBg}</span>
+              </div>
+              <p class="recipe-description" data-en="${recipe.description.en}" data-bg="${recipe.description.bg}">${recipe.description[currentLang]}</p>
+              <div class="editor-actions">
+                <button class="details-btn" type="button" data-id="${recipe.id}" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('${recipe.id}')">${currentLang === 'en' ? 'View Details' : 'Виж Детайли'}</button>
+              </div>
+            `;
+            
+            recipesGrid.appendChild(recipeCard);
+          });
+          
+          console.log('Loaded', Object.keys(recipes).length, 'recipes from localStorage');
+        }
+      } catch (error) {
+        console.error('Error loading recipes from localStorage:', error);
+      }
     }
     
     // Reset form to default state
@@ -2160,6 +2223,7 @@
     // Initialize on page load
     window.onload = function() {
       filterByCountry('all');
+      loadRecipesFromStorage();
       console.log('Page loaded, language toggle ready');
     };
   </script>
