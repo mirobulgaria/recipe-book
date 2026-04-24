@@ -58,7 +58,7 @@
         <button id="randomRecipeBtn" class="random-btn" type="button" data-i18n="randomRecipe">
           Random recipe
         </button>
-        <button id="addRecipeBtn" class="random-btn secondary-btn" type="button" data-i18n="addRecipe">
+        <button id="addRecipeBtn" class="random-btn secondary-btn" type="button" data-i18n="addRecipe" onclick="showAddRecipeForm()">
           Add recipe
         </button>
       </div>
@@ -66,7 +66,7 @@
 
       <section id="recipeEditor" class="editor-card hidden">
         <h3 id="editorTitle" data-i18n="addRecipe">Add recipe</h3>
-        <form id="recipeForm" class="editor-form">
+        <form id="recipeForm" class="editor-form" onsubmit="saveRecipe(event)">
           <input id="editRecipeId" type="hidden" />
           <label><span data-i18n="countryLabel">Country</span><select id="editCountryCode"></select></label>
           <label><span data-i18n="nameEn">Name (EN)</span><input id="editNameEn" type="text" required /></label>
@@ -87,7 +87,7 @@
           </label>
           <div class="editor-actions full-row">
             <button type="submit" class="details-btn" data-i18n="saveRecipe">Save recipe</button>
-            <button id="cancelEditBtn" type="button" class="back-btn" data-i18n="cancel">Cancel</button>
+            <button id="cancelEditBtn" type="button" class="back-btn" data-i18n="cancel" onclick="cancelEdit()">Cancel</button>
           </div>
         </form>
       </section>
@@ -453,6 +453,206 @@
       filterAndSearch();
     }
     
+    // Show random recipe function
+    function showRandomRecipe() {
+      console.log('🎲 Random recipe button clicked');
+      
+      const recipesGrid = document.getElementById('recipesGrid');
+      if (!recipesGrid) {
+        console.error('❌ recipesGrid not found');
+        return;
+      }
+      
+      const recipeCards = recipesGrid.querySelectorAll('.recipe-card');
+      console.log('📊 Total recipe cards found:', recipeCards.length);
+      
+      const visibleCards = Array.from(recipeCards).filter(card => {
+        const display = card.style.display;
+        const isVisible = display !== 'none';
+        console.log('🔍 Card visibility:', display, '->', isVisible);
+        return isVisible;
+      });
+      
+      console.log('👁️ Visible recipe cards:', visibleCards.length);
+      
+      if (visibleCards.length === 0) {
+        console.log('⚠️ No visible recipes found');
+        alert('No recipes available. Try adjusting your filters.');
+        return;
+      }
+      
+      const randomIndex = Math.floor(Math.random() * visibleCards.length);
+      const randomCard = visibleCards[randomIndex];
+      console.log('🎯 Selected random card at index:', randomIndex);
+      
+      const detailsBtn = randomCard.querySelector('.details-btn');
+      if (!detailsBtn) {
+        console.error('❌ Details button not found in random card');
+        return;
+      }
+      
+      const recipeId = detailsBtn.getAttribute('data-id');
+      console.log('🆔 Recipe ID found:', recipeId);
+      
+      if (!recipeId) {
+        console.error('❌ Recipe ID is empty');
+        return;
+      }
+      
+      console.log('🚀 Opening recipe detail for:', recipeId);
+      showRecipeDetail(recipeId);
+    }
+    
+    // Show add recipe form function
+    function showAddRecipeForm() {
+      const gridView = document.getElementById('gridView');
+      const recipeEditor = document.getElementById('recipeEditor');
+      const editorTitle = document.getElementById('editorTitle');
+      const editRecipeId = document.getElementById('editRecipeId');
+      const recipeForm = document.getElementById('recipeForm');
+      
+      // Reset form
+      recipeForm.reset();
+      editRecipeId.value = '';
+      
+      // Set title based on current language
+      const currentLang = document.documentElement.lang || 'en';
+      editorTitle.textContent = currentLang === 'en' ? 'Add recipe' : 'Добави рецепта';
+      
+      // Populate country dropdown
+      populateEditorCountryDropdown();
+      
+      // Show editor, hide grid
+      gridView.classList.add('hidden');
+      recipeEditor.classList.remove('hidden');
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Populate editor country dropdown
+    function populateEditorCountryDropdown() {
+      const editCountryCode = document.getElementById('editCountryCode');
+      if (!editCountryCode) return;
+      
+      const countries = [
+        { code: 'BG', name: 'Bulgaria', nameBg: 'България' },
+        { code: 'IT', name: 'Italy', nameBg: 'Италия' },
+        { code: 'JP', name: 'Japan', nameBg: 'Япония' },
+        { code: 'FR', name: 'France', nameBg: 'Франция' },
+        { code: 'MX', name: 'Mexico', nameBg: 'Мексико' },
+        { code: 'IN', name: 'India', nameBg: 'Индия' },
+        { code: 'GR', name: 'Greece', nameBg: 'Гърция' },
+        { code: 'TR', name: 'Turkey', nameBg: 'Турция' },
+        { code: 'CN', name: 'China', nameBg: 'Китай' },
+        { code: 'ES', name: 'Spain', nameBg: 'Испания' }
+      ];
+      
+      const currentLang = document.documentElement.lang || 'en';
+      editCountryCode.innerHTML = '';
+      
+      countries.forEach(function(country) {
+        const option = document.createElement('option');
+        option.value = country.code;
+        option.textContent = currentLang === 'en' ? country.name : country.nameBg;
+        editCountryCode.appendChild(option);
+      });
+    }
+    
+    // Cancel edit function
+    function cancelEdit() {
+      const gridView = document.getElementById('gridView');
+      const recipeEditor = document.getElementById('recipeEditor');
+      
+      recipeEditor.classList.add('hidden');
+      gridView.classList.remove('hidden');
+    }
+    
+    // Save recipe function
+    function saveRecipe(event) {
+      event.preventDefault();
+      
+      const form = event.target;
+      const editRecipeId = document.getElementById('editRecipeId');
+      const editCountryCode = document.getElementById('editCountryCode');
+      const editNameEn = document.getElementById('editNameEn');
+      const editNameBg = document.getElementById('editNameBg');
+      const editDescEn = document.getElementById('editDescEn');
+      const editDescBg = document.getElementById('editDescBg');
+      const editPrepTime = document.getElementById('editPrepTime');
+      const editCookTime = document.getElementById('editCookTime');
+      const editServings = document.getElementById('editServings');
+      const editImage = document.getElementById('editImage');
+      
+      // Create new recipe object
+      const recipe = {
+        id: editRecipeId.value || 'custom-' + Date.now(),
+        name: {
+          en: editNameEn.value.trim(),
+          bg: editNameBg.value.trim()
+        },
+        description: {
+          en: editDescEn.value.trim(),
+          bg: editDescBg.value.trim()
+        },
+        prepTime: editPrepTime.value.trim(),
+        cookTime: editCookTime.value.trim(),
+        servings: parseInt(editServings.value),
+        image: editImage.value.trim(),
+        countryCode: editCountryCode.value
+      };
+      
+      // Get country info
+      const countryInfo = {
+        'BG': { country: 'Bulgaria', countryBg: 'България', flag: '🇧🇬' },
+        'IT': { country: 'Italy', countryBg: 'Италия', flag: '🇮🇹' },
+        'JP': { country: 'Japan', countryBg: 'Япония', flag: '🇯🇵' },
+        'FR': { country: 'France', countryBg: 'Франция', flag: '🇫🇷' },
+        'MX': { country: 'Mexico', countryBg: 'Мексико', flag: '🇲🇽' },
+        'IN': { country: 'India', countryBg: 'Индия', flag: '🇮🇳' },
+        'GR': { country: 'Greece', countryBg: 'Гърция', flag: '🇬🇷' },
+        'TR': { country: 'Turkey', countryBg: 'Турция', flag: '🇹🇷' },
+        'CN': { country: 'China', countryBg: 'Китай', flag: '🇨🇳' },
+        'ES': { country: 'Spain', countryBg: 'Испания', flag: '🇪🇸' }
+      };
+      
+      const country = countryInfo[recipe.countryCode];
+      recipe.country = country.country;
+      recipe.countryBg = country.countryBg;
+      recipe.flag = country.flag;
+      
+      // Create new recipe card
+      const recipesGrid = document.getElementById('recipesGrid');
+      const recipeCard = document.createElement('article');
+      recipeCard.className = 'recipe-card';
+      recipeCard.setAttribute('data-country', recipe.countryCode);
+      
+      const currentLang = document.documentElement.lang || 'en';
+      recipeCard.innerHTML = `
+        <img class="recipe-image" src="${recipe.image}" alt="${recipe.name[currentLang]}" loading="lazy" />
+        <div class="recipe-meta">
+          <h3 data-en="${recipe.name.en}" data-bg="${recipe.name.bg}">${recipe.name[currentLang]}</h3>
+          <span class="country-pill">${recipe.flag} ${currentLang === 'en' ? recipe.country : recipe.countryBg}</span>
+        </div>
+        <p class="recipe-description" data-en="${recipe.description.en}" data-bg="${recipe.description.bg}">${recipe.description[currentLang]}</p>
+        <div class="editor-actions">
+          <button class="details-btn" type="button" data-id="${recipe.id}" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('${recipe.id}')">${currentLang === 'en' ? 'View Details' : 'Виж Детайли'}</button>
+        </div>
+      `;
+      
+      // Add to grid
+      recipesGrid.appendChild(recipeCard);
+      
+      // Close editor and show grid
+      cancelEdit();
+      
+      // Show success message
+      const currentLangText = currentLang === 'en' ? 'Recipe added successfully!' : 'Рецептата е добавена успешно!';
+      alert(currentLangText);
+      
+      // Update results count
+      filterAndSearch();
+    }
+    
     // Language toggle function
     function toggleLanguage() {
       console.log('Language toggle clicked');
@@ -484,7 +684,9 @@
           unit: "Unit",
           ingredient: "Ingredient",
           check: "Check",
-          backToRecipes: "Back to recipes"
+          backToRecipes: "Back to recipes",
+          randomRecipe: "Random recipe",
+          addRecipe: "Add recipe"
         },
         bg: {
           appName: "Моята интернационална кухня",
@@ -504,7 +706,9 @@
           unit: "Мярка",
           ingredient: "Съставка",
           check: "Отметка",
-          backToRecipes: "Назад към рецептите"
+          backToRecipes: "Назад към рецептите",
+          randomRecipe: "Случайна рецепта",
+          addRecipe: "Добави рецепта"
         }
       };
       
@@ -666,6 +870,262 @@
             { step: 2, instruction: { en: 'Add sauce and toppings.', bg: 'Добавете сос и топинги.' } },
             { step: 3, instruction: { en: 'Bake at high temperature.', bg: 'Изпечете на висока температура.' } }
           ]
+        },
+        'JP-1': {
+          name: { en: 'Ramen', bg: 'Рамен' },
+          country: { en: 'Japan', bg: 'Япония' },
+          flag: '🇯🇵',
+          description: { en: 'Noodle soup with savory broth and toppings.', bg: 'Суп с юфка и ароматен бульон с добавки.' },
+          ingredients: [
+            { name: { en: 'Ramen noodles', bg: 'Юфка за рамен' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Pork broth', bg: 'Свински бульон' }, amount: '1', unit: { en: 'liter', bg: 'литър' } },
+            { name: { en: 'Green onions', bg: 'Зелен лук' }, amount: '3', unit: { en: 'stalks', bg: 'стъбла' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Prepare broth with pork bones.', bg: 'Подгответе бульон със свински кости.' } },
+            { step: 2, instruction: { en: 'Cook noodles separately.', bg: 'Сварете юфката отделно.' } },
+            { step: 3, instruction: { en: 'Combine and top with garnishes.', bg: 'Смесете и поръсете с гарнитура.' } }
+          ]
+        },
+        'JP-2': {
+          name: { en: 'Sushi', bg: 'Суши' },
+          country: { en: 'Japan', bg: 'Япония' },
+          flag: '🇯🇵',
+          description: { en: 'Vinegared rice with raw fish and vegetables.', bg: 'Ориз оцет със сурова риба и зеленчуци.' },
+          ingredients: [
+            { name: { en: 'Sushi rice', bg: 'Ориз за суши' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Raw salmon', bg: 'Сурова сьомга' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Nori sheets', bg: 'Листа нори' }, amount: '6', unit: { en: 'sheets', bg: 'листа' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Season rice with vinegar.', bg: 'Овкусете ориза с оцет.' } },
+            { step: 2, instruction: { en: 'Cut fish into strips.', bg: 'Нарежете рибата на ленти.' } },
+            { step: 3, instruction: { en: 'Roll with nori and cut pieces.', bg: 'Завийте с нори и нарежете на парчета.' } }
+          ]
+        },
+        'FR-1': {
+          name: { en: 'Ratatouille', bg: 'Рататуй' },
+          country: { en: 'France', bg: 'Франция' },
+          flag: '🇫🇷',
+          description: { en: 'Stewed vegetables in tomato-herb sauce.', bg: 'Задушени зеленчуци в доматен сос с подправки.' },
+          ingredients: [
+            { name: { en: 'Eggplant', bg: 'Патладжан' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Zucchini', bg: 'Тиквичка' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Tomatoes', bg: 'Домати' }, amount: '4', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Slice vegetables thinly.', bg: 'Нарежете зеленчуците на тънко.' } },
+            { step: 2, instruction: { en: 'Layer in baking dish with sauce.', bg: 'Подредете в тава със сос.' } },
+            { step: 3, instruction: { en: 'Bake until tender.', bg: 'Изпечете до омекване.' } }
+          ]
+        },
+        'FR-2': {
+          name: { en: 'Croissant', bg: 'Кроасан' },
+          country: { en: 'France', bg: 'Франция' },
+          flag: '🇫🇷',
+          description: { en: 'Buttery, flaky pastry perfect for breakfast.', bg: 'Маслено, слоесто тесто идеално за закуска.' },
+          ingredients: [
+            { name: { en: 'Flour', bg: 'Брашно' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Butter', bg: 'Масло' }, amount: '250', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Yeast', bg: 'Мая' }, amount: '10', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Prepare dough with butter layers.', bg: 'Подгответе тесто със слоеве масло.' } },
+            { step: 2, instruction: { en: 'Fold and roll multiple times.', bg: 'Сгънете и разточете няколко пъти.' } },
+            { step: 3, instruction: { en: 'Bake until golden and flaky.', bg: 'Изпечете до златисто и слоесто.' } }
+          ]
+        },
+        'MX-1': {
+          name: { en: 'Tacos', bg: 'Такос' },
+          country: { en: 'Mexico', bg: 'Мексико' },
+          flag: '🇲🇽',
+          description: { en: 'Warm tortillas with flavorful fillings.', bg: 'Топли тортили с вкусни пълнежи.' },
+          ingredients: [
+            { name: { en: 'Tortillas', bg: 'Тортили' }, amount: '8', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Ground beef', bg: 'Кайма' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Cheese', bg: 'Сирене' }, amount: '200', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Cook ground beef with spices.', bg: 'Сварете каймата с подправки.' } },
+            { step: 2, instruction: { en: 'Warm tortillas.', bg: 'Загрейте тортилите.' } },
+            { step: 3, instruction: { en: 'Fill tortillas and serve.', bg: 'Напълнете тортилите и сервирайте.' } }
+          ]
+        },
+        'MX-2': {
+          name: { en: 'Guacamole', bg: 'Гуакамоле' },
+          country: { en: 'Mexico', bg: 'Мексико' },
+          flag: '🇲🇽',
+          description: { en: 'Creamy avocado dip with lime and cilantro.', bg: 'Кремообразен дип от авокадо с лимон и кориандър.' },
+          ingredients: [
+            { name: { en: 'Avocados', bg: 'Авокадо' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Lime', bg: 'Лимон' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Cilantro', bg: 'Кориандър' }, amount: '1', unit: { en: 'bunch', bg: 'връзка' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Mash avocados with fork.', bg: 'Размачкайте авокадото с вилица.' } },
+            { step: 2, instruction: { en: 'Mix with lime juice and herbs.', bg: 'Смесете с лимонов сок и подправки.' } },
+            { step: 3, instruction: { en: 'Season and serve with chips.', bg: 'Овкусете и сервирайте с чипсове.' } }
+          ]
+        },
+        'IN-1': {
+          name: { en: 'Butter Chicken', bg: 'Пиле с масло' },
+          country: { en: 'India', bg: 'Индия' },
+          flag: '🇮🇳',
+          description: { en: 'Creamy tomato curry with tender chicken.', bg: 'Кремообразен къри с домати и меко пиле.' },
+          ingredients: [
+            { name: { en: 'Chicken', bg: 'Пиле' }, amount: '1', unit: { en: 'kg', bg: 'кг' } },
+            { name: { en: 'Tomato sauce', bg: 'Доматен сос' }, amount: '400', unit: { en: 'ml', bg: 'мл' } },
+            { name: { en: 'Cream', bg: 'Сметана' }, amount: '200', unit: { en: 'ml', bg: 'мл' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Marinate chicken in spices.', bg: 'Мариновайте пилето в подправки.' } },
+            { step: 2, instruction: { en: 'Cook in tomato sauce.', bg: 'Сварете в доматен сос.' } },
+            { step: 3, instruction: { en: 'Add cream and simmer.', bg: 'Добавете сметана и варете.' } }
+          ]
+        },
+        'IN-2': {
+          name: { en: 'Biryani', bg: 'Биряни' },
+          country: { en: 'India', bg: 'Индия' },
+          flag: '🇮🇳',
+          description: { en: 'Fragrant rice dish with spices and meat.', bg: 'Ароматно оризово ястие с подправки и месо.' },
+          ingredients: [
+            { name: { en: 'Basmati rice', bg: 'Ориз басмати' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Chicken', bg: 'Пиле' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Yogurt', bg: 'Кисело мляко' }, amount: '200', unit: { en: 'ml', bg: 'мл' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Cook rice until half done.', bg: 'Сварете ориза наполовина.' } },
+            { step: 2, instruction: { en: 'Layer rice and chicken.', bg: 'Подредете ориз и пиле на слоеве.' } },
+            { step: 3, instruction: { en: 'Steam until fully cooked.', bg: 'Задушете докато се сготви напълно.' } }
+          ]
+        },
+        'GR-1': {
+          name: { en: 'Souvlaki', bg: 'Сувлаки' },
+          country: { en: 'Greece', bg: 'Гърция' },
+          flag: '🇬🇷',
+          description: { en: 'Greek skewers with marinated grilled meat.', bg: 'Гръцки шишчета с мариновано печено месо.' },
+          ingredients: [
+            { name: { en: 'Pork', bg: 'Свинско месо' }, amount: '800', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Olive oil', bg: 'Зехтин' }, amount: '100', unit: { en: 'ml', bg: 'мл' } },
+            { name: { en: 'Lemon', bg: 'Лимон' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Marinate pork chunks overnight.', bg: 'Мариновайте парчета свинско за една нощ.' } },
+            { step: 2, instruction: { en: 'Thread onto skewers.', bg: 'Нанижете на шишчета.' } },
+            { step: 3, instruction: { en: 'Grill until charred and cooked.', bg: 'Печете докато станат хрупкави и сготвени.' } }
+          ]
+        },
+        'GR-2': {
+          name: { en: 'Greek Salad', bg: 'Гръцка салата' },
+          country: { en: 'Greece', bg: 'Гърция' },
+          flag: '🇬🇷',
+          description: { en: 'Fresh vegetables with feta cheese and olives.', bg: 'Свежи зеленчуци със сирене фета и маслини.' },
+          ingredients: [
+            { name: { en: 'Cucumber', bg: 'Краставица' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Tomatoes', bg: 'Домати' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Feta cheese', bg: 'Сирене фета' }, amount: '200', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Chop vegetables into chunks.', bg: 'Нарежете зеленчуците на парчета.' } },
+            { step: 2, instruction: { en: 'Add feta and olives.', bg: 'Добавете сирене и маслини.' } },
+            { step: 3, instruction: { en: 'Dress with olive oil and oregano.', bg: 'Овкусете със зехтин и риган.' } }
+          ]
+        },
+        'TR-1': {
+          name: { en: 'Menemen', bg: 'Менемен' },
+          country: { en: 'Turkey', bg: 'Турция' },
+          flag: '🇹🇷',
+          description: { en: 'Scrambled eggs with tomato and peppers.', bg: 'Разбъркани яйца с домати и чушки.' },
+          ingredients: [
+            { name: { en: 'Eggs', bg: 'Яйца' }, amount: '6', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Tomatoes', bg: 'Домати' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Green peppers', bg: 'Зелени чушки' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Sauté tomatoes and peppers.', bg: 'Задушете домати и чушки.' } },
+            { step: 2, instruction: { en: 'Add beaten eggs.', bg: 'Добавете разбити яйца.' } },
+            { step: 3, instruction: { en: 'Scramble until cooked.', bg: 'Разбъркайте докато се сготвят.' } }
+          ]
+        },
+        'TR-2': {
+          name: { en: 'Kebab', bg: 'Кебап' },
+          country: { en: 'Turkey', bg: 'Турция' },
+          flag: '🇹🇷',
+          description: { en: 'Grilled meat skewers with spices.', bg: 'Печени месни шишчета с подправки.' },
+          ingredients: [
+            { name: { en: 'Lamb', bg: 'Агнешко месо' }, amount: '1', unit: { en: 'kg', bg: 'кг' } },
+            { name: { en: 'Onions', bg: 'Лук' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Spices', bg: 'Подправки' }, amount: '50', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Marinate lamb with spices.', bg: 'Мариновайте агнешко с подправки.' } },
+            { step: 2, instruction: { en: 'Thread onto skewers.', bg: 'Нанижете на шишчета.' } },
+            { step: 3, instruction: { en: 'Grill over charcoal.', bg: 'Печете на въглища.' } }
+          ]
+        },
+        'CN-1': {
+          name: { en: 'Mapo Tofu', bg: 'Мапо тофу' },
+          country: { en: 'China', bg: 'Китай' },
+          flag: '🇨🇳',
+          description: { en: 'Spicy tofu with minced meat in savory sauce.', bg: 'Лютив тофу с кайма в ароматен сос.' },
+          ingredients: [
+            { name: { en: 'Tofu', bg: 'Тофу' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Pork', bg: 'Свинско месо' }, amount: '200', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Chili bean paste', bg: 'Лютива паста' }, amount: '2', unit: { en: 'tbsp', bg: 'лъжици' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Cube tofu and fry lightly.', bg: 'Нарежете тофу на кубчета и запържете леко.' } },
+            { step: 2, instruction: { en: 'Cook pork with spices.', bg: 'Сварете свинско с подправки.' } },
+            { step: 3, instruction: { en: 'Combine and simmer in sauce.', bg: 'Смесете и варете в сос.' } }
+          ]
+        },
+        'CN-2': {
+          name: { en: 'Dumplings', bg: 'Пелмени' },
+          country: { en: 'China', bg: 'Китай' },
+          flag: '🇨🇳',
+          description: { en: 'Steamed or fried pockets with savory filling.', bg: 'Задушени или пържени пълнежи с вкусна плънка.' },
+          ingredients: [
+            { name: { en: 'Flour', bg: 'Брашно' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Ground pork', bg: 'Свинска кайма' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Cabbage', bg: 'Зеле' }, amount: '200', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Make dough and roll thin.', bg: 'Направете тесто и разточете на тънко.' } },
+            { step: 2, instruction: { en: 'Fill with pork mixture.', bg: 'Напълнете със свинска смес.' } },
+            { step: 3, instruction: { en: 'Steam or fry until cooked.', bg: 'Задушете или пържете докато се сготвят.' } }
+          ]
+        },
+        'ES-1': {
+          name: { en: 'Tortilla Espanola', bg: 'Испанска тортиля' },
+          country: { en: 'Spain', bg: 'Испания' },
+          flag: '🇪🇸',
+          description: { en: 'Spanish omelette with potatoes and onions.', bg: 'Испанска омлет с картофи и лук.' },
+          ingredients: [
+            { name: { en: 'Potatoes', bg: 'Картофи' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Eggs', bg: 'Яйца' }, amount: '6', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Onions', bg: 'Лук' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Slice and fry potatoes.', bg: 'Нарежете и запържете картофите.' } },
+            { step: 2, instruction: { en: 'Beat eggs and mix with potatoes.', bg: 'Разбийте яйца и смесете с картофи.' } },
+            { step: 3, instruction: { en: 'Cook in pan until set.', bg: 'Сварете в тава докато се сгъсти.' } }
+          ]
+        },
+        'ES-2': {
+          name: { en: 'Paella', bg: 'Пайеля' },
+          country: { en: 'Spain', bg: 'Испания' },
+          flag: '🇪🇸',
+          description: { en: 'Saffron rice with seafood and vegetables.', bg: 'Ориз със шафран, морски дарове и зеленчуци.' },
+          ingredients: [
+            { name: { en: 'Rice', bg: 'Ориз' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Shrimp', bg: 'Шримп' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Saffron', bg: 'Шафран' }, amount: '1', unit: { en: 'tsp', bg: 'ч.л.' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Toast rice in paella pan.', bg: 'Запържете ориз в паяля тава.' } },
+            { step: 2, instruction: { en: 'Add broth and saffron.', bg: 'Добавете бульон и шафран.' } },
+            { step: 3, instruction: { en: 'Top with seafood and cook.', bg: 'Поръсете с морски дарове и сварете.' } }
+          ]
         }
       };
       
@@ -784,6 +1244,326 @@
             { step: 2, instruction: { en: 'Add sauce and toppings.', bg: 'Добавете сос и топинги.' } },
             { step: 3, instruction: { en: 'Bake at high temperature.', bg: 'Изпечете на висока температура.' } }
           ]
+        },
+        'JP-1': {
+          name: { en: 'Ramen', bg: 'Рамен' },
+          country: { en: 'Japan', bg: 'Япония' },
+          flag: '🇯🇵',
+          description: { en: 'Noodle soup with savory broth and toppings.', bg: 'Суп с юфка и ароматен бульон с добавки.' },
+          image: 'https://picsum.photos/seed/JP-1/640/420',
+          prepTime: '30 min',
+          cookTime: '25 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Ramen noodles', bg: 'Юфка за рамен' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Pork broth', bg: 'Свински бульон' }, amount: '1', unit: { en: 'liter', bg: 'литър' } },
+            { name: { en: 'Green onions', bg: 'Зелен лук' }, amount: '3', unit: { en: 'stalks', bg: 'стъбла' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Prepare broth with pork bones.', bg: 'Подгответе бульон със свински кости.' } },
+            { step: 2, instruction: { en: 'Cook noodles separately.', bg: 'Сварете юфката отделно.' } },
+            { step: 3, instruction: { en: 'Combine and top with garnishes.', bg: 'Смесете и поръсете с гарнитура.' } }
+          ]
+        },
+        'JP-2': {
+          name: { en: 'Sushi', bg: 'Суши' },
+          country: { en: 'Japan', bg: 'Япония' },
+          flag: '🇯🇵',
+          description: { en: 'Vinegared rice with raw fish and vegetables.', bg: 'Ориз оцет със сурова риба и зеленчуци.' },
+          image: 'https://picsum.photos/seed/JP-2/640/420',
+          prepTime: '45 min',
+          cookTime: '0 min',
+          servings: 6,
+          ingredients: [
+            { name: { en: 'Sushi rice', bg: 'Ориз за суши' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Raw salmon', bg: 'Сурова сьомга' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Nori sheets', bg: 'Листа нори' }, amount: '6', unit: { en: 'sheets', bg: 'листа' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Season rice with vinegar.', bg: 'Овкусете ориза с оцет.' } },
+            { step: 2, instruction: { en: 'Cut fish into strips.', bg: 'Нарежете рибата на ленти.' } },
+            { step: 3, instruction: { en: 'Roll with nori and cut pieces.', bg: 'Завийте с нори и нарежете на парчета.' } }
+          ]
+        },
+        'FR-1': {
+          name: { en: 'Ratatouille', bg: 'Рататуй' },
+          country: { en: 'France', bg: 'Франция' },
+          flag: '🇫🇷',
+          description: { en: 'Stewed vegetables in tomato-herb sauce.', bg: 'Задушени зеленчуци в доматен сос с подправки.' },
+          image: 'https://picsum.photos/seed/FR-1/640/420',
+          prepTime: '15 min',
+          cookTime: '45 min',
+          servings: 6,
+          ingredients: [
+            { name: { en: 'Eggplant', bg: 'Патладжан' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Zucchini', bg: 'Тиквичка' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Tomatoes', bg: 'Домати' }, amount: '4', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Slice vegetables thinly.', bg: 'Нарежете зеленчуците на тънко.' } },
+            { step: 2, instruction: { en: 'Layer in baking dish with sauce.', bg: 'Подредете в тава със сос.' } },
+            { step: 3, instruction: { en: 'Bake until tender.', bg: 'Изпечете до омекване.' } }
+          ]
+        },
+        'FR-2': {
+          name: { en: 'Croissant', bg: 'Кроасан' },
+          country: { en: 'France', bg: 'Франция' },
+          flag: '🇫🇷',
+          description: { en: 'Buttery, flaky pastry perfect for breakfast.', bg: 'Маслено, слоесто тесто идеално за закуска.' },
+          image: 'https://picsum.photos/seed/FR-2/640/420',
+          prepTime: '4 hours',
+          cookTime: '15 min',
+          servings: 8,
+          ingredients: [
+            { name: { en: 'Flour', bg: 'Брашно' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Butter', bg: 'Масло' }, amount: '250', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Yeast', bg: 'Мая' }, amount: '10', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Prepare dough with butter layers.', bg: 'Подгответе тесто със слоеве масло.' } },
+            { step: 2, instruction: { en: 'Fold and roll multiple times.', bg: 'Сгънете и разточете няколко пъти.' } },
+            { step: 3, instruction: { en: 'Bake until golden and flaky.', bg: 'Изпечете до златисто и слоесто.' } }
+          ]
+        },
+        'MX-1': {
+          name: { en: 'Tacos', bg: 'Такос' },
+          country: { en: 'Mexico', bg: 'Мексико' },
+          flag: '🇲🇽',
+          description: { en: 'Warm tortillas with flavorful fillings.', bg: 'Топли тортили с вкусни пълнежи.' },
+          image: 'https://picsum.photos/seed/MX-1/640/420',
+          prepTime: '20 min',
+          cookTime: '15 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Tortillas', bg: 'Тортили' }, amount: '8', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Ground beef', bg: 'Кайма' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Cheese', bg: 'Сирене' }, amount: '200', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Cook ground beef with spices.', bg: 'Сварете каймата с подправки.' } },
+            { step: 2, instruction: { en: 'Warm tortillas.', bg: 'Загрейте тортилите.' } },
+            { step: 3, instruction: { en: 'Fill tortillas and serve.', bg: 'Напълнете тортилите и сервирайте.' } }
+          ]
+        },
+        'MX-2': {
+          name: { en: 'Guacamole', bg: 'Гуакамоле' },
+          country: { en: 'Mexico', bg: 'Мексико' },
+          flag: '🇲🇽',
+          description: { en: 'Creamy avocado dip with lime and cilantro.', bg: 'Кремообразен дип от авокадо с лимон и кориандър.' },
+          image: 'https://picsum.photos/seed/MX-2/640/420',
+          prepTime: '10 min',
+          cookTime: '0 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Avocados', bg: 'Авокадо' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Lime', bg: 'Лимон' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Cilantro', bg: 'Кориандър' }, amount: '1', unit: { en: 'bunch', bg: 'връзка' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Mash avocados with fork.', bg: 'Размачкайте авокадото с вилица.' } },
+            { step: 2, instruction: { en: 'Mix with lime juice and herbs.', bg: 'Смесете с лимонов сок и подправки.' } },
+            { step: 3, instruction: { en: 'Season and serve with chips.', bg: 'Овкусете и сервирайте с чипсове.' } }
+          ]
+        },
+        'IN-1': {
+          name: { en: 'Butter Chicken', bg: 'Пиле с масло' },
+          country: { en: 'India', bg: 'Индия' },
+          flag: '🇮🇳',
+          description: { en: 'Creamy tomato curry with tender chicken.', bg: 'Кремообразен къри с домати и меко пиле.' },
+          image: 'https://picsum.photos/seed/IN-1/640/420',
+          prepTime: '30 min',
+          cookTime: '40 min',
+          servings: 6,
+          ingredients: [
+            { name: { en: 'Chicken', bg: 'Пиле' }, amount: '1', unit: { en: 'kg', bg: 'кг' } },
+            { name: { en: 'Tomato sauce', bg: 'Доматен сос' }, amount: '400', unit: { en: 'ml', bg: 'мл' } },
+            { name: { en: 'Cream', bg: 'Сметана' }, amount: '200', unit: { en: 'ml', bg: 'мл' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Marinate chicken in spices.', bg: 'Мариновайте пилето в подправки.' } },
+            { step: 2, instruction: { en: 'Cook in tomato sauce.', bg: 'Сварете в доматен сос.' } },
+            { step: 3, instruction: { en: 'Add cream and simmer.', bg: 'Добавете сметана и варете.' } }
+          ]
+        },
+        'IN-2': {
+          name: { en: 'Biryani', bg: 'Биряни' },
+          country: { en: 'India', bg: 'Индия' },
+          flag: '🇮🇳',
+          description: { en: 'Fragrant rice dish with spices and meat.', bg: 'Ароматно оризово ястие с подправки и месо.' },
+          image: 'https://picsum.photos/seed/IN-2/640/420',
+          prepTime: '45 min',
+          cookTime: '30 min',
+          servings: 8,
+          ingredients: [
+            { name: { en: 'Basmati rice', bg: 'Ориз басмати' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Chicken', bg: 'Пиле' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Yogurt', bg: 'Кисело мляко' }, amount: '200', unit: { en: 'ml', bg: 'мл' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Cook rice until half done.', bg: 'Сварете ориза наполовина.' } },
+            { step: 2, instruction: { en: 'Layer rice and chicken.', bg: 'Подредете ориз и пиле на слоеве.' } },
+            { step: 3, instruction: { en: 'Steam until fully cooked.', bg: 'Задушете докато се сготви напълно.' } }
+          ]
+        },
+        'GR-1': {
+          name: { en: 'Souvlaki', bg: 'Сувлаки' },
+          country: { en: 'Greece', bg: 'Гърция' },
+          flag: '🇬🇷',
+          description: { en: 'Greek skewers with marinated grilled meat.', bg: 'Гръцки шишчета с мариновано печено месо.' },
+          image: 'https://picsum.photos/seed/GR-1/640/420',
+          prepTime: '2 hours',
+          cookTime: '20 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Pork', bg: 'Свинско месо' }, amount: '800', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Olive oil', bg: 'Зехтин' }, amount: '100', unit: { en: 'ml', bg: 'мл' } },
+            { name: { en: 'Lemon', bg: 'Лимон' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Marinate pork chunks overnight.', bg: 'Мариновайте парчета свинско за една нощ.' } },
+            { step: 2, instruction: { en: 'Thread onto skewers.', bg: 'Нанижете на шишчета.' } },
+            { step: 3, instruction: { en: 'Grill until charred and cooked.', bg: 'Печете докато станат хрупкави и сготвени.' } }
+          ]
+        },
+        'GR-2': {
+          name: { en: 'Greek Salad', bg: 'Гръцка салата' },
+          country: { en: 'Greece', bg: 'Гърция' },
+          flag: '🇬🇷',
+          description: { en: 'Fresh vegetables with feta cheese and olives.', bg: 'Свежи зеленчуци със сирене фета и маслини.' },
+          image: 'https://picsum.photos/seed/GR-2/640/420',
+          prepTime: '15 min',
+          cookTime: '0 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Cucumber', bg: 'Краставица' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Tomatoes', bg: 'Домати' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Feta cheese', bg: 'Сирене фета' }, amount: '200', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Chop vegetables into chunks.', bg: 'Нарежете зеленчуците на парчета.' } },
+            { step: 2, instruction: { en: 'Add feta and olives.', bg: 'Добавете сирене и маслини.' } },
+            { step: 3, instruction: { en: 'Dress with olive oil and oregano.', bg: 'Овкусете със зехтин и риган.' } }
+          ]
+        },
+        'TR-1': {
+          name: { en: 'Menemen', bg: 'Менемен' },
+          country: { en: 'Turkey', bg: 'Турция' },
+          flag: '🇹🇷',
+          description: { en: 'Scrambled eggs with tomato and peppers.', bg: 'Разбъркани яйца с домати и чушки.' },
+          image: 'https://picsum.photos/seed/TR-1/640/420',
+          prepTime: '10 min',
+          cookTime: '15 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Eggs', bg: 'Яйца' }, amount: '6', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Tomatoes', bg: 'Домати' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Green peppers', bg: 'Зелени чушки' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Sauté tomatoes and peppers.', bg: 'Задушете домати и чушки.' } },
+            { step: 2, instruction: { en: 'Add beaten eggs.', bg: 'Добавете разбити яйца.' } },
+            { step: 3, instruction: { en: 'Scramble until cooked.', bg: 'Разбъркайте докато се сготвят.' } }
+          ]
+        },
+        'TR-2': {
+          name: { en: 'Kebab', bg: 'Кебап' },
+          country: { en: 'Turkey', bg: 'Турция' },
+          flag: '🇹🇷',
+          description: { en: 'Grilled meat skewers with spices.', bg: 'Печени месни шишчета с подправки.' },
+          image: 'https://picsum.photos/seed/TR-2/640/420',
+          prepTime: '4 hours',
+          cookTime: '20 min',
+          servings: 6,
+          ingredients: [
+            { name: { en: 'Lamb', bg: 'Агнешко месо' }, amount: '1', unit: { en: 'kg', bg: 'кг' } },
+            { name: { en: 'Onions', bg: 'Лук' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Spices', bg: 'Подправки' }, amount: '50', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Marinate lamb with spices.', bg: 'Мариновайте агнешко с подправки.' } },
+            { step: 2, instruction: { en: 'Thread onto skewers.', bg: 'Нанижете на шишчета.' } },
+            { step: 3, instruction: { en: 'Grill over charcoal.', bg: 'Печете на въглища.' } }
+          ]
+        },
+        'CN-1': {
+          name: { en: 'Mapo Tofu', bg: 'Мапо тофу' },
+          country: { en: 'China', bg: 'Китай' },
+          flag: '🇨🇳',
+          description: { en: 'Spicy tofu with minced meat in savory sauce.', bg: 'Лютив тофу с кайма в ароматен сос.' },
+          image: 'https://picsum.photos/seed/CN-1/640/420',
+          prepTime: '15 min',
+          cookTime: '20 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Tofu', bg: 'Тофу' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Pork', bg: 'Свинско месо' }, amount: '200', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Chili bean paste', bg: 'Лютива паста' }, amount: '2', unit: { en: 'tbsp', bg: 'лъжици' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Cube tofu and fry lightly.', bg: 'Нарежете тофу на кубчета и запържете леко.' } },
+            { step: 2, instruction: { en: 'Cook pork with spices.', bg: 'Сварете свинско с подправки.' } },
+            { step: 3, instruction: { en: 'Combine and simmer in sauce.', bg: 'Смесете и варете в сос.' } }
+          ]
+        },
+        'CN-2': {
+          name: { en: 'Dumplings', bg: 'Пелмени' },
+          country: { en: 'China', bg: 'Китай' },
+          flag: '🇨🇳',
+          description: { en: 'Steamed or fried pockets with savory filling.', bg: 'Задушени или пържени пълнежи с вкусна плънка.' },
+          image: 'https://picsum.photos/seed/CN-2/640/420',
+          prepTime: '1 hour',
+          cookTime: '15 min',
+          servings: 6,
+          ingredients: [
+            { name: { en: 'Flour', bg: 'Брашно' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Ground pork', bg: 'Свинска кайма' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Cabbage', bg: 'Зеле' }, amount: '200', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Make dough and roll thin.', bg: 'Направете тесто и разточете на тънко.' } },
+            { step: 2, instruction: { en: 'Fill with pork mixture.', bg: 'Напълнете със свинска смес.' } },
+            { step: 3, instruction: { en: 'Steam or fry until cooked.', bg: 'Задушете или пържете докато се сготвят.' } }
+          ]
+        },
+        'ES-1': {
+          name: { en: 'Tortilla Espanola', bg: 'Испанска тортиля' },
+          country: { en: 'Spain', bg: 'Испания' },
+          flag: '🇪🇸',
+          description: { en: 'Spanish omelette with potatoes and onions.', bg: 'Испанска омлет с картофи и лук.' },
+          image: 'https://picsum.photos/seed/ES-1/640/420',
+          prepTime: '15 min',
+          cookTime: '25 min',
+          servings: 6,
+          ingredients: [
+            { name: { en: 'Potatoes', bg: 'Картофи' }, amount: '500', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Eggs', bg: 'Яйца' }, amount: '6', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Onions', bg: 'Лук' }, amount: '2', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Slice and fry potatoes.', bg: 'Нарежете и запържете картофите.' } },
+            { step: 2, instruction: { en: 'Beat eggs and mix with potatoes.', bg: 'Разбийте яйца и смесете с картофи.' } },
+            { step: 3, instruction: { en: 'Cook in pan until set.', bg: 'Сварете в тава докато се сгъсти.' } }
+          ]
+        },
+        'ES-2': {
+          name: { en: 'Paella', bg: 'Пайеля' },
+          country: { en: 'Spain', bg: 'Испания' },
+          flag: '🇪🇸',
+          description: { en: 'Saffron rice with seafood and vegetables.', bg: 'Ориз със шафран, морски дарове и зеленчуци.' },
+          image: 'https://picsum.photos/seed/ES-2/640/420',
+          prepTime: '20 min',
+          cookTime: '30 min',
+          servings: 8,
+          ingredients: [
+            { name: { en: 'Rice', bg: 'Ориз' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Shrimp', bg: 'Шримп' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Saffron', bg: 'Шафран' }, amount: '1', unit: { en: 'tsp', bg: 'ч.л.' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Toast rice in paella pan.', bg: 'Запържете ориз в паяля тава.' } },
+            { step: 2, instruction: { en: 'Add broth and saffron.', bg: 'Добавете бульон и шафран.' } },
+            { step: 3, instruction: { en: 'Top with seafood and cook.', bg: 'Поръсете с морски дарове и сварете.' } }
+          ]
         }
       };
       
@@ -838,11 +1618,20 @@
       currentRecipeId = null;
     }
     
-    // Add back button click handler
+    // Add event listeners
     document.addEventListener('DOMContentLoaded', function() {
       const backBtn = document.getElementById('backToGridBtn');
       if (backBtn) {
         backBtn.addEventListener('click', showGridView);
+      }
+      
+      const randomRecipeBtn = document.getElementById('randomRecipeBtn');
+      if (randomRecipeBtn) {
+        randomRecipeBtn.addEventListener('click', function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          showRandomRecipe();
+        });
       }
     });
     
