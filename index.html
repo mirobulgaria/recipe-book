@@ -12,7 +12,7 @@
       <span class="brand-logo" aria-hidden="true">🍽️</span>
       <span class="brand-name" data-i18n="appName">My International Kitchen</span>
     </div>
-    <button id="languageToggle" class="lang-toggle" type="button" aria-label="Switch language">
+    <button id="languageToggle" class="lang-toggle" type="button" aria-label="Switch language" onclick="toggleLanguage()">
       EN / BG
     </button>
   </header>
@@ -98,120 +98,120 @@
           <article class="recipe-card" data-country="BG">
             <img class="recipe-image" src="https://picsum.photos/seed/BG-1/640/420" alt="Banitsa" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Banitsa</h3>
+              <h3 data-en="Banitsa" data-bg="Баница">Banitsa</h3>
               <span class="country-pill">🇧🇬 Bulgaria</span>
             </div>
-            <p class="recipe-description">Layered pastry with eggs and white cheese.</p>
+            <p class="recipe-description" data-en="Layered pastry with eggs and white cheese." data-bg="Традиционна баница с яйца и сирене.">Layered pastry with eggs and white cheese.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="BG-1">View Details</button>
+              <button class="details-btn" type="button" data-id="BG-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('BG-1')">View Details</button>
             </div>
           </article>
           
           <article class="recipe-card" data-country="BG">
             <img class="recipe-image" src="https://picsum.photos/seed/BG-2/640/420" alt="Shopska Salad" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Shopska Salad</h3>
+              <h3 data-en="Shopska Salad" data-bg="Шопска салата">Shopska Salad</h3>
               <span class="country-pill">🇧🇬 Bulgaria</span>
             </div>
-            <p class="recipe-description">Fresh tomato-cucumber salad with white cheese.</p>
+            <p class="recipe-description" data-en="Fresh tomato-cucumber salad with white cheese." data-bg="Свежа салата с домати, краставици и сирене.">Fresh tomato-cucumber salad with white cheese.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="BG-2">View Details</button>
+              <button class="details-btn" type="button" data-id="BG-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('BG-2')">View Details</button>
             </div>
           </article>
           
           <article class="recipe-card" data-country="IT">
             <img class="recipe-image" src="https://picsum.photos/seed/IT-1/640/420" alt="Carbonara" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Carbonara</h3>
+              <h3 data-en="Carbonara" data-bg="Карбонара">Carbonara</h3>
               <span class="country-pill">🇮🇹 Italy</span>
             </div>
-            <p class="recipe-description">Classic pasta with egg, cheese, and pancetta.</p>
+            <p class="recipe-description" data-en="Classic pasta with egg, cheese, and pancetta." data-bg="Класическа паста с яйца, сирене и панчета.">Classic pasta with egg, cheese, and pancetta.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="IT-1">View Details</button>
+              <button class="details-btn" type="button" data-id="IT-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('IT-1')">View Details</button>
             </div>
           </article>
           
           <article class="recipe-card" data-country="IT">
             <img class="recipe-image" src="https://picsum.photos/seed/IT-2/640/420" alt="Margherita Pizza" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Margherita Pizza</h3>
+              <h3 data-en="Margherita Pizza" data-bg="Пица Маргарита">Margherita Pizza</h3>
               <span class="country-pill">🇮🇹 Italy</span>
             </div>
-            <p class="recipe-description">Classic pizza with tomato, mozzarella, and basil.</p>
+            <p class="recipe-description" data-en="Classic pizza with tomato, mozzarella, and basil." data-bg="Класическа пица с домати, моцарела и босилек.">Classic pizza with tomato, mozzarella, and basil.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="IT-2">View Details</button>
+              <button class="details-btn" type="button" data-id="IT-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('IT-2')">View Details</button>
             </div>
           </article>
           
           <article class="recipe-card" data-country="JP">
             <img class="recipe-image" src="https://picsum.photos/seed/JP-1/640/420" alt="Ramen" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Ramen</h3>
+              <h3 data-en="Ramen" data-bg="Рамен">Ramen</h3>
               <span class="country-pill">🇯🇵 Japan</span>
             </div>
-            <p class="recipe-description">Noodle soup with savory broth and toppings.</p>
+            <p class="recipe-description" data-en="Noodle soup with savory broth and toppings." data-bg="Суп с юфка и ароматен бульон с добавки.">Noodle soup with savory broth and toppings.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="JP-1">View Details</button>
+              <button class="details-btn" type="button" data-id="JP-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('JP-1')">View Details</button>
             </div>
           </article>
           
           <article class="recipe-card" data-country="JP">
             <img class="recipe-image" src="https://picsum.photos/seed/JP-2/640/420" alt="Sushi" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Sushi</h3>
+              <h3 data-en="Sushi" data-bg="Суши">Sushi</h3>
               <span class="country-pill">🇯🇵 Japan</span>
             </div>
-            <p class="recipe-description">Vinegared rice with raw fish and vegetables.</p>
+            <p class="recipe-description" data-en="Vinegared rice with raw fish and vegetables." data-bg="Ориз оцет със сурова риба и зеленчуци.">Vinegared rice with raw fish and vegetables.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="JP-2">View Details</button>
+              <button class="details-btn" type="button" data-id="JP-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('JP-2')">View Details</button>
             </div>
           </article>
           
           <article class="recipe-card" data-country="FR">
             <img class="recipe-image" src="https://picsum.photos/seed/FR-1/640/420" alt="Ratatouille" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Ratatouille</h3>
+              <h3 data-en="Ratatouille" data-bg="Рататуй">Ratatouille</h3>
               <span class="country-pill">🇫🇷 France</span>
             </div>
-            <p class="recipe-description">Stewed vegetables in tomato-herb sauce.</p>
+            <p class="recipe-description" data-en="Stewed vegetables in tomato-herb sauce." data-bg="Задушени зеленчуци в доматен сос с подправки.">Stewed vegetables in tomato-herb sauce.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="FR-1">View Details</button>
+              <button class="details-btn" type="button" data-id="FR-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('FR-1')">View Details</button>
             </div>
           </article>
           
           <article class="recipe-card" data-country="FR">
             <img class="recipe-image" src="https://picsum.photos/seed/FR-2/640/420" alt="Croissant" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Croissant</h3>
+              <h3 data-en="Croissant" data-bg="Кроасан">Croissant</h3>
               <span class="country-pill">🇫🇷 France</span>
             </div>
-            <p class="recipe-description">Buttery, flaky pastry perfect for breakfast.</p>
+            <p class="recipe-description" data-en="Buttery, flaky pastry perfect for breakfast." data-bg="Маслено, слоесто тесто идеално за закуска.">Buttery, flaky pastry perfect for breakfast.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="FR-2">View Details</button>
+              <button class="details-btn" type="button" data-id="FR-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('FR-2')">View Details</button>
             </div>
           </article>
           
           <article class="recipe-card" data-country="MX">
             <img class="recipe-image" src="https://picsum.photos/seed/MX-1/640/420" alt="Tacos" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Tacos</h3>
+              <h3 data-en="Tacos" data-bg="Такос">Tacos</h3>
               <span class="country-pill">🇲🇽 Mexico</span>
             </div>
-            <p class="recipe-description">Warm tortillas with flavorful fillings.</p>
+            <p class="recipe-description" data-en="Warm tortillas with flavorful fillings." data-bg="Топли тортили с вкусни пълнежи.">Warm tortillas with flavorful fillings.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="MX-1">View Details</button>
+              <button class="details-btn" type="button" data-id="MX-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('MX-1')">View Details</button>
             </div>
           </article>
           
           <article class="recipe-card" data-country="MX">
             <img class="recipe-image" src="https://picsum.photos/seed/MX-2/640/420" alt="Guacamole" loading="lazy" />
             <div class="recipe-meta">
-              <h3>Guacamole</h3>
+              <h3 data-en="Guacamole" data-bg="Гуакамоле">Guacamole</h3>
               <span class="country-pill">🇲🇽 Mexico</span>
             </div>
-            <p class="recipe-description">Creamy avocado dip with lime and cilantro.</p>
+            <p class="recipe-description" data-en="Creamy avocado dip with lime and cilantro." data-bg="Кремообразен дип от авокадо с лимон и кориандър.">Creamy avocado dip with lime and cilantro.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="MX-2">View Details</button>
+              <button class="details-btn" type="button" data-id="MX-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('MX-2')">View Details</button>
             </div>
           </article>
           
@@ -223,7 +223,7 @@
             </div>
             <p class="recipe-description">Creamy tomato curry with tender chicken.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="IN-1">View Details</button>
+              <button class="details-btn" type="button" data-id="IN-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('IN-1')">View Details</button>
             </div>
           </article>
           
@@ -235,7 +235,7 @@
             </div>
             <p class="recipe-description">Fragrant rice dish with spices and meat.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="IN-2">View Details</button>
+              <button class="details-btn" type="button" data-id="IN-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('IN-2')">View Details</button>
             </div>
           </article>
           
@@ -247,7 +247,7 @@
             </div>
             <p class="recipe-description">Greek skewers with marinated grilled meat.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="GR-1">View Details</button>
+              <button class="details-btn" type="button" data-id="GR-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('GR-1')">View Details</button>
             </div>
           </article>
           
@@ -259,7 +259,7 @@
             </div>
             <p class="recipe-description">Fresh vegetables with feta cheese and olives.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="GR-2">View Details</button>
+              <button class="details-btn" type="button" data-id="GR-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('GR-2')">View Details</button>
             </div>
           </article>
           
@@ -271,7 +271,7 @@
             </div>
             <p class="recipe-description">Scrambled eggs with tomato and peppers.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="TR-1">View Details</button>
+              <button class="details-btn" type="button" data-id="TR-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('TR-1')">View Details</button>
             </div>
           </article>
           
@@ -283,7 +283,7 @@
             </div>
             <p class="recipe-description">Grilled meat skewers with spices.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="TR-2">View Details</button>
+              <button class="details-btn" type="button" data-id="TR-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('TR-2')">View Details</button>
             </div>
           </article>
           
@@ -295,7 +295,7 @@
             </div>
             <p class="recipe-description">Spicy tofu with minced meat in savory sauce.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="CN-1">View Details</button>
+              <button class="details-btn" type="button" data-id="CN-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('CN-1')">View Details</button>
             </div>
           </article>
           
@@ -307,7 +307,7 @@
             </div>
             <p class="recipe-description">Steamed or fried pockets with savory filling.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="CN-2">View Details</button>
+              <button class="details-btn" type="button" data-id="CN-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('CN-2')">View Details</button>
             </div>
           </article>
           
@@ -319,7 +319,7 @@
             </div>
             <p class="recipe-description">Spanish omelette with potatoes and onions.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="ES-1">View Details</button>
+              <button class="details-btn" type="button" data-id="ES-1" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('ES-1')">View Details</button>
             </div>
           </article>
           
@@ -331,7 +331,7 @@
             </div>
             <p class="recipe-description">Saffron rice with seafood and vegetables.</p>
             <div class="editor-actions">
-              <button class="details-btn" type="button" data-id="ES-2">View Details</button>
+              <button class="details-btn" type="button" data-id="ES-2" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('ES-2')">View Details</button>
             </div>
           </article>
         </div>
@@ -405,9 +405,403 @@
       resultsInfo.textContent = 'Showing ' + visibleCount + ' recipes';
     }
     
+    // Language toggle function
+    function toggleLanguage() {
+      console.log('Language toggle clicked');
+      const currentLang = document.documentElement.lang || 'en';
+      const newLang = currentLang === 'en' ? 'bg' : 'en';
+      
+      console.log('Switching from', currentLang, 'to', newLang);
+      
+      // Update document language
+      document.documentElement.lang = newLang;
+      
+      // Define translations
+      const translations = {
+        en: {
+          appName: "My International Kitchen",
+          heroTitle: "Discover Recipes From Around the World",
+          heroSubtitle: "Pick a country and search by dish or ingredient.",
+          countryLabel: "Country",
+          searchLabel: "Search",
+          searchPlaceholder: "Dish name or ingredient",
+          recipesTitle: "Recipe Collection",
+          allCountries: "All countries",
+          ingredientsTitle: "Ingredients",
+          instructionsTitle: "Instructions",
+          prepTime: "Prep",
+          cookTime: "Cook",
+          servings: "Servings",
+          qty: "Qty",
+          unit: "Unit",
+          ingredient: "Ingredient",
+          check: "Check",
+          backToRecipes: "Back to recipes"
+        },
+        bg: {
+          appName: "Моята интернационална кухня",
+          heroTitle: "Открий рецепти от цял свят",
+          heroSubtitle: "Избери държава и търси по ястие или съставка.",
+          countryLabel: "Държава",
+          searchLabel: "Търсене",
+          searchPlaceholder: "Име на ястие или съставка",
+          recipesTitle: "Колекция Рецепти",
+          allCountries: "Всички държави",
+          ingredientsTitle: "Съставки",
+          instructionsTitle: "Инструкции",
+          prepTime: "Подготовка",
+          cookTime: "Готвене",
+          servings: "Порции",
+          qty: "Количество",
+          unit: "Мярка",
+          ingredient: "Съставка",
+          check: "Отметка",
+          backToRecipes: "Назад към рецептите"
+        }
+      };
+      
+      // Update all elements with data-i18n attribute
+      document.querySelectorAll('[data-i18n]').forEach(function(element) {
+        const key = element.getAttribute('data-i18n');
+        if (translations[newLang][key]) {
+          element.textContent = translations[newLang][key];
+        }
+      });
+      
+      // Update recipe cards with data-en and data-bg attributes
+      document.querySelectorAll('[data-en][data-bg]').forEach(function(element) {
+        const translation = element.getAttribute('data-' + newLang);
+        if (translation) {
+          element.textContent = translation;
+        }
+      });
+      
+      // Update search placeholder
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.placeholder = translations[newLang].searchPlaceholder;
+      }
+      
+      // Update country dropdown
+      const countrySelect = document.getElementById('countrySelect');
+      if (countrySelect) {
+        const allOption = countrySelect.querySelector('option[value="all"]');
+        if (allOption) {
+          allOption.textContent = translations[newLang].allCountries;
+        }
+      }
+      
+      // Update recipe details if visible
+      const detailView = document.getElementById('detailView');
+      if (detailView && !detailView.classList.contains('hidden')) {
+        const detailTitle = document.getElementById('detailTitle');
+        const detailCountry = document.getElementById('detailCountry');
+        const detailDescription = document.getElementById('detailDescription');
+        
+        // Update cooking labels
+        document.querySelectorAll('[data-i18n="prepTime"]').forEach(function(el) {
+          el.textContent = translations[newLang].prepTime;
+        });
+        document.querySelectorAll('[data-i18n="cookTime"]').forEach(function(el) {
+          el.textContent = translations[newLang].cookTime;
+        });
+        document.querySelectorAll('[data-i18n="servings"]').forEach(function(el) {
+          el.textContent = translations[newLang].servings;
+        });
+        
+        // Update section titles
+        document.querySelectorAll('[data-i18n="ingredientsTitle"]').forEach(function(el) {
+          el.textContent = translations[newLang].ingredientsTitle;
+        });
+        document.querySelectorAll('[data-i18n="instructionsTitle"]').forEach(function(el) {
+          el.textContent = translations[newLang].instructionsTitle;
+        });
+        
+        // Update column headers
+        document.querySelectorAll('[data-i18n="qty"]').forEach(function(el) {
+          el.textContent = translations[newLang].qty;
+        });
+        document.querySelectorAll('[data-i18n="unit"]').forEach(function(el) {
+          el.textContent = translations[newLang].unit;
+        });
+        document.querySelectorAll('[data-i18n="ingredient"]').forEach(function(el) {
+          el.textContent = translations[newLang].ingredient;
+        });
+        document.querySelectorAll('[data-i18n="check"]').forEach(function(el) {
+          el.textContent = translations[newLang].check;
+        });
+        document.querySelectorAll('[data-i18n="backToRecipes"]').forEach(function(el) {
+          el.textContent = translations[newLang].backToRecipes;
+        });
+        
+        // Get current recipe data from the detail view
+        const currentRecipeId = getCurrentRecipeId();
+        if (currentRecipeId) {
+          updateRecipeDetailLanguage(currentRecipeId, newLang);
+        }
+      }
+      
+      console.log('Language switched to', newLang);
+    }
+    
+    // Track current recipe ID
+    let currentRecipeId = null;
+    
+    // Function to get current recipe ID
+    function getCurrentRecipeId() {
+      return currentRecipeId;
+    }
+    
+    // Function to update recipe detail language
+    function updateRecipeDetailLanguage(recipeId, language) {
+      const recipes = {
+        'BG-1': {
+          name: { en: 'Banitsa', bg: 'Баница' },
+          country: { en: 'Bulgaria', bg: 'България' },
+          flag: '🇧🇬',
+          description: { en: 'Layered pastry with eggs and white cheese.', bg: 'Традиционна баница с яйца и сирене.' },
+          ingredients: [
+            { name: { en: 'Phyllo pastry', bg: 'Кори за баница' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'White cheese', bg: 'Сирене' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Eggs', bg: 'Яйца' }, amount: '4', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Mix eggs and crumbled cheese.', bg: 'Смесете яйцата и натрошеното сирене.' } },
+            { step: 2, instruction: { en: 'Layer pastry sheets with filling.', bg: 'Редете кори с плънка.' } },
+            { step: 3, instruction: { en: 'Bake until golden.', bg: 'Изпечете до златисто.' } }
+          ]
+        },
+        'BG-2': {
+          name: { en: 'Shopska Salad', bg: 'Шопска салата' },
+          country: { en: 'Bulgaria', bg: 'България' },
+          flag: '🇧🇬',
+          description: { en: 'Fresh tomato-cucumber salad with white cheese.', bg: 'Свежа салата с домати, краставици и сирене.' },
+          ingredients: [
+            { name: { en: 'Tomatoes', bg: 'Домати' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Cucumber', bg: 'Краставица' }, amount: '1', unit: { en: 'pc', bg: 'бр' } },
+            { name: { en: 'White cheese', bg: 'Сирене' }, amount: '150', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Chop vegetables.', bg: 'Нарежете зеленчуците.' } },
+            { step: 2, instruction: { en: 'Season with oil and salt.', bg: 'Овкусете с олио и сол.' } },
+            { step: 3, instruction: { en: 'Top with grated cheese.', bg: 'Поръсете с настъргано сирене.' } }
+          ]
+        },
+        'IT-1': {
+          name: { en: 'Carbonara', bg: 'Карбонара' },
+          country: { en: 'Italy', bg: 'Италия' },
+          flag: '🇮🇹',
+          description: { en: 'Classic pasta with egg, cheese, and pancetta.', bg: 'Класическа паста с яйца, сирене и панчета.' },
+          ingredients: [
+            { name: { en: 'Spaghetti', bg: 'Спагети' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Pancetta', bg: 'Панчета' }, amount: '100', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Eggs', bg: 'Яйца' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Cook pasta al dente.', bg: 'Сварете паста ал денте.' } },
+            { step: 2, instruction: { en: 'Mix eggs and cheese.', bg: 'Смесете яйца и сирене.' } },
+            { step: 3, instruction: { en: 'Toss with hot pasta.', bg: 'Разбъркайте с гореща паста.' } }
+          ]
+        },
+        'IT-2': {
+          name: { en: 'Margherita Pizza', bg: 'Пица Маргарита' },
+          country: { en: 'Italy', bg: 'Италия' },
+          flag: '🇮🇹',
+          description: { en: 'Classic pizza with tomato, mozzarella, and basil.', bg: 'Класическа пица с домати, моцарела и босилек.' },
+          ingredients: [
+            { name: { en: 'Pizza dough', bg: 'Тесто за пица' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Tomato sauce', bg: 'Доматен сос' }, amount: '100', unit: { en: 'ml', bg: 'мл' } },
+            { name: { en: 'Mozzarella', bg: 'Моцарела' }, amount: '150', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Roll out dough.', bg: 'Разточете тестото.' } },
+            { step: 2, instruction: { en: 'Add sauce and toppings.', bg: 'Добавете сос и топинги.' } },
+            { step: 3, instruction: { en: 'Bake at high temperature.', bg: 'Изпечете на висока температура.' } }
+          ]
+        }
+      };
+      
+      const recipe = recipes[recipeId];
+      if (!recipe) return;
+      
+      // Update detail view elements
+      document.getElementById('detailTitle').textContent = recipe.name[language];
+      document.getElementById('detailCountry').textContent = recipe.flag + ' ' + recipe.country[language];
+      document.getElementById('detailDescription').textContent = recipe.description[language];
+      
+      // Update ingredients table
+      const ingredientsTableBody = document.getElementById('ingredientsTableBody');
+      ingredientsTableBody.innerHTML = '';
+      recipe.ingredients.forEach(function(ingredient) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td><input type="checkbox" class="ingredients-check" /></td><td>${ingredient.amount}</td><td>${ingredient.unit[language]}</td><td>${ingredient.name[language]}</td>`;
+        ingredientsTableBody.appendChild(row);
+      });
+      
+      // Update steps
+      const detailSteps = document.getElementById('detailSteps');
+      detailSteps.innerHTML = '';
+      recipe.steps.forEach(function(step) {
+        const li = document.createElement('li');
+        li.textContent = step.instruction[language];
+        detailSteps.appendChild(li);
+      });
+    }
+    
+    // Recipe detail function
+    function showRecipeDetail(recipeId) {
+      console.log('Showing recipe detail for:', recipeId);
+      
+      // Set current recipe ID
+      currentRecipeId = recipeId;
+      
+      // Recipe data with both languages
+      const recipes = {
+        'BG-1': {
+          name: { en: 'Banitsa', bg: 'Баница' },
+          country: { en: 'Bulgaria', bg: 'България' },
+          flag: '🇧🇬',
+          description: { en: 'Layered pastry with eggs and white cheese.', bg: 'Традиционна баница с яйца и сирене.' },
+          image: 'https://picsum.photos/seed/BG-1/640/420',
+          prepTime: '20 min',
+          cookTime: '35 min',
+          servings: 6,
+          ingredients: [
+            { name: { en: 'Phyllo pastry', bg: 'Кори за баница' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'White cheese', bg: 'Сирене' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Eggs', bg: 'Яйца' }, amount: '4', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Mix eggs and crumbled cheese.', bg: 'Смесете яйцата и натрошеното сирене.' } },
+            { step: 2, instruction: { en: 'Layer pastry sheets with filling.', bg: 'Редете кори с плънка.' } },
+            { step: 3, instruction: { en: 'Bake until golden.', bg: 'Изпечете до златисто.' } }
+          ]
+        },
+        'BG-2': {
+          name: { en: 'Shopska Salad', bg: 'Шопска салата' },
+          country: { en: 'Bulgaria', bg: 'България' },
+          flag: '🇧🇬',
+          description: { en: 'Fresh tomato-cucumber salad with white cheese.', bg: 'Свежа салата с домати, краставици и сирене.' },
+          image: 'https://picsum.photos/seed/BG-2/640/420',
+          prepTime: '15 min',
+          cookTime: '0 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Tomatoes', bg: 'Домати' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } },
+            { name: { en: 'Cucumber', bg: 'Краставица' }, amount: '1', unit: { en: 'pc', bg: 'бр' } },
+            { name: { en: 'White cheese', bg: 'Сирене' }, amount: '150', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Chop vegetables.', bg: 'Нарежете зеленчуците.' } },
+            { step: 2, instruction: { en: 'Season with oil and salt.', bg: 'Овкусете с олио и сол.' } },
+            { step: 3, instruction: { en: 'Top with grated cheese.', bg: 'Поръсете с настъргано сирене.' } }
+          ]
+        },
+        'IT-1': {
+          name: { en: 'Carbonara', bg: 'Карбонара' },
+          country: { en: 'Italy', bg: 'Италия' },
+          flag: '🇮🇹',
+          description: { en: 'Classic pasta with egg, cheese, and pancetta.', bg: 'Класическа паста с яйца, сирене и панчета.' },
+          image: 'https://picsum.photos/seed/IT-1/640/420',
+          prepTime: '10 min',
+          cookTime: '15 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Spaghetti', bg: 'Спагети' }, amount: '400', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Pancetta', bg: 'Панчета' }, amount: '100', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Eggs', bg: 'Яйца' }, amount: '3', unit: { en: 'pcs', bg: 'бр' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Cook pasta al dente.', bg: 'Сварете паста ал денте.' } },
+            { step: 2, instruction: { en: 'Mix eggs and cheese.', bg: 'Смесете яйца и сирене.' } },
+            { step: 3, instruction: { en: 'Toss with hot pasta.', bg: 'Разбъркайте с гореща паста.' } }
+          ]
+        },
+        'IT-2': {
+          name: { en: 'Margherita Pizza', bg: 'Пица Маргарита' },
+          country: { en: 'Italy', bg: 'Италия' },
+          flag: '🇮🇹',
+          description: { en: 'Classic pizza with tomato, mozzarella, and basil.', bg: 'Класическа пица с домати, моцарела и босилек.' },
+          image: 'https://picsum.photos/seed/IT-2/640/420',
+          prepTime: '20 min',
+          cookTime: '15 min',
+          servings: 4,
+          ingredients: [
+            { name: { en: 'Pizza dough', bg: 'Тесто за пица' }, amount: '300', unit: { en: 'g', bg: 'г' } },
+            { name: { en: 'Tomato sauce', bg: 'Доматен сос' }, amount: '100', unit: { en: 'ml', bg: 'мл' } },
+            { name: { en: 'Mozzarella', bg: 'Моцарела' }, amount: '150', unit: { en: 'g', bg: 'г' } }
+          ],
+          steps: [
+            { step: 1, instruction: { en: 'Roll out dough.', bg: 'Разточете тестото.' } },
+            { step: 2, instruction: { en: 'Add sauce and toppings.', bg: 'Добавете сос и топинги.' } },
+            { step: 3, instruction: { en: 'Bake at high temperature.', bg: 'Изпечете на висока температура.' } }
+          ]
+        }
+      };
+      
+      const recipe = recipes[recipeId];
+      if (!recipe) {
+        console.error('Recipe not found:', recipeId);
+        return;
+      }
+      
+      const currentLang = document.documentElement.lang || 'en';
+      
+      // Update detail view
+      document.getElementById('detailImage').src = recipe.image;
+      document.getElementById('detailImage').alt = recipe.name[currentLang];
+      document.getElementById('detailTitle').textContent = recipe.name[currentLang];
+      document.getElementById('detailCountry').textContent = recipe.flag + ' ' + recipe.country[currentLang];
+      document.getElementById('detailDescription').textContent = recipe.description[currentLang];
+      document.getElementById('detailPrepTime').textContent = recipe.prepTime;
+      document.getElementById('detailCookTime').textContent = recipe.cookTime;
+      document.getElementById('detailServings').textContent = recipe.servings;
+      
+      // Update ingredients table
+      const ingredientsTableBody = document.getElementById('ingredientsTableBody');
+      ingredientsTableBody.innerHTML = '';
+      recipe.ingredients.forEach(function(ingredient) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td><input type="checkbox" class="ingredients-check" /></td><td>${ingredient.amount}</td><td>${ingredient.unit[currentLang]}</td><td>${ingredient.name[currentLang]}</td>`;
+        ingredientsTableBody.appendChild(row);
+      });
+      
+      // Update steps
+      const detailSteps = document.getElementById('detailSteps');
+      detailSteps.innerHTML = '';
+      recipe.steps.forEach(function(step) {
+        const li = document.createElement('li');
+        li.textContent = step.instruction[currentLang];
+        detailSteps.appendChild(li);
+      });
+      
+      // Show detail view, hide grid
+      document.getElementById('gridView').classList.add('hidden');
+      document.getElementById('detailView').classList.remove('hidden');
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Back to grid function
+    function showGridView() {
+      document.getElementById('detailView').classList.add('hidden');
+      document.getElementById('gridView').classList.remove('hidden');
+      // Reset current recipe ID
+      currentRecipeId = null;
+    }
+    
+    // Add back button click handler
+    document.addEventListener('DOMContentLoaded', function() {
+      const backBtn = document.getElementById('backToGridBtn');
+      if (backBtn) {
+        backBtn.addEventListener('click', showGridView);
+      }
+    });
+    
     // Initialize on page load
     window.onload = function() {
       filterByCountry('all');
+      console.log('Page loaded, language toggle ready');
     };
   </script>
 </body>

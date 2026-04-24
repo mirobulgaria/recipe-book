@@ -402,12 +402,24 @@ function openRandomRecipe() {
 }
 
 // ===== Event Listeners =====
-languageToggle.addEventListener("click", () => {
-  lang = lang === "en" ? "bg" : "en";
-  applyTranslations();
-  populateCountryDropdown();
-  renderRecipes();
-});
+// Test if language toggle exists and add debugging
+if (languageToggle) {
+  console.log("🔍 Language toggle element found:", languageToggle);
+  languageToggle.addEventListener("click", () => {
+    console.log("🔄 Language toggle clicked! Current lang:", lang);
+    lang = lang === "en" ? "bg" : "en";
+    console.log("🔄 New lang:", lang);
+    console.log("🔄 Applying translations...");
+    applyTranslations();
+    console.log("🔄 Populating country dropdown...");
+    populateCountryDropdown();
+    console.log("🔄 Rendering recipes...");
+    renderRecipes();
+    console.log("✅ Language switch completed!");
+  });
+} else {
+  console.error("❌ Language toggle element not found!");
+}
 
 countrySelect.addEventListener("change", renderRecipes);
 searchInput.addEventListener("input", renderRecipes);
@@ -488,6 +500,7 @@ function initializeApp() {
     return;
   }
   
+    
   applyTranslations();
   populateCountryDropdown();
   renderRecipes();
