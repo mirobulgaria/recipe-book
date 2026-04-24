@@ -28,8 +28,18 @@
       <div class="controls">
         <label class="control">
           <span data-i18n="countryLabel">Country</span>
-          <select id="countrySelect">
+          <select id="countrySelect" onchange="filterByCountry(this.value)">
             <option value="all">All countries</option>
+            <option value="BG">🇧🇬 Bulgaria</option>
+            <option value="IT">🇮🇹 Italy</option>
+            <option value="JP">🇯🇵 Japan</option>
+            <option value="FR">🇫🇷 France</option>
+            <option value="MX">🇲🇽 Mexico</option>
+            <option value="IN">🇮🇳 India</option>
+            <option value="GR">🇬🇷 Greece</option>
+            <option value="TR">🇹🇷 Turkey</option>
+            <option value="CN">🇨🇳 China</option>
+            <option value="ES">🇪🇸 Spain</option>
           </select>
         </label>
 
@@ -82,8 +92,249 @@
       </section>
       <section class="recipes-section">
         <h2 data-i18n="recipesTitle">Recipe Collection</h2>
-        <div id="resultsInfo" class="results-info"></div>
-        <div id="recipesGrid" class="recipes-grid" aria-live="polite"></div>
+        <div id="resultsInfo" class="results-info">Loading recipes...</div>
+        <div id="recipesGrid" class="recipes-grid" aria-live="polite">
+          <!-- All recipes added directly to HTML -->
+          <article class="recipe-card" data-country="BG">
+            <img class="recipe-image" src="https://picsum.photos/seed/BG-1/640/420" alt="Banitsa" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Banitsa</h3>
+              <span class="country-pill">🇧🇬 Bulgaria</span>
+            </div>
+            <p class="recipe-description">Layered pastry with eggs and white cheese.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="BG-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="BG">
+            <img class="recipe-image" src="https://picsum.photos/seed/BG-2/640/420" alt="Shopska Salad" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Shopska Salad</h3>
+              <span class="country-pill">🇧🇬 Bulgaria</span>
+            </div>
+            <p class="recipe-description">Fresh tomato-cucumber salad with white cheese.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="BG-2">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="IT">
+            <img class="recipe-image" src="https://picsum.photos/seed/IT-1/640/420" alt="Carbonara" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Carbonara</h3>
+              <span class="country-pill">🇮🇹 Italy</span>
+            </div>
+            <p class="recipe-description">Classic pasta with egg, cheese, and pancetta.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="IT-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="IT">
+            <img class="recipe-image" src="https://picsum.photos/seed/IT-2/640/420" alt="Margherita Pizza" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Margherita Pizza</h3>
+              <span class="country-pill">🇮🇹 Italy</span>
+            </div>
+            <p class="recipe-description">Classic pizza with tomato, mozzarella, and basil.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="IT-2">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="JP">
+            <img class="recipe-image" src="https://picsum.photos/seed/JP-1/640/420" alt="Ramen" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Ramen</h3>
+              <span class="country-pill">🇯🇵 Japan</span>
+            </div>
+            <p class="recipe-description">Noodle soup with savory broth and toppings.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="JP-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="JP">
+            <img class="recipe-image" src="https://picsum.photos/seed/JP-2/640/420" alt="Sushi" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Sushi</h3>
+              <span class="country-pill">🇯🇵 Japan</span>
+            </div>
+            <p class="recipe-description">Vinegared rice with raw fish and vegetables.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="JP-2">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="FR">
+            <img class="recipe-image" src="https://picsum.photos/seed/FR-1/640/420" alt="Ratatouille" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Ratatouille</h3>
+              <span class="country-pill">🇫🇷 France</span>
+            </div>
+            <p class="recipe-description">Stewed vegetables in tomato-herb sauce.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="FR-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="FR">
+            <img class="recipe-image" src="https://picsum.photos/seed/FR-2/640/420" alt="Croissant" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Croissant</h3>
+              <span class="country-pill">🇫🇷 France</span>
+            </div>
+            <p class="recipe-description">Buttery, flaky pastry perfect for breakfast.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="FR-2">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="MX">
+            <img class="recipe-image" src="https://picsum.photos/seed/MX-1/640/420" alt="Tacos" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Tacos</h3>
+              <span class="country-pill">🇲🇽 Mexico</span>
+            </div>
+            <p class="recipe-description">Warm tortillas with flavorful fillings.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="MX-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="MX">
+            <img class="recipe-image" src="https://picsum.photos/seed/MX-2/640/420" alt="Guacamole" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Guacamole</h3>
+              <span class="country-pill">🇲🇽 Mexico</span>
+            </div>
+            <p class="recipe-description">Creamy avocado dip with lime and cilantro.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="MX-2">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="IN">
+            <img class="recipe-image" src="https://picsum.photos/seed/IN-1/640/420" alt="Butter Chicken" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Butter Chicken</h3>
+              <span class="country-pill">🇮🇳 India</span>
+            </div>
+            <p class="recipe-description">Creamy tomato curry with tender chicken.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="IN-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="IN">
+            <img class="recipe-image" src="https://picsum.photos/seed/IN-2/640/420" alt="Biryani" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Biryani</h3>
+              <span class="country-pill">🇮🇳 India</span>
+            </div>
+            <p class="recipe-description">Fragrant rice dish with spices and meat.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="IN-2">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="GR">
+            <img class="recipe-image" src="https://picsum.photos/seed/GR-1/640/420" alt="Souvlaki" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Souvlaki</h3>
+              <span class="country-pill">🇬🇷 Greece</span>
+            </div>
+            <p class="recipe-description">Greek skewers with marinated grilled meat.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="GR-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="GR">
+            <img class="recipe-image" src="https://picsum.photos/seed/GR-2/640/420" alt="Greek Salad" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Greek Salad</h3>
+              <span class="country-pill">🇬🇷 Greece</span>
+            </div>
+            <p class="recipe-description">Fresh vegetables with feta cheese and olives.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="GR-2">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="TR">
+            <img class="recipe-image" src="https://picsum.photos/seed/TR-1/640/420" alt="Menemen" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Menemen</h3>
+              <span class="country-pill">🇹🇷 Turkey</span>
+            </div>
+            <p class="recipe-description">Scrambled eggs with tomato and peppers.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="TR-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="TR">
+            <img class="recipe-image" src="https://picsum.photos/seed/TR-2/640/420" alt="Kebab" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Kebab</h3>
+              <span class="country-pill">🇹🇷 Turkey</span>
+            </div>
+            <p class="recipe-description">Grilled meat skewers with spices.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="TR-2">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="CN">
+            <img class="recipe-image" src="https://picsum.photos/seed/CN-1/640/420" alt="Mapo Tofu" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Mapo Tofu</h3>
+              <span class="country-pill">🇨🇳 China</span>
+            </div>
+            <p class="recipe-description">Spicy tofu with minced meat in savory sauce.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="CN-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="CN">
+            <img class="recipe-image" src="https://picsum.photos/seed/CN-2/640/420" alt="Dumplings" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Dumplings</h3>
+              <span class="country-pill">🇨🇳 China</span>
+            </div>
+            <p class="recipe-description">Steamed or fried pockets with savory filling.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="CN-2">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="ES">
+            <img class="recipe-image" src="https://picsum.photos/seed/ES-1/640/420" alt="Tortilla Espanola" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Tortilla Espanola</h3>
+              <span class="country-pill">🇪🇸 Spain</span>
+            </div>
+            <p class="recipe-description">Spanish omelette with potatoes and onions.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="ES-1">View Details</button>
+            </div>
+          </article>
+          
+          <article class="recipe-card" data-country="ES">
+            <img class="recipe-image" src="https://picsum.photos/seed/ES-2/640/420" alt="Paella" loading="lazy" />
+            <div class="recipe-meta">
+              <h3>Paella</h3>
+              <span class="country-pill">🇪🇸 Spain</span>
+            </div>
+            <p class="recipe-description">Saffron rice with seafood and vegetables.</p>
+            <div class="editor-actions">
+              <button class="details-btn" type="button" data-id="ES-2">View Details</button>
+            </div>
+          </article>
+        </div>
       </section>
     </section>
 
@@ -131,5 +382,33 @@
 
   <script src="recipes-data.js"></script>
   <script src="app.js"></script>
+  
+  <!-- Simple filtering function -->
+  <script>
+    function filterByCountry(countryCode) {
+      const recipesGrid = document.getElementById('recipesGrid');
+      const resultsInfo = document.getElementById('resultsInfo');
+      
+      if (!recipesGrid || !resultsInfo) return;
+      
+      const recipeCards = recipesGrid.querySelectorAll('.recipe-card');
+      let visibleCount = 0;
+      
+      recipeCards.forEach(function(card) {
+        const cardCountry = card.getAttribute('data-country');
+        const shouldShow = countryCode === 'all' || cardCountry === countryCode;
+        
+        card.style.display = shouldShow ? '' : 'none';
+        if (shouldShow) visibleCount++;
+      });
+      
+      resultsInfo.textContent = 'Showing ' + visibleCount + ' recipes';
+    }
+    
+    // Initialize on page load
+    window.onload = function() {
+      filterByCountry('all');
+    };
+  </script>
 </body>
 </html>

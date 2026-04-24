@@ -1,0 +1,28 @@
+{
+  "name": "recipe-book",
+  "version": "1.0.0",
+  "description": "International Recipe Book - A web application for discovering recipes from around the world",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=8000 --open=/",
+    "dev": "live-server --port=8000 --open=/ --watch=.,*.html,*.css,*.js",
+    "build": "echo 'No build step needed for static site'",
+    "serve": "python -m http.server 8000",
+    "clean": "echo 'No cleanup needed for static site'"
+  },
+  "keywords": [
+    "recipe",
+    "food",
+    "international",
+    "cooking",
+    "web-app"
+  ],
+  "author": "Recipe Book Developer",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

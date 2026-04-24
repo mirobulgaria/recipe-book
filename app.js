@@ -244,6 +244,7 @@ function getFilteredRecipes() {
 function renderRecipes() {
   const filtered = getFilteredRecipes();
   const text = uiText[lang];
+  
   resultsInfo.textContent = text.results(filtered.length);
   recipesGrid.innerHTML = "";
   if (!filtered.length) {
@@ -457,6 +458,36 @@ if (recipeForm) {
   });
 }
 
-applyTranslations();
-populateCountryDropdown();
-renderRecipes();
+// Direct initialization - run immediately when script loads
+(function() {
+  // Wait for DOM to be ready
+  function initWhenReady() {
+    if (document.getElementById('countrySelect') && document.getElementById('recipesGrid')) {
+      // Load data from window objects
+      const windowCountries = window.countriesData || [];
+      const windowRecipes = window.recipeData || [];
+      
+      // Update local arrays
+      countries.length = 0;
+      countries.push(...windowCountries);
+      
+      baseRecipes.length = 0;
+      baseRecipes.push(...windowRecipes);
+      recipes = loadRecipes();
+      
+      // Initialize the app
+      applyTranslations();
+      populateCountryDropdown();
+      renderRecipes();
+    } else {
+      setTimeout(initWhenReady, 100);
+    }
+  }
+  
+  // Start initialization
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWhenReady);
+  } else {
+    initWhenReady();
+  }
+})();
