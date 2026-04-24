@@ -64,32 +64,82 @@
       </div>
       </section>
 
-      <section id="recipeEditor" class="editor-card hidden">
-        <h3 id="editorTitle" data-i18n="addRecipe">Add recipe</h3>
-        <form id="recipeForm" class="editor-form" onsubmit="saveRecipe(event)">
-          <input id="editRecipeId" type="hidden" />
-          <label><span data-i18n="countryLabel">Country</span><select id="editCountryCode"></select></label>
-          <label><span data-i18n="nameEn">Name (EN)</span><input id="editNameEn" type="text" required /></label>
-          <label><span data-i18n="nameBg">Name (BG)</span><input id="editNameBg" type="text" required /></label>
-          <label><span data-i18n="descEn">Description (EN)</span><textarea id="editDescEn" rows="2" required></textarea></label>
-          <label><span data-i18n="descBg">Description (BG)</span><textarea id="editDescBg" rows="2" required></textarea></label>
-          <label><span data-i18n="prepTime">Prep</span><input id="editPrepTime" type="text" placeholder="20 min" required /></label>
-          <label><span data-i18n="cookTime">Cook</span><input id="editCookTime" type="text" placeholder="30 min" required /></label>
-          <label><span data-i18n="servings">Servings</span><input id="editServings" type="number" min="1" required /></label>
-          <label><span data-i18n="image">Image URL</span><input id="editImage" type="url" required /></label>
-          <label class="full-row">
-            <span data-i18n="ingredientsFormat">Ingredients (one per line: amount|unitEn|unitBg|nameEn|nameBg)</span>
-            <textarea id="editIngredients" rows="5" required></textarea>
-          </label>
-          <label class="full-row">
-            <span data-i18n="stepsFormat">Steps (one per line: instructionEn|instructionBg)</span>
-            <textarea id="editSteps" rows="5" required></textarea>
-          </label>
-          <div class="editor-actions full-row">
-            <button type="submit" class="details-btn" data-i18n="saveRecipe">Save recipe</button>
-            <button id="cancelEditBtn" type="button" class="back-btn" data-i18n="cancel" onclick="cancelEdit()">Cancel</button>
-          </div>
-        </form>
+      <section id="recipeEditor" class="hidden" style="display: none;">
+        <div style="background: white; border: 3px solid #007bff; border-radius: 16px; padding: 2rem; margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 123, 255, 0.3);">
+          <h3 id="editorTitle" style="text-align: center; color: #333; margin-bottom: 2rem;">Add Recipe</h3>
+          <form id="recipeForm" onsubmit="saveRecipe(event)">
+            <input id="editRecipeId" type="hidden" />
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Country</label>
+              <select id="editCountryCode" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;"></select>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Recipe Name (English)</label>
+              <input id="editNameEn" type="text" placeholder="Recipe name in English" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; margin-bottom: 1rem;" />
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Recipe Name (Bulgarian)</label>
+              <input id="editNameBg" type="text" placeholder="Име на рецептата на български" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description (English)</label>
+              <textarea id="editDescEn" rows="3" placeholder="Recipe description in English" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; resize: vertical; margin-bottom: 1rem;"></textarea>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description (Bulgarian)</label>
+              <textarea id="editDescBg" rows="3" placeholder="Описание на рецептата на български" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; resize: vertical;"></textarea>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Prep Time</label>
+                <input id="editPrepTime" type="text" placeholder="20 min" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+              </div>
+              <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Cook Time</label>
+                <input id="editCookTime" type="text" placeholder="30 min" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+              </div>
+              <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Servings</label>
+                <input id="editServings" type="number" min="1" placeholder="4" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Image URL</label>
+              <input id="editImage" type="url" placeholder="https://picsum.photos/seed/recipe/640/420" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <h4 style="margin-bottom: 1rem;">Ingredients</h4>
+              <div id="ingredientsList">
+                <div style="display: grid; grid-template-columns: 1fr 2fr 2fr auto; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center;">
+                  <input type="number" class="ingredient-amount" placeholder="Amount" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+                  <input type="text" class="ingredient-unit-en" placeholder="Unit (EN)" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+                  <input type="text" class="ingredient-name-en" placeholder="Name (EN)" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+                  <button type="button" onclick="removeIngredientRow(this)" style="background: #ff4444; color: white; border: none; border-radius: 4px; padding: 0.5rem; cursor: pointer;">×</button>
+                </div>
+              </div>
+              <button type="button" onclick="addIngredientRow()" style="background: #28a745; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; margin-top: 0.5rem;">+ Add Ingredient</button>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+              <h4 style="margin-bottom: 1rem;">Instructions</h4>
+              <div id="stepsList">
+                <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center;">
+                  <span style="font-weight: 700; color: #007bff;">1.</span>
+                  <input type="text" class="step-en" placeholder="Step 1 (EN)" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+                  <button type="button" onclick="removeStepRow(this)" style="background: #ff4444; color: white; border: none; border-radius: 4px; padding: 0.5rem; cursor: pointer;">×</button>
+                </div>
+              </div>
+              <button type="button" onclick="addStepRow()" style="background: #28a745; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; margin-top: 0.5rem;">+ Add Step</button>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center; padding-top: 1rem; border-top: 2px solid #ddd;">
+              <button type="submit" style="background: #007bff; color: white; border: none; border-radius: 8px; padding: 0.8rem 2rem; cursor: pointer; font-weight: 600;">Save Recipe</button>
+              <button type="button" onclick="cancelEdit()" style="background: #6c757d; color: white; border: none; border-radius: 8px; padding: 0.8rem 2rem; cursor: pointer; font-weight: 600;">Cancel</button>
+            </div>
+          </form>
+        </div>
       </section>
       <section class="recipes-section">
         <h2 data-i18n="recipesTitle">Recipe Collection</h2>
@@ -503,17 +553,99 @@
       showRecipeDetail(recipeId);
     }
     
+    // Add ingredient row function
+    function addIngredientRow() {
+      const ingredientsList = document.getElementById('ingredientsList');
+      const newRow = document.createElement('div');
+      newRow.className = 'ingredient-row';
+      newRow.innerHTML = `
+        <input type="number" class="ingredient-amount" placeholder="Amount" required />
+        <input type="text" class="ingredient-unit-en" placeholder="Unit (EN)" required />
+        <input type="text" class="ingredient-unit-bg" placeholder="Unit (BG)" required />
+        <input type="text" class="ingredient-name-en" placeholder="Name (EN)" required />
+        <input type="text" class="ingredient-name-bg" placeholder="Name (BG)" required />
+        <button type="button" class="remove-ingredient-btn" onclick="removeIngredientRow(this)">×</button>
+      `;
+      ingredientsList.appendChild(newRow);
+    }
+    
+    // Remove ingredient row function
+    function removeIngredientRow(button) {
+      const row = button.parentElement;
+      const ingredientsList = document.getElementById('ingredientsList');
+      if (ingredientsList.children.length > 1) {
+        row.remove();
+      } else {
+        alert('You must have at least one ingredient');
+      }
+    }
+    
+    // Add step row function
+    function addStepRow() {
+      const stepsList = document.getElementById('stepsList');
+      const stepNumber = stepsList.children.length + 1;
+      const newRow = document.createElement('div');
+      newRow.className = 'step-row';
+      newRow.innerHTML = `
+        <span class="step-number">${stepNumber}.</span>
+        <input type="text" class="step-en" placeholder="Step ${stepNumber} (EN)" required />
+        <input type="text" class="step-bg" placeholder="Стъпка ${stepNumber} (BG)" required />
+        <button type="button" class="remove-step-btn" onclick="removeStepRow(this)">×</button>
+      `;
+      stepsList.appendChild(newRow);
+      updateStepNumbers();
+    }
+    
+    // Remove step row function
+    function removeStepRow(button) {
+      const row = button.parentElement;
+      const stepsList = document.getElementById('stepsList');
+      if (stepsList.children.length > 1) {
+        row.remove();
+        updateStepNumbers();
+      } else {
+        alert('You must have at least one step');
+      }
+    }
+    
+    // Update step numbers function
+    function updateStepNumbers() {
+      const stepsList = document.getElementById('stepsList');
+      const steps = stepsList.querySelectorAll('.step-row');
+      steps.forEach((step, index) => {
+        const stepNumber = step.querySelector('.step-number');
+        const stepEn = step.querySelector('.step-en');
+        const stepBg = step.querySelector('.step-bg');
+        const number = index + 1;
+        stepNumber.textContent = number + '.';
+        stepEn.placeholder = `Step ${number} (EN)`;
+        stepBg.placeholder = `Стъпка ${number} (BG)`;
+      });
+    }
+    
     // Show add recipe form function
     function showAddRecipeForm() {
+      console.log('🔧 showAddRecipeForm called!');
+      
       const gridView = document.getElementById('gridView');
       const recipeEditor = document.getElementById('recipeEditor');
       const editorTitle = document.getElementById('editorTitle');
       const editRecipeId = document.getElementById('editRecipeId');
       const recipeForm = document.getElementById('recipeForm');
       
+      console.log('🔧 Elements found:', {
+        gridView: !!gridView,
+        recipeEditor: !!recipeEditor,
+        editorTitle: !!editorTitle,
+        recipeForm: !!recipeForm
+      });
+      
       // Reset form
       recipeForm.reset();
       editRecipeId.value = '';
+      
+      // Reset to single ingredient and step
+      resetFormToDefault();
       
       // Set title based on current language
       const currentLang = document.documentElement.lang || 'en';
@@ -523,10 +655,321 @@
       populateEditorCountryDropdown();
       
       // Show editor, hide grid
+      console.log('🔧 Before - Editor classes:', recipeEditor.className);
       gridView.classList.add('hidden');
       recipeEditor.classList.remove('hidden');
       
+      // Force display by removing hidden class and adding visible class
+      recipeEditor.classList.remove('hidden');
+      recipeEditor.classList.add('visible');
+      
+      // Add professional styling
+      recipeEditor.style.background = 'white';
+      recipeEditor.style.border = '2px solid #007bff';
+      
+      console.log('🔧 After - Editor classes:', recipeEditor.className);
+      console.log('🔧 Editor should now be visible');
+      
+      // Create a completely new dynamic form to bypass HTML structure issues
+      setTimeout(() => {
+        // Hide the existing problematic form
+        recipeEditor.style.display = 'none';
+        
+        // Create a complete form dynamically
+        const dynamicForm = document.createElement('div');
+        dynamicForm.id = 'dynamicRecipeForm';
+        dynamicForm.innerHTML = `
+          <div style="background: white; border: 5px solid #007bff; border-radius: 16px; padding: 2rem; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; max-width: 90%; max-height: 90vh; overflow: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.5);">
+            <h3 style="text-align: center; color: #333; margin-bottom: 2rem;">ADD NEW RECIPE</h3>
+            <form onsubmit="saveDynamicRecipe(event)">
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Country</label>
+                <select id="dynamicCountry" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;">
+                  <option value="">Select a country</option>
+                  <option value="BG">🇧🇬 Bulgaria</option>
+                  <option value="IT">🇮🇹 Italy</option>
+                  <option value="JP">🇯🇵 Japan</option>
+                  <option value="FR">🇫🇷 France</option>
+                  <option value="MX">🇲🇽 Mexico</option>
+                  <option value="IN">🇮🇳 India</option>
+                  <option value="GR">🇬🇷 Greece</option>
+                  <option value="TR">🇹🇷 Turkey</option>
+                  <option value="CN">🇨🇳 China</option>
+                  <option value="ES">🇪🇸 Spain</option>
+                </select>
+              </div>
+              
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Recipe Name (English)</label>
+                <input type="text" id="dynamicNameEn" placeholder="Recipe name in English" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; margin-bottom: 1rem;" />
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Recipe Name (Bulgarian)</label>
+                <input type="text" id="dynamicNameBg" placeholder="Име на рецептата на български" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+              </div>
+              
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description (English)</label>
+                <textarea id="dynamicDescEn" placeholder="Recipe description in English" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; resize: vertical; min-height: 80px; margin-bottom: 1rem;"></textarea>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description (Bulgarian)</label>
+                <textarea id="dynamicDescBg" placeholder="Описание на рецептата на български" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; resize: vertical; min-height: 80px;"></textarea>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Prep Time</label>
+                  <input type="text" id="dynamicPrepTime" placeholder="20 min" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+                </div>
+                <div>
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Cook Time</label>
+                  <input type="text" id="dynamicCookTime" placeholder="30 min" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+                </div>
+                <div>
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Servings</label>
+                  <input type="number" id="dynamicServings" placeholder="4" min="1" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+                </div>
+              </div>
+              
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Image URL</label>
+                <input type="url" id="dynamicImage" placeholder="https://picsum.photos/seed/recipe/640/420" required style="width: 100%; padding: 0.75rem; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem;" />
+              </div>
+              
+              <div style="margin-bottom: 1rem;">
+                <h4 style="margin-bottom: 1rem;">Ingredients</h4>
+                <div id="dynamicIngredients">
+                  <div style="display: grid; grid-template-columns: 1fr 2fr 2fr auto; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center;">
+                    <input type="number" class="dynamic-ingredient-amount" placeholder="Amount" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+                    <input type="text" class="dynamic-ingredient-unit" placeholder="Unit" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+                    <input type="text" class="dynamic-ingredient-name" placeholder="Name" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+                    <button type="button" onclick="removeDynamicIngredient(this)" style="background: #ff4444; color: white; border: none; border-radius: 4px; padding: 0.5rem; cursor: pointer;">×</button>
+                  </div>
+                </div>
+                <button type="button" onclick="addDynamicIngredient()" style="background: #28a745; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; margin-top: 0.5rem;">+ Add Ingredient</button>
+              </div>
+              
+              <div style="margin-bottom: 2rem;">
+                <h4 style="margin-bottom: 1rem;">Instructions</h4>
+                <div id="dynamicSteps">
+                  <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center;">
+                    <span style="font-weight: 700; color: #007bff;">1.</span>
+                    <input type="text" class="dynamic-step" placeholder="Step 1" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+                    <button type="button" onclick="removeDynamicStep(this)" style="background: #ff4444; color: white; border: none; border-radius: 4px; padding: 0.5rem; cursor: pointer;">×</button>
+                  </div>
+                </div>
+                <button type="button" onclick="addDynamicStep()" style="background: #28a745; color: white; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; margin-top: 0.5rem;">+ Add Step</button>
+              </div>
+              
+              <div style="display: flex; gap: 1rem; justify-content: center; padding-top: 1rem; border-top: 2px solid #ddd;">
+                <button type="submit" style="background: #007bff; color: white; border: none; border-radius: 8px; padding: 0.8rem 2rem; cursor: pointer; font-weight: 600;">Save Recipe</button>
+                <button type="button" onclick="closeDynamicForm()" style="background: #6c757d; color: white; border: none; border-radius: 8px; padding: 0.8rem 2rem; cursor: pointer; font-weight: 600;">Cancel</button>
+              </div>
+            </form>
+          </div>
+        `;
+        
+        document.body.appendChild(dynamicForm);
+        console.log('🔧 Dynamic form created and appended to body');
+      }, 100);
+      
+      // Add the dynamic form functions
+      window.saveDynamicRecipe = function(event) {
+        event.preventDefault();
+        
+        // Collect form data
+        const recipe = {
+          id: 'custom-' + Date.now(),
+          countryCode: document.getElementById('dynamicCountry').value,
+          name: {
+            en: document.getElementById('dynamicNameEn').value,
+            bg: document.getElementById('dynamicNameBg').value
+          },
+          description: {
+            en: document.getElementById('dynamicDescEn').value,
+            bg: document.getElementById('dynamicDescBg').value
+          },
+          prepTime: document.getElementById('dynamicPrepTime').value,
+          cookTime: document.getElementById('dynamicCookTime').value,
+          servings: parseInt(document.getElementById('dynamicServings').value),
+          image: document.getElementById('dynamicImage').value,
+          ingredients: [],
+          steps: []
+        };
+        
+        // Collect ingredients
+        const ingredientRows = document.querySelectorAll('#dynamicIngredients > div');
+        ingredientRows.forEach((row, index) => {
+          const amount = row.querySelector('.dynamic-ingredient-amount').value;
+          const unit = row.querySelector('.dynamic-ingredient-unit').value;
+          const name = row.querySelector('.dynamic-ingredient-name').value;
+          
+          if (amount && unit && name) {
+            recipe.ingredients.push({
+              amount: amount,
+              unit: { en: unit, bg: unit },
+              name: { en: name, bg: name }
+            });
+          }
+        });
+        
+        // Collect steps
+        const stepRows = document.querySelectorAll('#dynamicSteps > div');
+        stepRows.forEach((row, index) => {
+          const stepText = row.querySelector('.dynamic-step').value;
+          
+          if (stepText) {
+            recipe.steps.push({
+              step: index + 1,
+              instruction: { en: stepText, bg: stepText }
+            });
+          }
+        });
+        
+        // Get country info
+        const countryInfo = {
+          'BG': { country: 'Bulgaria', countryBg: 'България', flag: '🇧🇬' },
+          'IT': { country: 'Italy', countryBg: 'Италия', flag: '🇮🇹' },
+          'JP': { country: 'Japan', countryBg: 'Япония', flag: '🇯🇵' },
+          'FR': { country: 'France', countryBg: 'Франция', flag: '🇫🇷' },
+          'MX': { country: 'Mexico', countryBg: 'Мексико', flag: '🇲🇽' },
+          'IN': { country: 'India', countryBg: 'Индия', flag: '🇮🇳' },
+          'GR': { country: 'Greece', countryBg: 'Гърция', flag: '🇬🇷' },
+          'TR': { country: 'Turkey', countryBg: 'Турция', flag: '🇹🇷' },
+          'CN': { country: 'China', countryBg: 'Китай', flag: '🇨🇳' },
+          'ES': { country: 'Spain', countryBg: 'Испания', flag: '🇪🇸' }
+        };
+        
+        const country = countryInfo[recipe.countryCode];
+        recipe.country = country.country;
+        recipe.countryBg = country.countryBg;
+        recipe.flag = country.flag;
+        
+        // Create new recipe card
+        const recipesGrid = document.getElementById('recipesGrid');
+        const recipeCard = document.createElement('article');
+        recipeCard.className = 'recipe-card';
+        recipeCard.setAttribute('data-country', recipe.countryCode);
+        
+        const currentLang = document.documentElement.lang || 'en';
+        recipeCard.innerHTML = `
+          <img class="recipe-image" src="${recipe.image}" alt="${recipe.name[currentLang]}" loading="lazy" />
+          <div class="recipe-meta">
+            <h3 data-en="${recipe.name.en}" data-bg="${recipe.name.bg}">${recipe.name[currentLang]}</h3>
+            <span class="country-pill">${recipe.flag} ${currentLang === 'en' ? recipe.country : recipe.countryBg}</span>
+          </div>
+          <p class="recipe-description" data-en="${recipe.description.en}" data-bg="${recipe.description.bg}">${recipe.description[currentLang]}</p>
+          <div class="editor-actions">
+            <button class="details-btn" type="button" data-id="${recipe.id}" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('${recipe.id}')">${currentLang === 'en' ? 'View Details' : 'Виж Детайли'}</button>
+          </div>
+        `;
+        
+        // Add to grid
+        recipesGrid.appendChild(recipeCard);
+        
+        // Add recipe to detail function
+        if (!window.customRecipes) {
+          window.customRecipes = {};
+        }
+        window.customRecipes[recipe.id] = recipe;
+        
+        // Show success message
+        const currentLangText = currentLang === 'en' ? 'Recipe added successfully!' : 'Рецептата е добавена успешно!';
+        alert(currentLangText);
+        
+        closeDynamicForm();
+      };
+      
+      window.closeDynamicForm = function() {
+        const dynamicForm = document.getElementById('dynamicRecipeForm');
+        if (dynamicForm) {
+          document.body.removeChild(dynamicForm);
+        }
+        // Show grid again
+        gridView.classList.remove('hidden');
+      };
+      
+      window.addDynamicIngredient = function() {
+        const ingredientsList = document.getElementById('dynamicIngredients');
+        const newRow = document.createElement('div');
+        newRow.style.cssText = 'display: grid; grid-template-columns: 1fr 2fr 2fr auto; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center;';
+        newRow.innerHTML = `
+          <input type="number" class="dynamic-ingredient-amount" placeholder="Amount" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+          <input type="text" class="dynamic-ingredient-unit" placeholder="Unit" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+          <input type="text" class="dynamic-ingredient-name" placeholder="Name" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+          <button type="button" onclick="removeDynamicIngredient(this)" style="background: #ff4444; color: white; border: none; border-radius: 4px; padding: 0.5rem; cursor: pointer;">×</button>
+        `;
+        ingredientsList.appendChild(newRow);
+      };
+      
+      window.removeDynamicIngredient = function(button) {
+        const row = button.parentElement;
+        const ingredientsList = document.getElementById('dynamicIngredients');
+        if (ingredientsList.children.length > 1) {
+          row.remove();
+        } else {
+          alert('You must have at least one ingredient');
+        }
+      };
+      
+      window.addDynamicStep = function() {
+        const stepsList = document.getElementById('dynamicSteps');
+        const stepNumber = stepsList.children.length + 1;
+        const newRow = document.createElement('div');
+        newRow.style.cssText = 'display: grid; grid-template-columns: auto 1fr auto; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center;';
+        newRow.innerHTML = `
+          <span style="font-weight: 700; color: #007bff;">${stepNumber}.</span>
+          <input type="text" class="dynamic-step" placeholder="Step ${stepNumber}" required style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" />
+          <button type="button" onclick="removeDynamicStep(this)" style="background: #ff4444; color: white; border: none; border-radius: 4px; padding: 0.5rem; cursor: pointer;">×</button>
+        `;
+        stepsList.appendChild(newRow);
+      };
+      
+      window.removeDynamicStep = function(button) {
+        const row = button.parentElement;
+        const stepsList = document.getElementById('dynamicSteps');
+        if (stepsList.children.length > 1) {
+          row.remove();
+          // Update step numbers
+          const stepRows = stepsList.querySelectorAll('div');
+          stepRows.forEach((step, index) => {
+            const stepNumber = step.querySelector('span');
+            const stepInput = step.querySelector('.dynamic-step');
+            const number = index + 1;
+            stepNumber.textContent = number + '.';
+            stepInput.placeholder = `Step ${number}`;
+          });
+        } else {
+          alert('You must have at least one step');
+        }
+      };
+      
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Reset form to default state
+    function resetFormToDefault() {
+      const ingredientsList = document.getElementById('ingredientsList');
+      const stepsList = document.getElementById('stepsList');
+      
+      // Reset ingredients to single row
+      ingredientsList.innerHTML = `
+        <div class="ingredient-row">
+          <input type="number" class="ingredient-amount" placeholder="Amount" required />
+          <input type="text" class="ingredient-unit-en" placeholder="Unit (EN)" required />
+          <input type="text" class="ingredient-unit-bg" placeholder="Unit (BG)" required />
+          <input type="text" class="ingredient-name-en" placeholder="Name (EN)" required />
+          <input type="text" class="ingredient-name-bg" placeholder="Name (BG)" required />
+          <button type="button" class="remove-ingredient-btn" onclick="removeIngredientRow(this)">×</button>
+        </div>
+      `;
+      
+      // Reset steps to single row
+      stepsList.innerHTML = `
+        <div class="step-row">
+          <span class="step-number">1.</span>
+          <input type="text" class="step-en" placeholder="Step 1 (EN)" required />
+          <input type="text" class="step-bg" placeholder="Стъпка 1 (BG)" required />
+          <button type="button" class="remove-step-btn" onclick="removeStepRow(this)">×</button>
+        </div>
+      `;
     }
     
     // Populate editor country dropdown
@@ -571,7 +1014,7 @@
     function saveRecipe(event) {
       event.preventDefault();
       
-      const form = event.target;
+      // Get form values
       const editRecipeId = document.getElementById('editRecipeId');
       const editCountryCode = document.getElementById('editCountryCode');
       const editNameEn = document.getElementById('editNameEn');
@@ -582,6 +1025,61 @@
       const editCookTime = document.getElementById('editCookTime');
       const editServings = document.getElementById('editServings');
       const editImage = document.getElementById('editImage');
+      
+      // Get ingredients from dynamic rows
+      const ingredients = [];
+      const ingredientRows = document.querySelectorAll('.ingredient-row');
+      ingredientRows.forEach(row => {
+        const amount = row.querySelector('.ingredient-amount').value;
+        const unitEn = row.querySelector('.ingredient-unit-en').value;
+        const unitBg = row.querySelector('.ingredient-unit-bg').value;
+        const nameEn = row.querySelector('.ingredient-name-en').value;
+        const nameBg = row.querySelector('.ingredient-name-bg').value;
+        
+        if (amount && unitEn && unitBg && nameEn && nameBg) {
+          ingredients.push({
+            amount: amount,
+            unit: { en: unitEn, bg: unitBg },
+            name: { en: nameEn, bg: nameBg }
+          });
+        }
+      });
+      
+      // Get steps from dynamic rows
+      const steps = [];
+      const stepRows = document.querySelectorAll('.step-row');
+      stepRows.forEach((row, index) => {
+        const instructionEn = row.querySelector('.step-en').value;
+        const instructionBg = row.querySelector('.step-bg').value;
+        
+        if (instructionEn && instructionBg) {
+          steps.push({
+            step: index + 1,
+            instruction: { en: instructionEn, bg: instructionBg }
+          });
+        }
+      });
+      
+      // Validate required fields
+      if (!editNameEn.value.trim() || !editNameBg.value.trim()) {
+        alert('Please provide recipe names in both languages');
+        return;
+      }
+      
+      if (!editDescEn.value.trim() || !editDescBg.value.trim()) {
+        alert('Please provide descriptions in both languages');
+        return;
+      }
+      
+      if (ingredients.length === 0) {
+        alert('Please add at least one ingredient');
+        return;
+      }
+      
+      if (steps.length === 0) {
+        alert('Please add at least one cooking step');
+        return;
+      }
       
       // Create new recipe object
       const recipe = {
@@ -598,7 +1096,9 @@
         cookTime: editCookTime.value.trim(),
         servings: parseInt(editServings.value),
         image: editImage.value.trim(),
-        countryCode: editCountryCode.value
+        countryCode: editCountryCode.value,
+        ingredients: ingredients,
+        steps: steps
       };
       
       // Get country info
@@ -642,6 +1142,9 @@
       // Add to grid
       recipesGrid.appendChild(recipeCard);
       
+      // Add recipe data to showRecipeDetail function
+      addRecipeToDetailFunction(recipe);
+      
       // Close editor and show grid
       cancelEdit();
       
@@ -651,6 +1154,16 @@
       
       // Update results count
       filterAndSearch();
+    }
+    
+    // Add recipe to detail function
+    function addRecipeToDetailFunction(recipe) {
+      // This adds the new recipe to the existing recipes object in showRecipeDetail function
+      // We'll need to update the showRecipeDetail function to handle dynamic recipes
+      if (!window.customRecipes) {
+        window.customRecipes = {};
+      }
+      window.customRecipes[recipe.id] = recipe;
     }
     
     // Language toggle function
@@ -1163,8 +1676,15 @@
       // Set current recipe ID
       currentRecipeId = recipeId;
       
-      // Recipe data with both languages
-      const recipes = {
+      // Check for custom recipes first
+      let recipe = null;
+      if (window.customRecipes && window.customRecipes[recipeId]) {
+        recipe = window.customRecipes[recipeId];
+      }
+      
+      if (!recipe) {
+        // Recipe data with both languages
+        const recipes = {
         'BG-1': {
           name: { en: 'Banitsa', bg: 'Баница' },
           country: { en: 'Bulgaria', bg: 'България' },
@@ -1566,8 +2086,10 @@
           ]
         }
       };
+        
+        recipe = recipes[recipeId];
+      }
       
-      const recipe = recipes[recipeId];
       if (!recipe) {
         console.error('Recipe not found:', recipeId);
         return;
