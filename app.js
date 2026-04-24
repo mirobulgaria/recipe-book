@@ -1,6 +1,13 @@
-const countries = window.countriesData || [];
 const RECIPES_STORAGE_KEY = "my-international-kitchen-recipes";
-const baseRecipes = window.recipeData || [];
+
+// Get data from window, fallback to empty arrays if not loaded
+let countries = window.countriesData || [];
+let baseRecipes = window.recipeData || [];
+
+// Debug: log what we got
+console.log("🔍 app.js loading...");
+console.log("Countries loaded at startup:", countries.length);
+console.log("Base recipes loaded at startup:", baseRecipes.length);
 
 const uiText = {
   en: {
@@ -77,6 +84,7 @@ const uiText = {
 
 let lang = "en";
 let selectedRecipeId = null;
+let recipes = []; // Initialize as empty, will be populated in initializeApp()
 
 const countrySelect = document.getElementById("countrySelect");
 const searchInput = document.getElementById("searchInput");
@@ -169,8 +177,6 @@ function loadRecipes() {
     return [...baseRecipes];
   }
 }
-
-let recipes = loadRecipes();
 
 function persistRecipes() {
   localStorage.setItem(RECIPES_STORAGE_KEY, JSON.stringify(recipes));
@@ -395,6 +401,7 @@ function openRandomRecipe() {
   renderRecipeDetail(pool[randomIndex].id);
 }
 
+// ===== Event Listeners =====
 languageToggle.addEventListener("click", () => {
   lang = lang === "en" ? "bg" : "en";
   applyTranslations();
@@ -432,12 +439,15 @@ ingredientsTableBody.addEventListener("change", (event) => {
 
 backToGridBtn.addEventListener("click", showGridView);
 randomRecipeBtn.addEventListener("click", openRandomRecipe);
+
 if (addRecipeBtn) {
   addRecipeBtn.addEventListener("click", () => openEditor());
 }
+
 if (cancelEditBtn) {
   cancelEditBtn.addEventListener("click", closeEditor);
 }
+
 if (recipeForm) {
   recipeForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -458,36 +468,37 @@ if (recipeForm) {
   });
 }
 
-// Direct initialization - run immediately when script loads
-(function() {
-  // Wait for DOM to be ready
-  function initWhenReady() {
-    if (document.getElementById('countrySelect') && document.getElementById('recipesGrid')) {
-      // Load data from window objects
-      const windowCountries = window.countriesData || [];
-      const windowRecipes = window.recipeData || [];
-      
-      // Update local arrays
-      countries.length = 0;
-      countries.push(...windowCountries);
-      
-      baseRecipes.length = 0;
-      baseRecipes.push(...windowRecipes);
-      recipes = loadRecipes();
-      
-      // Initialize the app
-      applyTranslations();
-      populateCountryDropdown();
-      renderRecipes();
-    } else {
-      setTimeout(initWhenReady, 100);
-    }
+// ===== APP INITIALIZATION =====
+function initializeApp() {
+  console.log("🚀 Initializing app...");
+  
+  // Ensure data is loaded from window
+  countries = window.countriesData || [];
+  baseRecipes = window.recipeData || [];
+  recipes = loadRecipes();
+  
+  console.log("✅ Data loaded:", {
+    countries: countries.length,
+    baseRecipes: baseRecipes.length,
+    recipes: recipes.length
+  });
+  
+  if (countries.length === 0 || recipes.length === 0) {
+    console.error("❌ ERROR: Data not properly loaded!");
+    return;
   }
   
-  // Start initialization
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWhenReady);
-  } else {
-    initWhenReady();
-  }
-})();
+  applyTranslations();
+  populateCountryDropdown();
+  renderRecipes();
+  
+  console.log("✅ App initialized successfully!");
+}
+
+// Wait for DOM to be ready, then initialize
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeApp);
+} else {
+  // DOM is already ready
+  initializeApp();
+}
