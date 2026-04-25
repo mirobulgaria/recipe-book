@@ -116,12 +116,13 @@ function populateCountryDropdown() {
   if (!countrySelect) return;
   
   const currentValue = countrySelect.value;
-  countrySelect.innerHTML = '<option value="all">All countries</option>';
+  countrySelect.innerHTML = `<option value="all" data-en="All countries" data-bg="Всички държави">${lang === 'bg' ? 'Всички държави' : 'All countries'}</option>`;
   
   countries.forEach((country) => {
     const option = document.createElement("option");
     option.value = country.countryCode;
-    option.textContent = `${country.flag} ${country.country[lang]}`;
+    const countryName = lang === 'bg' ? country.countryBg : country.country;
+    option.textContent = `${country.flag} ${countryName}`;
     countrySelect.appendChild(option);
   });
   
