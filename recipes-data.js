@@ -27,7 +27,7 @@ const baseRecipes = [
     steps: [
       { step: 1, instruction: { en: "Mix eggs and crumbled cheese.", bg: "Смесете яйцата и натрошеното сирене." } },
       { step: 2, instruction: { en: "Layer pastry sheets with filling.", bg: "Редете кори с плънка." } },
-      { step: 3, instruction: processInstruction({ en: "Bake until golden.", bg: "Изпечете до златисто." }, "bake") }
+      { step: 3, instruction: { en: "Bake until golden.", bg: "Изпечете до златисто." } }
     ]
   },
   {
@@ -61,9 +61,9 @@ const baseRecipes = [
       { name: { en: "Eggs", bg: "Яйца" }, amount: "4", unit: { en: "pcs", bg: "бр" } }
     ],
     steps: [
-      { step: 1, instruction: processInstruction({ en: "Cook pasta al dente.", bg: "Сварете пастата ал денте." }, "cook") },
-      { step: 2, instruction: processInstruction({ en: "Cook pancetta until crisp.", bg: "Запържете панчетата до хрупкаво." }, "fry") },
-      { step: 3, instruction: processInstruction({ en: "Mix hot pasta with egg-cheese mixture.", bg: "Смесете горещата паста с яйчено-сирената смес." }) }
+      { step: 1, instruction: { en: "Cook pasta al dente.", bg: "Сварете пастата ал денте." } },
+      { step: 2, instruction: { en: "Cook pancetta until crisp.", bg: "Запържете панчетата до хрупкаво." } },
+      { step: 3, instruction: { en: "Mix hot pasta with egg-cheese mixture.", bg: "Смесете горещата паста с яйчено-сирената смес." } }
     ]
   },
   {
@@ -80,7 +80,7 @@ const baseRecipes = [
     ],
     steps: [
       { step: 1, instruction: { en: "Stretch dough and spread sauce.", bg: "Разточете тестото и нанесете соса." } },
-      { step: 2, instruction: processInstruction({ en: "Add mozzarella and bake hot.", bg: "Добавете моцарела и печете на силна фурна." }, "bake") },
+      { step: 2, instruction: { en: "Add mozzarella and bake hot.", bg: "Добавете моцарела и печете на силна фурна." } },
       { step: 3, instruction: { en: "Finish with basil.", bg: "Добавете босилек накрая." } }
     ]
   },
@@ -115,7 +115,7 @@ const baseRecipes = [
       { name: { en: "Sugar", bg: "Захар" }, amount: "2", unit: { en: "tbsp", bg: "с.л." } }
     ],
     steps: [
-      { step: 1, instruction: processInstruction({ en: "Rinse and cook rice.", bg: "Измийте и сварете ориза." }, "cook") },
+      { step: 1, instruction: { en: "Rinse and cook rice.", bg: "Измийте и сварете ориза." } },
       { step: 2, instruction: { en: "Mix vinegar, sugar, and salt.", bg: "Смесете оцет, захар и сол." } },
       { step: 3, instruction: { en: "Fold seasoning into warm rice.", bg: "Овкусете топлия ориз внимателно." } }
     ]
@@ -134,8 +134,8 @@ const baseRecipes = [
     ],
     steps: [
       { step: 1, instruction: { en: "Slice all vegetables.", bg: "Нарежете всички зеленчуци." } },
-      { step: 2, instruction: processInstruction({ en: "Saute aromatics and add tomatoes.", bg: "Запържете ароматните зеленчуци и добавете домати." }, "fry") },
-      { step: 3, instruction: processInstruction({ en: "Simmer until tender.", bg: "Оставете да къкри до омекване." }, "simmer") }
+      { step: 2, instruction: { en: "Saute aromatics and add tomatoes.", bg: "Запържете ароматните зеленчуци и добавете домати." } },
+      { step: 3, instruction: { en: "Simmer until tender.", bg: "Оставете да къкри до омекване." } }
     ]
   },
   {
@@ -153,7 +153,7 @@ const baseRecipes = [
     steps: [
       { step: 1, instruction: { en: "Whisk batter until smooth.", bg: "Разбийте гладко тесто." } },
       { step: 2, instruction: { en: "Rest batter briefly.", bg: "Оставете тестото да почине." } },
-      { step: 3, instruction: processInstruction({ en: "Cook thin crepes in hot pan.", bg: "Изпечете тънки палачинки в горещ тиган." }, "fry") }
+      { step: 3, instruction: { en: "Cook thin crepes in hot pan.", bg: "Изпечете тънки палачинки в горещ тиган." } }
     ]
   },
   {
