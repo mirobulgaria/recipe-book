@@ -1,6 +1,10 @@
 # My International Kitchen
 
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/your-username/recipe-book)
+
 A bilingual world recipes app with country filtering, keyword search, and recipe details.
+
+[Live Demo](https://your-site.netlify.app)
 
 ## Features
 
@@ -33,6 +37,27 @@ npm start
 
 ### Option 3: Live Browser Extension
 Use VS Code/Cursor Live Server extension for automatic reload.
+
+## Deployment
+
+Deploy this static site to Netlify directly from GitHub:
+
+1. **Connect GitHub Repository**
+   - Go to [Netlify](https://app.netlify.com)
+   - Click "Add new site" → "Import an existing project"
+   - Connect your GitHub account and select the recipe-book repository
+
+2. **Configure Build Settings**
+   - **Publish directory**: `.` (root, since index.html is in root)
+   - **Build command**: Leave empty (no build step needed)
+   - **Node version**: Any (not required for static site)
+
+3. **Deploy**
+   - Click "Deploy site"
+   - Netlify will automatically deploy your static files
+   - Your site will be available at: `https://your-site-name.netlify.app`
+
+**Note**: The `netlify.toml` file in the root handles SPA routing and ensures all routes redirect to `index.html`.
 
 ## Development
 
