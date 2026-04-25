@@ -2616,21 +2616,21 @@ function normalizeText(value) {
   return String(value).trim().toLowerCase();
 }
 
-function processInstruction(instruction, method = null, temperature = null) {
+function processInstruction(instruction, method = null, temperature = null, uiText = null) {
   let processedText = instruction.en;
   
   if (method) {
     const methodKey = method.toLowerCase();
     processedText = instruction.en.replace(
       new RegExp(`\\b(${methodKey})\\b`, 'gi'),
-      `<strong>${uiText.en[method]}</strong>`
+      `<strong>${method}</strong>`
     );
   }
   
   if (temperature) {
     processedText = processedText.replace(
       new RegExp(`(\\d+°[CF])`, 'g'),
-      `<strong>$1 ${uiText.en.temperature}</strong>`
+      `<strong>$1 ${temperature}°C</strong>`
     );
   }
   

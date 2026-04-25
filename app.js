@@ -59,7 +59,7 @@ const uiText = {
     roast: "Печене",
     simmer: "Задушаване",
     steam: "Загряване на пара",
-    viewDetails: "Детайли",
+    viewDetails: "Виж детайли",
     backToRecipes: "← Назад към рецептите",
     noResults: "Няма намерени резултати. Опитай друга държава или ключова дума.",
     results: (count) => `Показани рецепти: ${count}`
