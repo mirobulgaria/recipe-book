@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recipe Book</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
   <header>
@@ -15,6 +15,7 @@
           <option value="all" data-en="All Countries" data-bg="Всички държави">All Countries</option>
         </select>
         <input type="search" id="searchInput" placeholder="Search recipes..." data-en-placeholder="Search recipes..." data-bg-placeholder="Търсене рецепти..." />
+        <button id="randomRecipeBtn" title="Random Recipe">🎲</button>
         <button id="languageToggle" data-en="BG" data-bg="EN">BG</button>
       </div>
     </div>
@@ -47,8 +48,9 @@
             <thead>
               <tr>
                 <th></th>
-                <th data-i18n="ingredient">Ingredient</th>
                 <th data-i18n="amount">Amount</th>
+                <th data-i18n="unit">Unit</th>
+                <th data-i18n="ingredient">Ingredient</th>
               </tr>
             </thead>
             <tbody id="ingredientsTableBody">
@@ -65,126 +67,7 @@
   </main>
 
   <script src="recipes-data.js"></script>
-  <script src="app.js?t=20250425025400"></script>
+  <script src="src/app.js?t=20250425025400"></script>
   
-  <script>
-    // Function to show recipe details - this will override any conflicting functions
-    function showRecipeDetail(recipeId) {
-      console.log('Looking for recipe ID:', recipeId);
-      
-      // Try multiple approaches to find the recipe
-      let recipe = null;
-      
-      // Approach 1: Check window.recipeData
-      if (window.recipeData && window.recipeData.length > 0) {
-        recipe = window.recipeData.find((item) => String(item.id) === String(recipeId));
-        console.log('Found in window.recipeData:', !!recipe);
-      }
-      
-      // Approach 2: Check window.recipes
-      if (!recipe && window.recipes && window.recipes.length > 0) {
-        recipe = window.recipes.find((item) => String(item.id) === String(recipeId));
-        console.log('Found in window.recipes:', !!recipe);
-      }
-      
-      // Approach 3: Create a minimal recipe if not found (fallback)
-      if (!recipe) {
-        console.log('Creating fallback recipe for:', recipeId);
-        const countryCode = recipeId.split('-')[0];
-        const country = window.countriesData ? window.countriesData.find((c) => c.countryCode === countryCode) : null;
-        
-        recipe = {
-          id: recipeId,
-          name: { en: 'Recipe ' + recipeId, bg: 'Рецепта ' + recipeId },
-          description: { en: 'Recipe description', bg: 'Описание на рецепта' },
-          country: country ? country.country : countryCode,
-          countryCode: countryCode,
-          flag: country ? country.flag : '🏳️',
-          prepTime: '30 min',
-          cookTime: '30 min',
-          servings: 4,
-          image: `https://picsum.photos/seed/${recipeId}/640/420`,
-          ingredients: [
-            { name: { en: 'Ingredient 1', bg: 'Съставка 1' }, amount: '1', unit: { en: 'cup', bg: 'чаша' } },
-            { name: { en: 'Ingredient 2', bg: 'Съставка 2' }, amount: '2', unit: { en: 'tsp', bg: 'ч.л.' } }
-          ],
-          steps: [
-            { step: 1, instruction: { en: 'Step 1 instructions', bg: 'Инструкции стъпка 1' } },
-            { step: 2, instruction: { en: 'Step 2 instructions', bg: 'Инструкции стъпка 2' } }
-          ]
-        };
-      }
-      
-      console.log('Final recipe found:', recipe ? recipe.name.en : 'None');
-      
-      if (!recipe) {
-        console.error('Could not find or create recipe:', recipeId);
-        return;
-      }
-      
-      // Get the country information and current language
-      const country = window.countriesData ? window.countriesData.find((c) => c.countryCode === recipe.countryCode) : null;
-      // Use the same lang variable as app.js
-      const lang = (typeof window.lang !== 'undefined') ? window.lang : (document.documentElement.lang || 'en');
-      
-            
-      // Update detail view elements
-      const detailImage = document.getElementById('detailImage');
-      const detailTitle = document.getElementById('detailTitle');
-      const detailCountry = document.getElementById('detailCountry');
-      const detailDescription = document.getElementById('detailDescription');
-      const detailPrepTime = document.getElementById('detailPrepTime');
-      const detailCookTime = document.getElementById('detailCookTime');
-      const detailServings = document.getElementById('detailServings');
-      const ingredientsTableBody = document.getElementById('ingredientsTableBody');
-      const detailSteps = document.getElementById('detailSteps');
-      const gridView = document.getElementById('gridView');
-      const detailView = document.getElementById('detailView');
-      
-      if (detailImage) detailImage.src = recipe.image;
-      if (detailImage) detailImage.alt = recipe.name[lang];
-      if (detailTitle) detailTitle.textContent = recipe.name[lang];
-      if (detailCountry) {
-        const countryName = country ? (lang === 'bg' ? country.countryBg : country.country) : recipe.country;
-        detailCountry.textContent = recipe.flag + ' ' + countryName;
-      }
-      if (detailDescription) detailDescription.textContent = recipe.description[lang];
-      if (detailPrepTime) detailPrepTime.textContent = recipe.prepTime;
-      if (detailCookTime) detailCookTime.textContent = recipe.cookTime;
-      if (detailServings) detailServings.textContent = recipe.servings;
-      
-      // Update ingredients table
-      if (ingredientsTableBody) {
-        ingredientsTableBody.innerHTML = '';
-        recipe.ingredients.forEach(function(ingredient) {
-          const row = document.createElement('tr');
-          row.innerHTML = `<td><input type="checkbox" class="ingredients-check" aria-label="Check" /></td><td>${ingredient.amount}</td><td>${ingredient.unit[lang]}</td><td>${ingredient.name[lang]}</td>`;
-          ingredientsTableBody.appendChild(row);
-        });
-      }
-      
-      // Update steps
-      if (detailSteps) {
-        detailSteps.innerHTML = '';
-        recipe.steps.forEach(function(stepObj) {
-          const li = document.createElement('li');
-          li.textContent = stepObj.instruction[lang];
-          detailSteps.appendChild(li);
-        });
-      }
-      
-      // Show detail view, hide grid view
-      if (gridView) gridView.classList.add('hidden');
-      if (detailView) detailView.classList.remove('hidden');
-      
-      // Call renderRecipeDetail to set currentRecipeId for language switching
-      if (typeof renderRecipeDetail === 'function') {
-        renderRecipeDetail(recipeId);
-      }
-      
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  </script>
-</body>
+  </body>
 </html>

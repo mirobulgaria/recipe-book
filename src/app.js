@@ -198,14 +198,13 @@ function renderRecipes() {
   resultsInfo.textContent = uiText[lang].results(filtered.length);
 }
 
-function renderRecipeDetail(recipeId) {
+function showRecipeDetail(recipeId) {
   const recipe = recipes.find((r) => String(r.id) === String(recipeId));
   if (!recipe) return;
   
   // Store current recipe ID for language switching
   currentRecipeId = recipeId;
   
-    
   if (detailTitle) detailTitle.textContent = recipe.name[lang];
   if (detailCountry) detailCountry.textContent = `${recipe.flag} ${getTranslatedCountryName(recipe.countryCode)}`;
   if (detailDescription) detailDescription.textContent = recipe.description[lang];
@@ -244,6 +243,10 @@ function renderRecipeDetail(recipeId) {
   if (detailView) detailView.classList.remove("hidden");
   
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderRecipeDetail(recipeId) {
+  showRecipeDetail(recipeId);
 }
 
 function showGridView() {
@@ -330,6 +333,12 @@ function initializeApp() {
   document.documentElement.lang = lang;
   
   recipes = loadRecipes();
+  
+  // Expose recipes array globally for other scripts
+  window.recipes = recipes;
+  
+  // Expose showRecipeDetail function globally for onclick handlers
+  window.showRecipeDetail = showRecipeDetail;
   
   if (countries.length === 0 || recipes.length === 0) {
     console.error("Data not properly loaded!");
