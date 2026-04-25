@@ -1087,6 +1087,104 @@ input:focus {
   }
 }
 
+/* Mobile Styles - 768px breakpoint */
+@media (max-width: 768px) {
+  /* General mobile fixes */
+  body {
+    padding: 0 12px;
+  }
+
+  /* Header fixes */
+  .header-controls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .header-controls h1 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .header-controls .controls {
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 8px;
+  }
+
+  #countrySelect,
+  #searchInput {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  #randomRecipeBtn,
+  #languageToggle {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Recipe grid fixes */
+  .recipes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recipe-card {
+    width: 100%;
+  }
+
+  .recipe-image {
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .details-btn {
+    width: 100%;
+    min-height: 48px;
+    font-size: 1rem;
+  }
+
+  /* Recipe detail view fixes */
+  .recipe-detail {
+    flex-direction: column;
+  }
+
+  .recipe-detail-image {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+  }
+
+  .recipe-detail-content .recipe-meta span {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  #backToGridBtn {
+    min-height: 44px;
+    margin-bottom: 16px;
+  }
+
+  /* Ingredients table fixes */
+  .ingredients-table-wrap {
+    overflow-x: auto;
+  }
+
+  .ingredients-table {
+    font-size: 0.9rem;
+  }
+
+  .ingredients-table th,
+  .ingredients-table td {
+    padding: 8px 6px;
+  }
+
+  /* Hide Unit column on mobile */
+  .ingredients-table th:nth-child(3),
+  .ingredients-table td:nth-child(3) {
+    display: none;
+  }
+}
+
 @media (max-width: 480px) {
   .editor-card {
     padding: 1rem;
