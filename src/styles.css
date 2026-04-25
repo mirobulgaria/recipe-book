@@ -77,7 +77,8 @@ header {
 }
 
 .controls select,
-.controls input {
+.controls input,
+.controls button {
   padding: 0.8rem 1.2rem;
   border: 2px solid var(--cream-3);
   border-radius: 12px;
@@ -87,6 +88,22 @@ header {
   font-weight: 500;
   transition: all 0.3s ease;
   box-shadow: 0 3px 10px var(--shadow);
+  cursor: pointer;
+}
+
+.controls button {
+  background: linear-gradient(135deg, var(--orange-1) 0%, var(--orange-2) 100%);
+  color: white;
+  border: none;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+}
+
+.controls #randomRecipeBtn {
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .controls select:hover,
@@ -103,24 +120,9 @@ header {
   box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.15), 0 5px 15px var(--shadow-hover);
 }
 
-.controls button {
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--orange-1) 0%, var(--orange-2) 100%);
-  color: white;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.controls button:hover {
-  background: linear-gradient(135deg, var(--orange-2) 0%, var(--orange-1) 100%);
-  box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4);
-  transform: translateY(-2px);
+.controls button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.15), 0 8px 25px rgba(230, 126, 34, 0.4);
 }
 
 .controls button:active {
@@ -698,6 +700,34 @@ input:focus {
   border: 1px dashed rgba(138, 90, 53, 0.4);
   border-radius: 10px;
   color: var(--brown-2);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  color: var(--brown-2);
+  font-size: 1.1rem;
+}
+
+.loading-spinner::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--cream-3);
+  border-top: 3px solid var(--orange-1);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Recipe Detail View */

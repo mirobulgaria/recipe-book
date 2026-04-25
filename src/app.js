@@ -164,6 +164,9 @@ function populateCountryDropdown() {
 function renderRecipes() {
   if (!recipesGrid || !resultsInfo) return;
   
+  // Show loading spinner
+  recipesGrid.innerHTML = '<div class="loading-spinner">Loading recipes...</div>';
+  
   const selectedCountry = countrySelect?.value || "all";
   const searchTerm = searchInput?.value?.toLowerCase().trim() || "";
   
