@@ -19,6 +19,104 @@ body {
   color: var(--brown-1);
 }
 
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(135deg, rgba(255, 248, 238, 0.98) 0%, rgba(255, 249, 242, 0.95) 100%);
+  border-bottom: 2px solid var(--orange-1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(92, 58, 33, 0.1);
+  padding: 1.2rem 2rem;
+}
+
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-controls h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--brown-1);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 4px rgba(92, 58, 33, 0.1);
+  position: relative;
+}
+
+.header-controls h1::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: var(--orange-1);
+  border-radius: 2px;
+}
+
+.header-controls .controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.controls select,
+.controls input {
+  padding: 0.6rem 1rem;
+  border: 2px solid rgba(138, 90, 53, 0.2);
+  border-radius: 8px;
+  background: white;
+  color: var(--brown-1);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(92, 58, 33, 0.05);
+}
+
+.controls select:hover,
+.controls input:hover {
+  border-color: var(--orange-1);
+  box-shadow: 0 4px 12px rgba(92, 58, 33, 0.1);
+}
+
+.controls select:focus,
+.controls input:focus {
+  outline: none;
+  border-color: var(--orange-1);
+  box-shadow: 0 0 0 3px rgba(217, 122, 31, 0.2), 0 4px 12px rgba(92, 58, 33, 0.15);
+}
+
+.controls button {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid var(--orange-1);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--orange-1) 0%, var(--orange-2) 100%);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(217, 122, 31, 0.3);
+  text-shadow: 0 1px 2px rgba(92, 58, 33, 0.2);
+}
+
+.controls button:hover {
+  background: linear-gradient(135deg, var(--orange-2) 0%, #d97a1f 100%);
+  box-shadow: 0 6px 20px rgba(217, 122, 31, 0.4);
+  transform: translateY(-1px);
+}
+
+.controls button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(217, 122, 31, 0.3);
+}
+
 .navbar {
   position: sticky;
   top: 0;
@@ -107,7 +205,7 @@ main {
 }
 
 .editor-card {
-  margin-top: 1rem;
+  margin-top: 0;
   background: #fff;
   border: 1px solid rgba(138, 90, 53, 0.2);
   border-radius: 16px;
@@ -193,6 +291,36 @@ main {
 .editor-form textarea {
   resize: vertical;
   min-height: 80px;
+}
+
+.ingredients-section,
+.detail-view {
+  padding: 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.detail-header-actions {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 248, 238, 0.95);
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid rgba(138, 90, 53, 0.2);
+}
+
+.delete-btn {
+  border: 1px solid rgba(138, 90, 53, 0.5);
+  color: var(--brown-1);
+  background: white;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #fff2e3;
 }
 
 .ingredients-section,
@@ -531,6 +659,104 @@ input:focus {
   border: 1px dashed rgba(138, 90, 53, 0.4);
   border-radius: 10px;
   color: var(--brown-2);
+}
+
+/* Recipe Detail View */
+.recipe-detail-section {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.back-btn {
+  margin-bottom: 1.5rem;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid var(--brown-2);
+  border-radius: 8px;
+  background: white;
+  color: var(--brown-1);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: var(--orange-2);
+  color: white;
+  border-color: var(--orange-2);
+}
+
+.recipe-detail {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px var(--shadow);
+}
+
+.recipe-detail-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.recipe-detail-content {
+  padding: 2rem;
+}
+
+.recipe-detail-content h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  color: var(--brown-1);
+}
+
+.recipe-detail-content p {
+  margin: 0.5rem 0;
+  color: var(--brown-2);
+}
+
+.recipe-detail-content .recipe-meta {
+  display: flex;
+  gap: 2rem;
+  margin: 1.5rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(138, 90, 53, 0.1);
+  border-bottom: 1px solid rgba(138, 90, 53, 0.1);
+}
+
+.recipe-detail-content .recipe-meta span {
+  font-size: 0.9rem;
+  color: var(--brown-2);
+}
+
+.recipe-detail-content h3 {
+  margin: 1.5rem 0 1rem 0;
+  color: var(--brown-1);
+  font-size: 1.3rem;
+}
+
+.ingredients-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.ingredients-table th,
+.ingredients-table td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(138, 90, 53, 0.1);
+}
+
+.ingredients-table th {
+  font-weight: 600;
+  color: var(--brown-1);
+}
+
+.ingredients-table input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .hidden {

@@ -1,6 +1,8 @@
 const RECIPES_STORAGE_KEY = "my-international-kitchen-recipes";
 
+// Get data from window, will be loaded in initialization
 let countries = [];
+let baseRecipes = [];
 let recipes = [];
 
 const uiText = {
@@ -42,8 +44,8 @@ const uiText = {
 
 let lang = "en";
 let selectedRecipeId = null;
-let currentRecipeId = null;
 
+// DOM elements - will be initialized in initializeApp()
 let countrySelect, searchInput, recipesGrid, resultsInfo, languageToggle;
 let gridView, detailView, backToGridBtn, randomRecipeBtn, addRecipeBtn, recipeEditor, recipeForm, cancelEditBtn;
 let editorTitle, editRecipeId, editCountryCode, editNameEn, editNameBg, editDescEn, editDescBg;
@@ -78,28 +80,25 @@ function sanitizeRecipe(recipe) {
 }
 
 function mergeBaseWithSavedRecipes(savedRecipes) {
-  const baseData = window.recipeData || [];
-  const merged = new Map(baseData.map((recipe) => [String(recipe.id), recipe]));
+  const merged = new Map(baseRecipes.map((recipe) => [String(recipe.id), recipe]));
   savedRecipes.forEach((recipe) => merged.set(String(recipe.id), recipe));
   return Array.from(merged.values());
 }
 
 function loadRecipes() {
   try {
-    // Use window.recipeData as the base recipes source
-    const baseData = window.recipeData || [];
     const saved = localStorage.getItem(RECIPES_STORAGE_KEY);
     if (!saved) {
-      return [...baseData];
+      return [...baseRecipes];
     }
     const parsed = JSON.parse(saved);
     if (!Array.isArray(parsed)) {
-      return [...baseData];
+      return [...baseRecipes];
     }
     const valid = parsed.filter(isValidRecipeShape).map(sanitizeRecipe);
-    return valid.length ? mergeBaseWithSavedRecipes(valid) : [...baseData];
+    return valid.length ? mergeBaseWithSavedRecipes(valid) : [...baseRecipes];
   } catch {
-    return window.recipeData || [];
+    return [...baseRecipes];
   }
 }
 
@@ -169,10 +168,6 @@ function renderRecipeDetail(recipeId) {
   const recipe = recipes.find((r) => String(r.id) === String(recipeId));
   if (!recipe) return;
   
-  // Store current recipe ID for language switching
-  currentRecipeId = recipeId;
-  
-    
   if (detailTitle) detailTitle.textContent = recipe.name[lang];
   if (detailCountry) detailCountry.textContent = `${recipe.flag} ${recipe.country}`;
   if (detailDescription) detailDescription.textContent = recipe.description[lang];
@@ -189,7 +184,7 @@ function renderRecipeDetail(recipeId) {
     recipe.ingredients.forEach((ingredient) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td><input type="checkbox" class="ingredients-check" aria-label="Check" /></td>
+        <td><input type="checkbox" class="ingredients-check" aria-label="${uiText[lang].check}" /></td>
         <td>${ingredient.amount}</td>
         <td>${ingredient.unit[lang]}</td>
         <td>${ingredient.name[lang]}</td>
@@ -237,28 +232,22 @@ function openRandomRecipe() {
 function toggleLanguage() {
   lang = lang === "en" ? "bg" : "en";
   document.documentElement.lang = lang;
-  // Make lang available globally for HTML function
-  window.lang = lang;
-  
-    
   if (languageToggle) languageToggle.textContent = lang === "en" ? "BG" : "EN";
   applyTranslations();
   populateCountryDropdown();
   renderRecipes();
-  
-  // Re-render recipe details if currently viewing a recipe
-  if (currentRecipeId && detailView && !detailView.classList.contains('hidden')) {
-    showRecipeDetail(currentRecipeId);
-  }
 }
 
+// ===== APP INITIALIZATION =====
 function initializeApp() {
+  // Initialize DOM elements
   countrySelect = document.getElementById("countrySelect");
   searchInput = document.getElementById("searchInput");
   recipesGrid = document.getElementById("recipesGrid");
   resultsInfo = document.getElementById("resultsInfo");
   languageToggle = document.getElementById("languageToggle");
   
+  // Initialize detail view elements
   gridView = document.getElementById("gridView");
   detailView = document.getElementById("detailView");
   backToGridBtn = document.getElementById("backToGridBtn");
@@ -290,11 +279,9 @@ function initializeApp() {
   ingredientsTableBody = document.getElementById("ingredientsTableBody");
   detailSteps = document.getElementById("detailSteps");
   
+  // Load data from window (recipes-data.js should have set these)
   countries = window.countriesData || [];
-  
-  // Initialize global lang variable
-  window.lang = lang;
-  document.documentElement.lang = lang;
+  // baseRecipes is already populated from recipes-data.js
   
   recipes = loadRecipes();
   
@@ -307,6 +294,7 @@ function initializeApp() {
   populateCountryDropdown();
   renderRecipes();
   
+  // Attach event listeners after DOM elements are ready
   if (countrySelect) countrySelect.addEventListener("change", renderRecipes);
   if (searchInput) searchInput.addEventListener("input", renderRecipes);
   if (backToGridBtn) backToGridBtn.addEventListener("click", showGridView);
@@ -314,4 +302,5 @@ function initializeApp() {
   if (languageToggle) languageToggle.addEventListener("click", toggleLanguage);
 }
 
+// Initialize app when DOM is ready
 document.addEventListener("DOMContentLoaded", initializeApp);
