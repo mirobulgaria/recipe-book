@@ -17,6 +17,7 @@ const uiText = {
     prepTime: "Prep",
     cookTime: "Cook",
     servings: "Servings",
+    viewDetails: "View Details",
     backToRecipes: "← Back to Recipes",
     noResults: "No results found. Try another country or keyword.",
     results: (count) => `Showing ${count} recipes`
@@ -34,6 +35,7 @@ const uiText = {
     prepTime: "Приготвяне",
     cookTime: "Готвене",
     servings: "Порции",
+    viewDetails: "Детайли",
     backToRecipes: "← Назад към рецептите",
     noResults: "Няма намерени резултати. Опитай друга държава или ключова дума.",
     results: (count) => `Показани рецепти: ${count}`
@@ -53,6 +55,12 @@ let ingredientsTableBody, detailSteps;
 
 function getCountryByCode(code) {
   return countries.find((country) => country.countryCode === code);
+}
+
+function getTranslatedCountryName(countryCode) {
+  const country = getCountryByCode(countryCode);
+  if (!country) return countryCode;
+  return lang === 'bg' ? country.countryBg : country.country;
 }
 
 function isValidRecipeShape(recipe) {
@@ -153,11 +161,11 @@ function renderRecipes() {
       <img class="recipe-image" src="${recipe.image}" alt="${recipe.name[lang]}" loading="lazy" />
       <div class="recipe-meta">
         <h3 data-en="${recipe.name.en}" data-bg="${recipe.name.bg}">${recipe.name[lang]}</h3>
-        <span class="country-pill">${recipe.flag} ${recipe.country}</span>
+        <span class="country-pill">${recipe.flag} ${getTranslatedCountryName(recipe.countryCode)}</span>
       </div>
       <p class="recipe-description" data-en="${recipe.description.en}" data-bg="${recipe.description.bg}">${recipe.description[lang]}</p>
       <div class="editor-actions">
-        <button class="details-btn" type="button" data-id="${recipe.id}" data-en="View Details" data-bg="Виж Детайли" onclick="showRecipeDetail('${recipe.id}')">View Details</button>
+        <button class="details-btn" type="button" data-id="${recipe.id}" data-i18n="viewDetails" onclick="showRecipeDetail('${recipe.id}')">${uiText[lang].viewDetails}</button>
       </div>
     `;
     recipesGrid.appendChild(card);
@@ -175,7 +183,7 @@ function renderRecipeDetail(recipeId) {
   
     
   if (detailTitle) detailTitle.textContent = recipe.name[lang];
-  if (detailCountry) detailCountry.textContent = `${recipe.flag} ${recipe.country}`;
+  if (detailCountry) detailCountry.textContent = `${recipe.flag} ${getTranslatedCountryName(recipe.countryCode)}`;
   if (detailDescription) detailDescription.textContent = recipe.description[lang];
   if (detailImage) {
     detailImage.src = recipe.image;

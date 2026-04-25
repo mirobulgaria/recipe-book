@@ -1,11 +1,15 @@
 :root {
-  --orange-1: #d97a1f;
-  --orange-2: #f2a45c;
-  --cream: #fdf4e8;
-  --cream-2: #fff9f2;
-  --brown-1: #5c3a21;
-  --brown-2: #8a5a35;
-  --shadow: rgba(92, 58, 33, 0.15);
+  --orange-1: #e67e22;
+  --orange-2: #f39c12;
+  --orange-3: #e74c3c;
+  --cream: #fef5e7;
+  --cream-2: #fdf2e9;
+  --cream-3: #faf2e6;
+  --brown-1: #7f4f24;
+  --brown-2: #a0522d;
+  --brown-3: #8b4513;
+  --shadow: rgba(127, 79, 36, 0.1);
+  --shadow-hover: rgba(127, 79, 36, 0.2);
 }
 
 * {
@@ -14,20 +18,22 @@
 
 body {
   margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--cream-2) 50%, var(--cream-3) 100%);
   color: var(--brown-1);
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
 header {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: linear-gradient(135deg, rgba(255, 248, 238, 0.98) 0%, rgba(255, 249, 242, 0.95) 100%);
-  border-bottom: 2px solid var(--orange-1);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(92, 58, 33, 0.1);
-  padding: 1.2rem 2rem;
+  background: linear-gradient(135deg, rgba(254, 245, 231, 0.95) 0%, rgba(253, 242, 233, 0.98) 100%);
+  border-bottom: 3px solid var(--orange-1);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 30px var(--shadow);
+  padding: 1.5rem 2rem;
 }
 
 .header-controls {
@@ -41,22 +47,26 @@ header {
 
 .header-controls h1 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: var(--brown-1);
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  text-shadow: 0 2px 4px rgba(92, 58, 33, 0.1);
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  text-shadow: 0 2px 4px var(--shadow);
   position: relative;
+  background: linear-gradient(135deg, var(--brown-1), var(--orange-1));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .header-controls h1::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: -6px;
   left: 0;
-  width: 40px;
+  width: 50px;
   height: 3px;
-  background: var(--orange-1);
+  background: linear-gradient(90deg, var(--orange-1), var(--orange-2));
   border-radius: 2px;
 }
 
@@ -68,53 +78,54 @@ header {
 
 .controls select,
 .controls input {
-  padding: 0.6rem 1rem;
-  border: 2px solid rgba(138, 90, 53, 0.2);
-  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  border: 2px solid var(--cream-3);
+  border-radius: 12px;
   background: white;
   color: var(--brown-1);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(92, 58, 33, 0.05);
+  box-shadow: 0 3px 10px var(--shadow);
 }
 
 .controls select:hover,
 .controls input:hover {
-  border-color: var(--orange-1);
-  box-shadow: 0 4px 12px rgba(92, 58, 33, 0.1);
+  border-color: var(--orange-2);
+  box-shadow: 0 5px 15px var(--shadow-hover);
+  transform: translateY(-1px);
 }
 
 .controls select:focus,
 .controls input:focus {
   outline: none;
   border-color: var(--orange-1);
-  box-shadow: 0 0 0 3px rgba(217, 122, 31, 0.2), 0 4px 12px rgba(92, 58, 33, 0.15);
+  box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.15), 0 5px 15px var(--shadow-hover);
 }
 
 .controls button {
-  padding: 0.6rem 1.2rem;
-  border: 2px solid var(--orange-1);
-  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 12px;
   background: linear-gradient(135deg, var(--orange-1) 0%, var(--orange-2) 100%);
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(217, 122, 31, 0.3);
-  text-shadow: 0 1px 2px rgba(92, 58, 33, 0.2);
+  box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .controls button:hover {
-  background: linear-gradient(135deg, var(--orange-2) 0%, #d97a1f 100%);
-  box-shadow: 0 6px 20px rgba(217, 122, 31, 0.4);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--orange-2) 0%, var(--orange-1) 100%);
+  box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4);
+  transform: translateY(-2px);
 }
 
 .controls button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(217, 122, 31, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
 }
 
 .navbar {
@@ -162,7 +173,7 @@ header {
 main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem 1.2rem 2rem;
+  padding: 2rem 1.5rem 3rem;
 }
 
 .hero h1 {
@@ -589,17 +600,35 @@ input:focus {
 
 .recipe-card {
   background: white;
-  border: 1px solid rgba(138, 90, 53, 0.15);
-  border-radius: 14px;
-  padding: 0.8rem;
-  box-shadow: 0 6px 16px var(--shadow);
-  transition: transform 0.16s ease, box-shadow 0.16s ease;
+  border: 1px solid var(--cream-3);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 15px var(--shadow);
   animation: cardFadeIn 0.38s ease both;
+  position: relative;
+}
+
+.recipe-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--orange-1), var(--orange-2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .recipe-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 9px 20px var(--shadow);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px var(--shadow-hover);
+}
+
+.recipe-card:hover::before {
+  opacity: 1;
 }
 
 .recipe-image {
@@ -639,17 +668,27 @@ input:focus {
 
 .details-btn {
   width: 100%;
-  border: 0;
-  border-radius: 10px;
-  background: var(--orange-1);
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--orange-1) 0%, var(--orange-2) 100%);
   color: white;
-  padding: 0.55rem 0.7rem;
+  padding: 0.7rem 1rem;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(230, 126, 34, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .details-btn:hover {
-  background: #bd6511;
+  background: linear-gradient(135deg, var(--orange-2) 0%, var(--orange-1) 100%);
+  box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+  transform: translateY(-1px);
+}
+
+.details-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(230, 126, 34, 0.2);
 }
 
 .no-results {
