@@ -645,20 +645,24 @@ input:focus {
 .recipe-meta {
   margin-top: 0.6rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
 .recipe-meta h3 {
   margin: 0;
   font-size: 1.05rem;
+  text-align: center;
+  flex: 1;
 }
 
 .country-pill {
   white-space: nowrap;
   font-size: 0.88rem;
   color: var(--brown-2);
+  text-align: center;
 }
 
 .recipe-description {
@@ -666,6 +670,7 @@ input:focus {
   font-size: 0.93rem;
   color: #6d4b30;
   min-height: 38px;
+  text-align: center;
 }
 
 .details-btn {

@@ -30,6 +30,7 @@ const uiText = {
     simmer: "Simmer",
     steam: "Steam",
     viewDetails: "View Details",
+    randomRecipe: "Random Recipe",
     backToRecipes: "← Back to Recipes",
     noResults: "No results found. Try another country or keyword.",
     results: (count) => `Showing ${count} recipes`
@@ -279,8 +280,6 @@ function toggleLanguage() {
   // Make lang available globally for HTML function
   window.lang = lang;
   
-    
-  if (languageToggle) languageToggle.textContent = lang === "en" ? "BG" : "EN";
   applyTranslations();
   populateCountryDropdown();
   renderRecipes();
