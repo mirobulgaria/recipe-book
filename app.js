@@ -6,6 +6,7 @@ let recipes = [];
 const uiText = {
   en: {
     appName: "My International Kitchen",
+    recipeBook: "Recipe Book",
     heroTitle: "Discover Recipes from Around the World",
     heroSubtitle: "Choose a country and search by dish or ingredient.",
     countryLabel: "Country",
@@ -24,6 +25,7 @@ const uiText = {
   },
   bg: {
     appName: "Моята международна кухня",
+    recipeBook: "Книга с рецепти",
     heroTitle: "Открийте рецепти от целия свят",
     heroSubtitle: "Изберете държава и търсете по ястие или съставка.",
     countryLabel: "Държава",

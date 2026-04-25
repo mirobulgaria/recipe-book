@@ -2654,17 +2654,6 @@ console.log("recipes-data.js: Setting up window data");
 console.log("countryCatalog:", countryCatalog.length, "countries");
 console.log("baseRecipes:", baseRecipes.length, "recipes");
 
-// Test: Add a visible indicator that the script loaded
-document.addEventListener('DOMContentLoaded', function() {
-  const body = document.body;
-  if (body) {
-    const testDiv = document.createElement('div');
-    testDiv.style.cssText = 'position: fixed; top: 10px; right: 10px; background: red; color: white; padding: 5px; z-index: 9999;';
-    testDiv.textContent = 'recipes-data.js loaded!';
-    body.appendChild(testDiv);
-    setTimeout(() => testDiv.remove(), 3000);
-  }
-});
 
 try {
   const uniqueRecipes = buildUniqueRecipeDataset();
